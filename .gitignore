@@ -1,0 +1,4 @@
+node_modules
+
+# macOS generated files
+.DS_Store

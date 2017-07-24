@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "Stoppable",
+  "description": "Help yourself stop visiting websites",
+  "version": "0.0.1",
+
+  "browser_action": {
+    "default_icon": "content/icon.png",
+    "default_popup": "content/popup.html"
+  },
+  "permissions": [
+    "activeTab"
+  ]
+}
