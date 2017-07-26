@@ -9,6 +9,14 @@
     "default_icon": "content/icon.png",
     "default_popup": "content/popup.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["http://nimble.how/*"],
+      "js": ["javascript/block.js"],
+      "css": ["content/block.css"],
+      "run_at": "document_start"
+    }
+  ],  
   "permissions": [
     "activeTab"
   ]

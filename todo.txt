@@ -1,0 +1,4 @@
+# Stoppable features
+* Block page until the users types predefined message
+- Add websites with message to options
+- Share options between browser e.g. work and at home
