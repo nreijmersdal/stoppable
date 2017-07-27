@@ -1,7 +1,5 @@
 # Stoppable features
-- default reason
-- Min lenght of reason 20 characters
 - Give access to the page for a certain time, e.g. 15 minutes.
-- Add currnet website from popup
-- Share options between browser e.g. work and at home
-- Make release ready (add credits, logo, etcs) https://thenounproject.com/term/empower/414682/
+- Add current website from popup
+- Test sharing options between browser e.g. work and at home
+- Make release ready (add credits, logo, etcs)

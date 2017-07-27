@@ -1,3 +1,5 @@
+var DEFAULT_REASON = "This page is nice, but also wasteful, I visit it wisely!";
+
 document.addEventListener('DOMContentLoaded', function() {
   loadOptions();
   saveButtonOnClickHandler();
@@ -7,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadOptions() {
   chrome.storage.sync.get({
     // default if empty.
-    list: [{url:"facebook.com", reason: "Waste..."}]
+    list: [{url:"facebook.com", reason: DEFAULT_REASON}]
   }, function(items) {
     items.list.forEach(function(item) {
       var stopItem = createStopItem(true, item.url, item.reason);
@@ -23,7 +25,7 @@ function saveOptions() {
   chrome.storage.sync.set({
     list: list,
   }, function() {
-    updateStatus('Options saved.');
+    showMessage('Options saved.');
   });
 }
 
@@ -33,14 +35,22 @@ function getCheckedListItems() {
   var urls = document.getElementsByName("url");
   var reasons = document.getElementsByName("reason");
 
-  checkboxes.forEach(function(checkbox, index) {
-    if(checkbox.checked) {
-      result.push({
-        url: urls[index].value,
-        reason: reasons[index].value
-      });    
-    }
-  });
+  try {
+    checkboxes.forEach(function(checkbox, index) {
+      if(checkbox.checked) {
+        if(urls[index].value && reasons[index].value) {
+          if (reasons[index].value.length < 19) throw Error("Reason to short, minumum is 20");
+          result.push({
+            url: urls[index].value,
+            reason: reasons[index].value
+          });    
+        }
+      }
+    });
+  } catch (e) {
+    showError('Reason to short, minumum is 20');
+    return [];
+  }
 
   return result;
 }
@@ -48,7 +58,7 @@ function getCheckedListItems() {
 function addButtonOnClickHandler() {
   var addButton = document.getElementById('add');
   addButton.onclick = function(event) {
-    var stopItem = createStopItem(true,"","");
+    var stopItem = createStopItem(true,"",DEFAULT_REASON);
     document.getElementById('list').appendChild(stopItem);
   };  
 }
@@ -88,10 +98,23 @@ function createSpace() {
   return span;
 }
 
-function updateStatus(text) {
+function showError(text) {
+  updateStatus(text, true);
+}
+
+function showMessage(text) {
+  updateStatus(text, false);
+}
+
+function updateStatus(text, showError) {
   var status = document.getElementById('status');
+  if(showError) {
+    status.style.color = "red";
+  } else {
+    status.style.color = "black";    
+  }
   status.textContent = text;
   setTimeout(function() {
     status.textContent = '';
-  }, 2000);  
+  }, 5000);  
 }
