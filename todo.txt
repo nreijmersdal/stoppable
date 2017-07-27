@@ -1,5 +1,5 @@
 # Stoppable features
 - Give access to the page for a certain time, e.g. 15 minutes.
-- Add current website from popup
+* Add current website from popup
 - Test sharing options between browser e.g. work and at home
 - Make release ready (add credits, logo, etcs)

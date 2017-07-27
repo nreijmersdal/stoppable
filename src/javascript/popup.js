@@ -1,3 +1,16 @@
+document.addEventListener('DOMContentLoaded', function() {
+  getActiveTabUrl(function(url) {
+  	document.getElementById('url').textContent = "Block: " + url;
+  });
+  addButtonOnClickHandler();
+});
+
+function addButtonOnClickHandler() {
+  var addButton = document.getElementById('add');
+  addButton.onclick = function(event) {
+  };  
+}
+
 function getActiveTabUrl(callback) {
   var options = {
     active: true,
@@ -10,9 +23,3 @@ function getActiveTabUrl(callback) {
     callback(url);
   });
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  getActiveTabUrl(function(url) {
-  	document.getElementById('url').textContent = "Url: " + url;
-  });
-});
