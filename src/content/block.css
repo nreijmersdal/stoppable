@@ -1,30 +1,35 @@
-div.block {
+.stoppable_block {
 	position: fixed;
 	top:0px;
 	left:0px;
 	width:100%;
 	height: 100%;
 	background-color: #222233;
-	color: #AACCFF;
+	color: #AACCFF !important;
 	font-family: Helvetica Neue,Helvetica,sans-serif;
 	display: grid;	
   grid-template-columns: auto 800px auto;
-	grid-template-rows: 20% 75px 75px 75px auto;
+	grid-template-rows: 20% 60px 60px 100px auto;
+	z-index: 9999999;
 }
 
-h1.url {
-	font-weight: bold;
-	font-size: 50px;
+.stoppable_header {
 	grid-column: 2;
   grid-row: 2;
+
+	color: #AACCFF !important;
+	font-weight: bold;
+	font-size: 50px;
 }
 
-.reason {
+.stoppable_reason {
 	grid-column: 2;
   grid-row: 3;	
+
+	color: #AACCFF !important;
 }
 
-input.check {
+.stoppable_input {
 	grid-column: 2;
 	grid-row: 4;
 	
@@ -32,6 +37,38 @@ input.check {
 	border: none;	
 	outline: none;
 	font-size: 25px;
-	color: #AACCFF;
+	color: #AACCFF !important;
 	font-family: Helvetica Neue,Helvetica,sans-serif;	
+}
+
+.stoppable_input::placeholder {
+  color: #888;
+}
+
+.stoppable_button {
+	grid-column: 2;
+	grid-row: 4;
+
+  display: inline-block;
+  background-color: #AACCFF;
+  color: #222233;
+  font-size: 25px;
+	text-decoration: none;
+    text-shadow: 
+      -1px -1px 1px #111122, 
+      1px 1px 1px #CCEEFF;
+  border-radius: 15px;
+  border-bottom: 5px solid #7799CC;
+  transition: 0.1s;
+  box-shadow: 0 2px 3px #111122;
+	position: relative;
+	width: 350px;
+	height: 50px;
+}
+
+.stoppable_button:hover, .stoppable_button:active {
+  background-color: #AACCFF;
+  border-bottom-width: 0;
+	margin-top: 2px;
+	cursor: pointer;
 }

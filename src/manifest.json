@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://nimble.how/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["javascript/block.js"],
       "css": ["content/block.css"],
       "run_at": "document_start"

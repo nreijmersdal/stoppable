@@ -1,4 +1,6 @@
 # Stoppable features
-* Block page until the users types predefined message
-- Add websites with message to options
+* Add websites with reason to options
+- Give access to the page for a certain time, e.g. 15 minutes.
+- Add websites easy from popup
 - Share options between browser e.g. work and at home
+- Make release ready (add credits, logo, etcs) https://thenounproject.com/term/empower/414682/
