@@ -1,6 +1,7 @@
 # Stoppable features
-* Add websites with reason to options
+- default reason
+- Min lenght of reason 20 characters
 - Give access to the page for a certain time, e.g. 15 minutes.
-- Add websites easy from popup
+- Add currnet website from popup
 - Share options between browser e.g. work and at home
 - Make release ready (add credits, logo, etcs) https://thenounproject.com/term/empower/414682/

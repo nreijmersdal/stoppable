@@ -2,13 +2,20 @@
   "manifest_version": 2,
 
   "name": "Stoppable",
-  "description": "Help yourself stop visiting websites",
+  "description": "Empower yourself to stop wasting time on excessive website visits, without blocking them.",
   "version": "0.0.1",
+  "icons": { "48": "content/icon.png" },
 
   "browser_action": {
     "default_icon": "content/icon.png",
     "default_popup": "content/popup.html"
   },
+
+  "options_ui": {
+    "page": "content/options.html",
+    "chrome_style": true
+  },
+
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
@@ -18,6 +25,7 @@
     }
   ],  
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ]
 }

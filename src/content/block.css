@@ -33,16 +33,16 @@
 	grid-column: 2;
 	grid-row: 4;
 	
-	background: transparent;
-	border: none;	
-	outline: none;
-	font-size: 25px;
+	background: transparent !important;
+	border: none !important;
+	outline: none !important;
+	font-size: 25px !important;
 	color: #AACCFF !important;
-	font-family: Helvetica Neue,Helvetica,sans-serif;	
+	font-family: Helvetica Neue,Helvetica,sans-serif !important;
 }
 
 .stoppable_input::placeholder {
-  color: #888;
+  color: #888 !important;
 }
 
 .stoppable_button {
@@ -50,25 +50,25 @@
 	grid-row: 4;
 
   display: inline-block;
-  background-color: #AACCFF;
-  color: #222233;
-  font-size: 25px;
-	text-decoration: none;
-    text-shadow: 
+  background-color: #AACCFF !important;
+  color: #222233 !important;
+  font-size: 25px !important;
+	text-decoration: none !important;
+  text-shadow: 
       -1px -1px 1px #111122, 
-      1px 1px 1px #CCEEFF;
-  border-radius: 15px;
-  border-bottom: 5px solid #7799CC;
-  transition: 0.1s;
-  box-shadow: 0 2px 3px #111122;
-	position: relative;
-	width: 350px;
-	height: 50px;
+      1px 1px 1px #CCEEFF !important;
+  border-radius: 15px !important;
+  border-bottom: 5px solid #7799CC !important;
+  transition: 0.1s !important;
+  box-shadow: 0 2px 3px #111122 !important;
+	position: relative !important;
+	width: 350px !important;
+	height: 50px !important;
 }
 
 .stoppable_button:hover, .stoppable_button:active {
-  background-color: #AACCFF;
-  border-bottom-width: 0;
-	margin-top: 2px;
-	cursor: pointer;
+  background-color: #AACCFF !important;
+  border-bottom-width: 0 !important;
+	margin-top: 2px !important;
+	cursor: pointer !important;
 }

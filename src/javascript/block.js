@@ -5,38 +5,42 @@
 	var VISIT_BUTTON = "VISIT PAGE ANYWAYS";
 
 	document.addEventListener('DOMContentLoaded', function() {
-		var url = window.location;
-		var site = isBlocked(url);	
-		if (site) {
-			var container = createContainer();
-			var header = createHeader(site.url, "stoppable_header");
-			var reason = createCanvasText(site.reason, "stoppable_reason");
-			var input = createInput(PLACEHOLDER, "stoppable_input");
-			var visitButton = createButton(VISIT_BUTTON, "stoppable_button");
+		chrome.storage.sync.get({
+			// default if empty.
+			list: []
+		}, function(items) {
+			var url = window.location;
+			var site = isBlocked(url, items.list);	
+			if (site) {
+				var container = createContainer();
+				var header = createHeader(site.url, "stoppable_header");
+				var reason = createCanvasText(site.reason, "stoppable_reason");
+				var input = createInput(PLACEHOLDER, "stoppable_input");
+				var visitButton = createButton(VISIT_BUTTON, "stoppable_button");
 
-			input.onkeyup= function(event) {
-				if(event.target.value === site.reason) {
-					hide(input);
-					show(visitButton);
-				}
-			};
-			
-			visitButton.onclick = function(event) {
-				container.remove();
-			};
+				input.onkeyup= function(event) {
+					if(event.target.value === site.reason) {
+						hide(input);
+						show(visitButton);
+					}
+				};
+				
+				visitButton.onclick = function(event) {
+					container.remove();
+				};
 
-			container.appendChild(header);
-			container.appendChild(reason);
-			container.appendChild(input);
-			hide(visitButton);
-			container.appendChild(visitButton);
+				container.appendChild(header);
+				container.appendChild(reason);
+				container.appendChild(input);
+				hide(visitButton);
+				container.appendChild(visitButton);
 
-			atEndOfLoadingFocus(input);
-		}
+				atEndOfLoadingFocus(input);
+			}
+		});		
 	});
 
-	function isBlocked(url) {
-		var stopList = getStoppedList();
+	function isBlocked(url, stopList) {
 		if (stopList === undefined) return false;
 
 		var result = stopList.filter(function (item) {
@@ -44,14 +48,6 @@
 		});
 
 		return result[0];
-	}
-
-	function getStoppedList() {
-		return [
-			{url:"facebook.com", reason: "Waste..."},
-			{url:"linkedin.com", reason: "Hmmm..."},
-			{url:"nimble.how", reason: "Yeah..."}
-		];
 	}
 
 	function createContainer() {
