@@ -4,7 +4,7 @@
   "name": "Stoppable",
   "description": "Empower yourself to stop wasting time on excessive website visits, without blocking them.",
   "version": "0.0.1",
-  "icons": { "48": "content/icon.png" },
+  "icons": { "48": "content/icon.png", "128": "content/icon_128.png" },
 
   "browser_action": {
     "default_icon": "content/icon.png",
