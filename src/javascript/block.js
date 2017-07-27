@@ -12,11 +12,17 @@
 			var url = window.location;
 			var site = isBlocked(url, items.list);	
 			if (site) {
-				var container = createContainer();
 				var header = createHeader(site.url, "stoppable_header");
 				var reason = createCanvasText(site.reason, "stoppable_reason");
 				var input = createInput(PLACEHOLDER, "stoppable_input");
 				var visitButton = createButton(VISIT_BUTTON, "stoppable_button");
+				hide(visitButton);
+
+				var container = createContainer();
+				container.appendChild(header);
+				container.appendChild(reason);
+				container.appendChild(input);
+				container.appendChild(visitButton);
 
 				input.onkeyup= function(event) {
 					if(event.target.value === site.reason) {
@@ -28,12 +34,6 @@
 				visitButton.onclick = function(event) {
 					container.remove();
 				};
-
-				container.appendChild(header);
-				container.appendChild(reason);
-				container.appendChild(input);
-				hide(visitButton);
-				container.appendChild(visitButton);
 
 				atEndOfLoadingFocus(input);
 			}
@@ -110,7 +110,7 @@
 	function atEndOfLoadingFocus(input) {
 		window.onload = function() {
 			// Wait some milliseconds because some sites have their own focus.
-			sleep(100).then(function() {
+			sleep(200).then(function() {
 				input.focus();
 			});
 		};

@@ -39,7 +39,7 @@ function getCheckedListItems() {
     checkboxes.forEach(function(checkbox, index) {
       if(checkbox.checked) {
         if(urls[index].value && reasons[index].value) {
-          if (reasons[index].value.length < 19) throw Error("Reason to short, minumum is 20");
+          if (reasons[index].value.length <= 19) throw Error("Reason to short, minumum is 20");
           result.push({
             url: urls[index].value,
             reason: reasons[index].value
@@ -48,7 +48,7 @@ function getCheckedListItems() {
       }
     });
   } catch (e) {
-    showError('Reason to short, minumum is 20');
+    showError('Reason to short, minumum is 20 chars.');
     return [];
   }
 

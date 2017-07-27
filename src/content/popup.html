@@ -5,21 +5,27 @@
     <style>
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        width: 250px;
+        padding-left:10px;
+        padding-right:10px;
       }
       #url {
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 400px;
+        max-width: 250px;
+      }
+      #reason {
+        width: 200px;
       }
     </style>
     <script src="../javascript/popup.js"></script>
   </head>
   <body>
     <div id="url"></div> <br>
-    <input type="text" placeholder="Motivational reason"> <br> <br>
-    <button id="add">Add to list</button>
-
+    <input id="reason" type="text" placeholder="Motivational reason of 20 characters..."> 
+    <button id="add">Add</button><br><br>
+    <div id="status"></div>
   </body>
 </html>
 
