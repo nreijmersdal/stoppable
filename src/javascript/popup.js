@@ -3,6 +3,7 @@ var hostname = "";
 document.addEventListener('DOMContentLoaded', function() {
   getActiveTabUrl(function(url) {
     hostname = getHostname(url);
+    hostname = hostname.replace(/^www\./,'');
   	document.getElementById('url').textContent = "Block website: " + hostname;
   });
   addButtonOnClickHandler();
