@@ -1,7 +1,7 @@
 (function() {
 	"use strict";
 
-	var PLACEHOLDER = "Type reason to continue your visit...";
+	var PLACEHOLDER = "Type reason\u2934 to continue your visit...";
 	var VISIT_BUTTON = "VISIT PAGE ANYWAYS";
 
 	document.addEventListener('DOMContentLoaded', function() {

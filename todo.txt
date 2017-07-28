@@ -3,6 +3,7 @@
 * Give access to the page for a certain time, e.g. 15 minutes.
 - Improve button styling and location
 - Strip www. from hostnames
+- Twitter screws up input styling
 - Test sharing options between browser e.g. work and at home
 - Try to inject input-screen sooner if possible
 - Make public release ready (add credits, logo, etcs)
@@ -10,3 +11,4 @@
 - centralize 20 characters check code
 - centralize save code
 - centralize defaults
+- close window with ESC
