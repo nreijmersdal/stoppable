@@ -1,5 +1,5 @@
 # Stoppable
-Chrome extention to empower yourself to stop wasting time on excessive website visits, without truly blocking them.
+Chrome extension to empower yourself to stop wasting time on excessive website visits, without truly blocking them.
 
 # Why it was created
 I learned that is not a lack of self-discipline or self-control, but the wrong motivation that prevents change in behavior.

@@ -5,3 +5,6 @@
 - Improve button styling and location
 - centralize message, use same code for popup and options.
 - centralize 20 characters check code
+- centralize save code
+- centralize defaults
+- Strip www. from hostnames

@@ -1,13 +1,13 @@
 (function() {
 	"use strict";
 
-	var PLACEHOLDER = "Type the reason above to continue...";
+	var PLACEHOLDER = "Type reason to continue your visit...";
 	var VISIT_BUTTON = "VISIT PAGE ANYWAYS";
 
 	document.addEventListener('DOMContentLoaded', function() {
 		chrome.storage.sync.get({
 			// default if empty.
-			list: []
+			list: [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here..."}]
 		}, function(items) {
 			var url = window.location;
 			var site = isBlocked(url, items.list);	
