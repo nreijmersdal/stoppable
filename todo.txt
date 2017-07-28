@@ -1,10 +1,12 @@
 # Stoppable features
+- Defect, facebook is removed after adding first new page.
 * Give access to the page for a certain time, e.g. 15 minutes.
-- Test sharing options between browser e.g. work and at home
-- Make release ready (add credits, logo, etcs)
 - Improve button styling and location
+- Strip www. from hostnames
+- Test sharing options between browser e.g. work and at home
+- Try to inject input-screen sooner if possible
+- Make public release ready (add credits, logo, etcs)
 - centralize message, use same code for popup and options.
 - centralize 20 characters check code
 - centralize save code
 - centralize defaults
-- Strip www. from hostnames
