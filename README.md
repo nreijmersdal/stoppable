@@ -1,5 +1,6 @@
 # Stoppable
 Chrome extension to empower yourself to stop wasting time on excessive website visits, without truly blocking them.
+* Download latest version in the [chrome web store](https://chrome.google.com/webstore/detail/stoppable/opmhijblhlogdimeabllddogihbijbfj).
 
 # Why it was created
 I learned that is not a lack of self-discipline or self-control, but the wrong motivation that prevents change in behavior.
