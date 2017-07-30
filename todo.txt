@@ -1,4 +1,5 @@
 # Stoppable features
+- issues with nos.nl and osnews.com, they seem to do something to the h1 element
 - introduce bundler to centralize code
 - refactor block.js to be named stoppable.js, remove any reference to the term block
 - centralize message, use same code for popup and options.
