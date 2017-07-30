@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadOptions() {
   chrome.storage.sync.get({
     // default if empty.
-    list: [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here...", unlockedTill:0}]
+    list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}]
   }, function(items) {
     items.list.forEach(function(item) {
       var stopItem = createStopItem(true, item.url, item.reason);

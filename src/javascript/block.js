@@ -47,7 +47,7 @@
 		return function(event) {
 			chrome.storage.sync.get({
 				// default if empty.
-				list: [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here...", unlockedTill:0}]
+				list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}]
 			}, function(items) {
 				// update current website to add 15 minutes.
 				items.list.forEach((item, index) => {
