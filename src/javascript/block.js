@@ -34,6 +34,13 @@
 		input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
 		unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
 		atEndOfLoadingFocus(input);
+		window.addEventListener("keydown", switchToProductiveSiteOnEsc, false);
+	}
+
+	function switchToProductiveSiteOnEsc(event) {
+		if (event.keyCode === 27) {
+			window.location = "https://app.weekplan.net/";
+		}
 	}
 
 	function unlockSiteFor15Minutes(site, stopScreen) {
@@ -57,6 +64,7 @@
 				chrome.storage.sync.set({
 					list: items.list,
 				}, function() {
+					window.removeEventListener("keydown", switchToProductiveSiteOnEsc);
 					stopScreen.remove();
 				});
 			});  					
