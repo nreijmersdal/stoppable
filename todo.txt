@@ -1,6 +1,6 @@
 # Stoppable features
-- Try to inject input-screen sooner if possible
-- Make public release ready (add credits, logo, etcs)
+- Make ESC close window or visit productivity page
+- Make private release ready (add credits, logo, etcs)
 - Twitter screws up input styling
 - introduce bundler to centralize code
 - centralize message, use same code for popup and options.

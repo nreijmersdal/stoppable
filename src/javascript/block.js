@@ -14,19 +14,27 @@
 			var input = createInput(PLACEHOLDER, "stoppable_input");
 			var unlockButton = createHiddenButton(UNSTOP_BUTTON, "stoppable_button");
 
-			var pageObserver = new MutationObserver(function() {
-				if (document.body) {
-					// Run as soon as <body> is available
-					var stopScreen = showStopScreen(header, reason, input, unlockButton);
-					input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
-					unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
-					atEndOfLoadingFocus(input);
-					pageObserver.disconnect();
-				}
-			});
-			pageObserver.observe(document.documentElement, {childList: true});
+			if (!document.body) {
+				var pageObserver = new MutationObserver(function() {
+					if (document.body) {
+						initializeAndShowStopScreen(header, reason, input, unlockButton, site);
+						pageObserver.disconnect();
+					}
+				});
+				pageObserver.observe(document.documentElement, {childList: true});
+			} else {
+				initializeAndShowStopScreen(header, reason, input, unlockButton, site);
+			}
+
 		}
 	});		
+
+	function initializeAndShowStopScreen(header, reason, input, unlockButton, site) {
+		var stopScreen = createStopScreen(header, reason, input, unlockButton);
+		input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
+		unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
+		atEndOfLoadingFocus(input);
+	}
 
 	function unlockSiteFor15Minutes(site, stopScreen) {
 		return function(event) {
@@ -64,7 +72,7 @@
 		};
 	}
 
-	function showStopScreen(header, reason, input, visitButton) {
+	function createStopScreen(header, reason, input, visitButton) {
 		var container = createContainer();
 		container.appendChild(header);
 		container.appendChild(reason);
