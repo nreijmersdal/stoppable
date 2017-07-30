@@ -1,12 +1,12 @@
 # Stoppable features
-* Give access to the page for a certain time, e.g. 15 minutes.
 - Improve button styling and location
-- Twitter screws up input styling
-- Test sharing options between browser e.g. work and at home
 - Try to inject input-screen sooner if possible
+- Make items on the list unique
 - Make public release ready (add credits, logo, etcs)
+- Twitter screws up input styling
 - centralize message, use same code for popup and options.
 - centralize 20 characters check code
 - centralize data retrieveal, storage and defaults.
 - close window with ESC
 - Edit motivation from popup
+- clean all html and put the elements into code

@@ -2,12 +2,12 @@
 	"use strict";
 
 	var PLACEHOLDER = "Type reason\u2934 to continue your visit...";
-	var VISIT_BUTTON = "VISIT PAGE ANYWAYS";
+	var UNSTOP_BUTTON = "Unstop for 15 minutes";
 
 	document.addEventListener('DOMContentLoaded', function() {
 		chrome.storage.sync.get({
 			// default if empty.
-			list: [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here..."}]
+			list: [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here...", unlockedTill:0}]
 		}, function(items) {
 			var url = window.location;
 			var site = isBlocked(url, items.list);	
@@ -15,14 +15,10 @@
 				var header = createHeader(site.url, "stoppable_header");
 				var reason = createCanvasText(site.reason, "stoppable_reason");
 				var input = createInput(PLACEHOLDER, "stoppable_input");
-				var visitButton = createButton(VISIT_BUTTON, "stoppable_button");
+				var visitButton = createButton(UNSTOP_BUTTON, "stoppable_button");
 				hide(visitButton);
 
-				var container = createContainer();
-				container.appendChild(header);
-				container.appendChild(reason);
-				container.appendChild(input);
-				container.appendChild(visitButton);
+				var stopScreen = showStopScreen(header, reason, input, visitButton);
 
 				input.onkeyup= function(event) {
 					if(event.target.value === site.reason) {
@@ -32,7 +28,28 @@
 				};
 				
 				visitButton.onclick = function(event) {
-					container.remove();
+					chrome.storage.sync.get({
+						// default if empty.
+						list: [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here...", unlockedTill:0}]
+					}, function(items) {
+						// update current website to add 15 minutes.
+						items.list.forEach((item, index) => {
+								if(item.url === site.url) {
+										items.list[index] = {
+											url: site.url,
+											reason: site.reason,
+											unlockedTill: getTimestampMinutesInTheFuture(15)
+										};
+								}
+						});	
+
+						// store full list
+						chrome.storage.sync.set({
+							list: items.list,
+						}, function() {
+							stopScreen.remove();
+						});
+					});  					
 				};
 
 				atEndOfLoadingFocus(input);
@@ -40,14 +57,40 @@
 		});		
 	});
 
+	function showStopScreen(header, reason, input, visitButton) {
+		var container = createContainer();
+		container.appendChild(header);
+		container.appendChild(reason);
+		container.appendChild(input);
+		container.appendChild(visitButton);		
+		return container;
+	}
+
 	function isBlocked(url, stopList) {
 		if (stopList === undefined) return false;
-
 		var result = stopList.filter(function (item) {
-			return url.href.includes(item.url);
+			var isOnStopList = url.href.includes(item.url);
+			var isNotUnlocked = true;
+			if(isOnStopList) {
+				if(item.unlockedTill && getTimeInSeconds() < item.unlockedTill) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
 		});
 
 		return result[0];
+	}
+
+	function getTimeInSeconds() {
+		return Math.round(+new Date()/1000);
+	}
+
+	function getTimestampMinutesInTheFuture(minutes) {
+		return (getTimeInSeconds() + (minutes * 60));
 	}
 
 	function createContainer() {
