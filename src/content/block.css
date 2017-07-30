@@ -30,7 +30,9 @@
 .stoppable_input {
 	grid-column: 2;
 	grid-row: 4;
-	margin-top: 20px;
+	margin: 20px 0px 0px 0px !important;
+	width: 800px !important;
+	padding: 0px !important;
 
 	background: transparent !important;
 	border: none !important;
@@ -38,6 +40,10 @@
 	font-size: 25px !important;
 	color: #AACCFF !important;
 	font-family: Helvetica Neue,Helvetica,sans-serif !important;
+}
+
+.stoppable_input:focus {
+	outline-width: 0 !important;
 }
 
 .stoppable_input::placeholder {
