@@ -4,26 +4,29 @@
 	var PLACEHOLDER = "Type reason\u2934 to continue your visit...";
 	var UNSTOP_BUTTON = "Unstop for 15 minutes";
 
-	document.addEventListener('DOMContentLoaded', function() {
-		chrome.storage.sync.get({
-			list: getDefaultsToUseWhenEmpty()
-		}, function(items) {
-			var site = isCurrentSiteInStoplist(items.list);
-			if (site) {
-				var header = createHeader(site.url, "stoppable_header");
-				var reason = createCanvasText(site.reason, "stoppable_reason");
-				var input = createInput(PLACEHOLDER, "stoppable_input");
-				var unlockButton = createHiddenButton(UNSTOP_BUTTON, "stoppable_button");
-				var stopScreen = showStopScreen(header, reason, input, unlockButton);
+	chrome.storage.sync.get({
+		list: getDefaultsToUseWhenEmpty()
+	}, function(items) {
+		var site = isCurrentSiteInStoplist(items.list);
+		if (site) {
+			var header = createHeader(site.url, "stoppable_header");
+			var reason = createCanvasText(site.reason, "stoppable_reason");
+			var input = createInput(PLACEHOLDER, "stoppable_input");
+			var unlockButton = createHiddenButton(UNSTOP_BUTTON, "stoppable_button");
 
-				// handle events
-				input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
-				unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
-		
-				atEndOfLoadingFocus(input);
-			}
-		});		
-	});
+			var pageObserver = new MutationObserver(function() {
+				if (document.body) {
+					// Run as soon as <body> is available
+					var stopScreen = showStopScreen(header, reason, input, unlockButton);
+					input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
+					unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
+					atEndOfLoadingFocus(input);
+					pageObserver.disconnect();
+				}
+			});
+			pageObserver.observe(document.documentElement, {childList: true});
+		}
+	});		
 
 	function unlockSiteFor15Minutes(site, stopScreen) {
 		return function(event) {
@@ -157,6 +160,7 @@
 	}
 
 	function atEndOfLoadingFocus(input) {
+		input.focus();
 		window.onload = function() {
 			// Wait some milliseconds because some sites have their own focus.
 			sleep(200).then(function() {
