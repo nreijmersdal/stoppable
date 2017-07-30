@@ -9,14 +9,13 @@
 	font-family: Helvetica Neue,Helvetica,sans-serif;
 	display: grid;	
   grid-template-columns: auto 800px auto;
-	grid-template-rows: 20% 60px 60px 100px auto;
+	grid-template-rows: 20% 50px 50px 50px auto;
 	z-index: 9999999;
 }
 
 .stoppable_header {
 	grid-column: 2;
   grid-row: 2;
-
 	color: #AACCFF !important;
 	font-weight: bold;
 	font-size: 50px;
@@ -24,15 +23,15 @@
 
 .stoppable_reason {
 	grid-column: 2;
-  grid-row: 3;	
-
+	grid-row: 3;	
 	color: #AACCFF !important;
 }
 
 .stoppable_input {
 	grid-column: 2;
 	grid-row: 4;
-	
+	margin-top: 20px;
+
 	background: transparent !important;
 	border: none !important;
 	outline: none !important;
@@ -47,7 +46,7 @@
 
 .stoppable_button {
 	grid-column: 2;
-	grid-row: 4;
+	grid-row: 5;
 
   display: inline-block;
   background-color: #AACCFF !important;
