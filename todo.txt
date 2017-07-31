@@ -1,6 +1,4 @@
 # Stoppable upcoming feature list
-- use windows.stop() and reload page on button, also set title, hide original page.
-- make button pretty for John
 - after 15 minutes re-introduce the stopscreen
 - make productivity redirect (on ESC press) configurable from options
 - make items on the list unique
