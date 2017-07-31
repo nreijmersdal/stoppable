@@ -10,7 +10,7 @@
 	display: grid;	
   grid-template-columns: auto 800px auto;
 	grid-template-rows: 20% 50px 50px 50px auto;
-	z-index: 9999999;
+	z-index: 2147483647;
 }
 
 .stoppable_header {
