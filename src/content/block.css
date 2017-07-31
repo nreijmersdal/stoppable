@@ -1,8 +1,8 @@
 .stoppable_block {
 	position: fixed;
-	top:0px;
-	left:0px;
-	width:100%;
+	top: 0px;
+	left: 0px;
+	width: 100%;
 	height: 100%;
 	background-color: #222233;
 	color: #AACCFF !important;
@@ -16,14 +16,22 @@
 .stoppable_header {
 	grid-column: 2;
   grid-row: 2;
+	margin: 0px !important;
+	padding: 0px !important;
+	width: 800px !important;
+
 	color: #AACCFF !important;
-	font-weight: bold;
-	font-size: 50px;
+	font-weight: bold !important;
+	font-size: 50px !important;
 }
 
 .stoppable_reason {
 	grid-column: 2;
 	grid-row: 3;	
+	margin: 0px !important;
+	padding: 0px !important;
+	width: 800px !important;
+
 	color: #AACCFF !important;
 }
 
@@ -31,8 +39,8 @@
 	grid-column: 2;
 	grid-row: 4;
 	margin: 20px 0px 0px 0px !important;
-	width: 800px !important;
 	padding: 0px !important;
+	width: 800px !important;
 
 	background: transparent !important;
 	border: none !important;
@@ -53,6 +61,10 @@
 .stoppable_button {
 	grid-column: 2;
 	grid-row: 5;
+	margin: 0px !important;
+	padding: 0px !important;
+	width: 350px !important;
+	height: 50px !important;
 
   display: inline-block;
   background-color: #AACCFF !important;
@@ -67,8 +79,6 @@
   transition: 0.1s !important;
   box-shadow: 0 2px 3px #111122 !important;
 	position: relative !important;
-	width: 350px !important;
-	height: 50px !important;
 }
 
 .stoppable_button:hover, .stoppable_button:active {

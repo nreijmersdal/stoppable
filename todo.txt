@@ -5,8 +5,6 @@
 - edit motivation from popup
 
 # Defects
-- issues with nos.nl, gmail.com and osnews.com, they seem to do something to the h1 element
-- issue with nu.nl z-index to low
 
 # Clean Code
 - introduce bundler to centralize code
