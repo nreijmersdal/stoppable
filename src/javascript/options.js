@@ -9,21 +9,26 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadOptions() {
   chrome.storage.sync.get({
     // default if empty.
-    list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}]
+    list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}],
+    redirectUrl: "https://app.weekplan.net"
   }, function(items) {
     items.list.forEach(function(item) {
       var stopItem = createStopItem(true, item.url, item.reason);
       document.getElementById('list').appendChild(stopItem);
     });
+    document.getElementById('redirectUrl').value = items.redirectUrl;
   });
 }
 
 function saveOptions() {
   var list = getCheckedListItems();
+  var redirectUrl = document.getElementById('redirectUrl').value;
+  if (redirectUrl.length <= 0) return;
   if (list.length <= 0) return;
 
   chrome.storage.sync.set({
     list: list,
+    redirectUrl: redirectUrl
   }, function() {
     showMessage('Options saved.');
   });

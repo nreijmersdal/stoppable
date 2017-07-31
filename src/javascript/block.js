@@ -4,9 +4,13 @@
 	var PLACEHOLDER = "Type reason\u2934 to continue your visit...";
 	var UNSTOP_BUTTON = "Unstop for 15 minutes \u279f";
 
+	var redirectUrl = "";
+
 	chrome.storage.sync.get({
-		list: getDefaultsToUseWhenEmpty()
+		list: getDefaultListToUseWhenEmpty(),
+		redirectUrl: getDefaultUrlToUseWhenEmpty()
 	}, function(items) {
+		redirectUrl = items.redirectUrl;
 		var site = isCurrentSiteInStoplist(items.list);
 		if (site) {
 			var header = createHeader(site.url, "stoppable_header");
@@ -41,7 +45,7 @@
 
 	function switchToProductiveSiteOnEsc(event) {
 		if (event.keyCode === 27) {
-			window.location = "https://app.weekplan.net/";
+			window.location = redirectUrl;
 		}
 	}
 
@@ -190,7 +194,11 @@
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}	
 
-	function getDefaultsToUseWhenEmpty() {
+	function getDefaultListToUseWhenEmpty() {
 		return [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here...", unlockedTill:0}];
+	}
+
+	function getDefaultUrlToUseWhenEmpty() {
+    return "https://app.weekplan.net";	
 	}
 }());

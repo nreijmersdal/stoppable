@@ -1,6 +1,5 @@
 # Stoppable upcoming feature list
 - after 15 minutes re-introduce the stopscreen
-- make productivity redirect (on ESC press) configurable from options
 - make items on the list unique
 - edit motivation from popup
 

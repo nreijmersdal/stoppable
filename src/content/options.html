@@ -19,15 +19,19 @@
     input[name=reason] {
       width: 200px;
     }
+    input[id=redirectUrl] {
+      width: 196px;
+    }
   </style>
   <script defer src="../javascript/options.js"></script>
 </head>
 
 <body>
-  List websites (partial urls) and the reason why you want to stop:
+  ESC-key redirects to: <input type="text" id="redirectUrl"><br><br>
+  Stopped keywords and motivation:
   <ul id="list"></ul>
   <div id="status"></div><br>
-  <button id="add">Add</button>
+  <button id="add">Add row</button>
   <button id="save">Save</button>
   <br>
   <br><hr><br>
