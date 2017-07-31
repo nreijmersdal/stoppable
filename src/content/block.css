@@ -6,11 +6,12 @@
 	height: 100%;
 	background-color: #222233;
 	color: #AACCFF !important;
-	font-family: Helvetica Neue,Helvetica,sans-serif;
+	font-family: Helvetica Neue,Helvetica,sans-serif !important;
 	display: grid;	
   grid-template-columns: auto 800px auto;
 	grid-template-rows: 20% 50px 50px 50px auto;
 	z-index: 2147483647;
+	letter-spacing: normal !important;
 }
 
 .stoppable_header {
@@ -19,6 +20,8 @@
 	margin: 0px !important;
 	padding: 0px !important;
 	width: 800px !important;
+	font-family: Helvetica Neue,Helvetica,sans-serif !important;
+	letter-spacing: normal !important;
 
 	color: #AACCFF !important;
 	font-weight: bold !important;
@@ -41,6 +44,8 @@
 	margin: 20px 0px 0px 0px !important;
 	padding: 0px !important;
 	width: 800px !important;
+	font-family: Helvetica Neue,Helvetica,sans-serif !important;
+	letter-spacing: normal !important;
 
 	background: transparent !important;
 	border: none !important;
@@ -61,29 +66,29 @@
 .stoppable_button {
 	grid-column: 2;
 	grid-row: 5;
-	margin: 0px !important;
+	margin: 0px auto 0px auto !important;
 	padding: 0px !important;
-	width: 350px !important;
+	width: 330px !important;
 	height: 50px !important;
+	font-family: Helvetica Neue,Helvetica,sans-serif !important;
+	letter-spacing: normal !important;
 
-  display: inline-block;
-  background-color: #AACCFF !important;
-  color: #222233 !important;
-  font-size: 25px !important;
+	background: transparent !important;
+	border: 3px solid #AACCFF !important;
+	border-radius: 0px !important;	
+  color: #AACCFF !important;
+	font-size: 25px !important;
+	text-shadow: none !important;
 	text-decoration: none !important;
-  text-shadow: 
-      -1px -1px 1px #111122, 
-      1px 1px 1px #CCEEFF !important;
-  border-radius: 15px !important;
-  border-bottom: 5px solid #7799CC !important;
-  transition: 0.1s !important;
-  box-shadow: 0 2px 3px #111122 !important;
-	position: relative !important;
+	box-shadow: none !important;
+  transition: all 0.3s !important;
 }
 
 .stoppable_button:hover, .stoppable_button:active {
-  background-color: #AACCFF !important;
-  border-bottom-width: 0 !important;
-	margin-top: 2px !important;
+	background: transparent !important;
+	margin: 0px auto 0px auto !important;
+	padding: 0px !important;
+	border: 3px solid #CCEEFF !important;
+  color: #CCEEFF !important;
 	cursor: pointer !important;
 }

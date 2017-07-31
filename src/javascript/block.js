@@ -2,7 +2,7 @@
 	"use strict";
 
 	var PLACEHOLDER = "Type reason\u2934 to continue your visit...";
-	var UNSTOP_BUTTON = "Unstop for 15 minutes";
+	var UNSTOP_BUTTON = "Unstop for 15 minutes \u279f";
 
 	chrome.storage.sync.get({
 		list: getDefaultsToUseWhenEmpty()
@@ -13,7 +13,7 @@
 			var reason = createCanvasText(site.reason, "stoppable_reason");
 			var input = createInput(PLACEHOLDER, "stoppable_input");
 			var unlockButton = createHiddenButton(UNSTOP_BUTTON, "stoppable_button");
-
+			
 			if (!document.body) {
 				var pageObserver = new MutationObserver(function() {
 					if (document.body) {
@@ -30,6 +30,8 @@
 	});		
 
 	function initializeAndShowStopScreen(header, reason, input, unlockButton, site) {
+		window.stop();
+		document.title="Stoppable";
 		var stopScreen = createStopScreen(header, reason, input, unlockButton);
 		input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
 		unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
@@ -64,8 +66,7 @@
 				chrome.storage.sync.set({
 					list: items.list,
 				}, function() {
-					window.removeEventListener("keydown", switchToProductiveSiteOnEsc);
-					stopScreen.remove();
+					window.location.reload();
 				});
 			});  					
 		};
