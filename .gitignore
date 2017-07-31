@@ -2,6 +2,7 @@ node_modules
 
 # build files
 src/src.zip
+src.zip
 
 # macOS generated files
 .DS_Store

@@ -4,6 +4,7 @@
 - edit motivation from popup
 
 # Defects
+- add maxlenght to input fields, large datasets seem to hang the sync
 
 # Clean Code
 - introduce bundler to centralize code
@@ -13,3 +14,4 @@
 - centralize data retrieveal, storage and defaults.
 - clean all html and create the elements from code
 - create tests to cover centralized code
+- errorhandle the sync requests
