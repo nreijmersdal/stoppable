@@ -19,8 +19,8 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["block.js"],
-      "css": ["block.css"],
+      "js": ["stoppable.js"],
+      "css": ["stoppable.css"],
       "run_at": "document_start"
     }
   ],  

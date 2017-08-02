@@ -15,7 +15,7 @@
     shell.rm("-rf", DIST_DIR + "/*");
     shell.cp("-r", "src/content/*", DIST_DIR);
     shell.cp("-r", "src/manifest.json", DIST_DIR);
-    jake.exec("node node_modules/browserify/bin/cmd.js src/javascript/block.js -o " + DIST_DIR + "/block.js", { interactive: true}, complete);
+    jake.exec("node node_modules/browserify/bin/cmd.js src/javascript/stoppable.js -o " + DIST_DIR + "/stoppable.js", { interactive: true}, complete);
     jake.exec("node node_modules/browserify/bin/cmd.js src/javascript/options.js -o " + DIST_DIR + "/options.js", { interactive: true}, complete);
     jake.exec("node node_modules/browserify/bin/cmd.js src/javascript/popup.js -o " + DIST_DIR + "/popup.js", { interactive: true}, complete);
   }, { async: true});

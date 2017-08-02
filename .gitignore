@@ -1,8 +1,8 @@
 node_modules
 
-# build files
-src/src.zip
-src.zip
+# distribution files
+dist
+dist.zip
 
 # macOS generated files
 .DS_Store

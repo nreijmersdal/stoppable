@@ -124,7 +124,7 @@
 
 	function createContainer() {
 		var div = document.createElement("div");
-		div.classList.add("stoppable_block");
+		div.classList.add("stoppable_div");
 		document.body.appendChild(div);
 		return div;
 	}
