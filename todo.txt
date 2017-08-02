@@ -1,5 +1,4 @@
 # Stoppable upcoming feature list
-- after 15 minutes re-introduce the stopscreen
 - change options screen to be wider and nicer
 - make items on the list unique
 - popup should have focus on input and enter should submit the form
@@ -8,7 +7,6 @@
 
 # Defects
 - add maxlenght to input fields, large datasets seem to hang the sync
-- osnews.com crashes chrome since the new window.stop() was introduced, maybe test with stop after rendering the modal
 
 # Clean Code
 - centralize 20 characters check code

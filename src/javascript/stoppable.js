@@ -1,8 +1,9 @@
 (function() {
 	"use strict";
 
-	var PLACEHOLDER = "Type reason\u2934 to continue your visit...";
-	var UNSTOP_BUTTON = "Unstop for 15 minutes \u279f";
+	const PLACEHOLDER = "Type reason\u2934 to continue your visit...";
+	const UNLOCK_TIME = 15; 
+	const UNSTOP_BUTTON = "Unstop for " + UNLOCK_TIME + " minutes \u279f";
 
 	var redirectUrl = "";
 
@@ -34,13 +35,17 @@
 	});		
 
 	function initializeAndShowStopScreen(header, reason, input, unlockButton, site) {
-		window.stop();
-		document.title="Stoppable";
 		var stopScreen = createStopScreen(header, reason, input, unlockButton);
 		input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
-		unlockButton.onclick = unlockSiteFor15Minutes(site, stopScreen);
+		unlockButton.onclick = unlockSite(site, input, unlockButton, stopScreen);
 		atEndOfLoadingFocus(input);
 		window.addEventListener("keydown", switchToProductiveSiteOnEsc, false);
+	}
+
+	function stopAgainAfterTimeout(stopScreen) {
+		setTimeout(function() { 
+			show(stopScreen);
+		}, UNLOCK_TIME * 60 * 1000);
 	}
 
 	function switchToProductiveSiteOnEsc(event) {
@@ -49,19 +54,19 @@
 		}
 	}
 
-	function unlockSiteFor15Minutes(site, stopScreen) {
+	function unlockSite(site, input, unlockButton, stopScreen) {
 		return function(event) {
 			chrome.storage.sync.get({
 				// default if empty.
 				list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}]
 			}, function(items) {
-				// update current website to add 15 minutes.
+				// store timeout in list for storage
 				items.list.forEach((item, index) => {
 						if(item.url === site.url) {
 								items.list[index] = {
 									url: site.url,
 									reason: site.reason,
-									unlockedTill: getTimestampMinutesInTheFuture(15)
+									unlockedTill: getTimestampMinutesInTheFuture(UNLOCK_TIME)
 								};
 						}
 				});	
@@ -70,7 +75,11 @@
 				chrome.storage.sync.set({
 					list: items.list,
 				}, function() {
-					window.location.reload();
+					hide(unlockButton);
+					input.value = "";
+					show(input);
+					hide(stopScreen);
+					stopAgainAfterTimeout(stopScreen);		
 				});
 			});  					
 		};
