@@ -1,3 +1,4 @@
+const status = require("./status.js");
 var DEFAULT_REASON = "This page is nice, but also wasteful, I visit it wisely!";
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -30,7 +31,7 @@ function saveOptions() {
     list: list,
     redirectUrl: redirectUrl
   }, function() {
-    showMessage('Options saved.');
+    status.showMessage('Options saved.');
   });
 }
 
@@ -53,7 +54,7 @@ function getCheckedListItems() {
       }
     });
   } catch (e) {
-    showError('Reason to short, minumum is 20 chars.');
+    status.showError('Reason to short, minumum is 20 chars.');
     return [];
   }
 
@@ -101,25 +102,4 @@ function createSpace() {
   var span = document.createElement("span");
   span.innerHTML = "&nbsp;";
   return span;
-}
-
-function showError(text) {
-  updateStatus(text, true);
-}
-
-function showMessage(text) {
-  updateStatus(text, false);
-}
-
-function updateStatus(text, showError) {
-  var status = document.getElementById('status');
-  if(showError) {
-    status.style.color = "red";
-  } else {
-    status.style.color = "black";    
-  }
-  status.textContent = text;
-  setTimeout(function() {
-    status.textContent = '';
-  }, 5000);  
 }

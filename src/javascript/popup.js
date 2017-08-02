@@ -1,3 +1,4 @@
+const status = require("./status.js");
 var hostname = "";
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -14,7 +15,7 @@ function addButtonOnClickHandler() {
   addButton.onclick = function(event) {
     var reason = document.getElementById('reason').value;
     if (reason.length <= 19) {
-      showError('Reason to short, minumum is 20 chars.');
+      status.showError('Reason to short, minumum is 20 chars.');
     } else {
       addStopListItem(hostname, reason);
     }
@@ -30,7 +31,7 @@ function addStopListItem(hostname, reason) {
     chrome.storage.sync.set({
       list: items.list,
     }, function() {
-      showMessage('Added to stoppable websites.');
+      status.showMessage('Added to stoppable websites.');
     });
   });  
 }
@@ -56,24 +57,3 @@ var getHostname = function(href) {
     l.remove();
     return result;
 };
-
-function showError(text) {
-  updateStatus(text, true);
-}
-
-function showMessage(text) {
-  updateStatus(text, false);
-}
-
-function updateStatus(text, showError) {
-  var status = document.getElementById('status');
-  if(showError) {
-    status.style.color = "red";
-  } else {
-    status.style.color = "black";    
-  }
-  status.textContent = text;
-  setTimeout(function() {
-    status.textContent = '';
-  }, 5000);  
-}
