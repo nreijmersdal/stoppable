@@ -3,7 +3,7 @@
 
   "name": "Stoppable DEV",
   "description": "Empower yourself to stop wasting time on excessive website visits.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "icons": { "48": "content/icon.png", "128": "content/icon_128.png" },
 
   "browser_action": {

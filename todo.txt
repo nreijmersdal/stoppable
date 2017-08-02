@@ -1,8 +1,10 @@
 # Stoppable upcoming feature list
 - after 15 minutes re-introduce the stopscreen
+- change options screen to be wider and nicer
 - make items on the list unique
 - popup should have focus on input and enter should submit the form
 - edit motivation from popup
+- make window.stop() configurable to safe bandwith, disable by default
 
 # Defects
 - add maxlenght to input fields, large datasets seem to hang the sync
