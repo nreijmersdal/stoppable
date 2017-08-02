@@ -11,7 +11,6 @@
 - osnews.com crashes chrome since the new window.stop() was introduced, maybe test with stop after rendering the modal
 
 # Clean Code
-- introduce bundler to centralize code
 - refactor block.js to be named stoppable.js, remove any reference to the term block
 - centralize message, use same code for popup and options.
 - centralize 20 characters check code

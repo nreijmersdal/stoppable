@@ -4,6 +4,7 @@
   "description": "Help yourself stop visiting websites",
   "main": "index.js",
   "scripts": {
+    "start": "jake",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/nreijmersdal/stoppable#readme",
   "devDependencies": {
-    "jake": "^8.0.15"
+    "browserify": "^14.4.0",
+    "jake": "^8.0.15",
+    "shelljs": "^0.7.8"
   }
 }

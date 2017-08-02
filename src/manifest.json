@@ -4,23 +4,23 @@
   "name": "Stoppable DEV",
   "description": "Empower yourself to stop wasting time on excessive website visits.",
   "version": "0.0.6",
-  "icons": { "48": "content/icon.png", "128": "content/icon_128.png" },
+  "icons": { "48": "icon.png", "128": "icon_128.png" },
 
   "browser_action": {
-    "default_icon": "content/icon.png",
-    "default_popup": "content/popup.html"
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   },
 
   "options_ui": {
-    "page": "content/options.html",
+    "page": "options.html",
     "chrome_style": true
   },
 
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["javascript/block.js"],
-      "css": ["content/block.css"],
+      "js": ["block.js"],
+      "css": ["block.css"],
       "run_at": "document_start"
     }
   ],  
