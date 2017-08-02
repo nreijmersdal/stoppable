@@ -78,7 +78,7 @@
 
 	function addUnlockCheckEvent(site, input, visitButton) {
 		return function(event) {
-			if(event.target.value === site.reason) {
+			if(event.target.value.toLowerCase() === site.reason.toLowerCase()) {
 				hide(input);
 				show(visitButton);
 			}
