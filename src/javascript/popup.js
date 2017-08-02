@@ -23,6 +23,7 @@ function addButtonOnClickHandler() {
 }
 
 function addStopListItem(hostname, reason) {
+  // TODO: add storage addItemToList function
   chrome.storage.sync.get({
     // default if empty.
     list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}]

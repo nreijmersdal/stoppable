@@ -1,18 +1,16 @@
 (function() {
 	"use strict";
+	const storage = require("./storage.js");
 
-	const PLACEHOLDER = "Type reason\u2934 to continue your visit...";
+	const PLACEHOLDER = "Type your complete reason\u2934 to continue the visit...";
 	const UNLOCK_TIME = 15; 
 	const UNSTOP_BUTTON = "Unstop for " + UNLOCK_TIME + " minutes \u279f";
 
 	var redirectUrl = "";
 
-	chrome.storage.sync.get({
-		list: getDefaultListToUseWhenEmpty(),
-		redirectUrl: getDefaultUrlToUseWhenEmpty()
-	}, function(items) {
-		redirectUrl = items.redirectUrl;
-		var site = isCurrentSiteInStoplist(items.list);
+	storage.getSettings(settings => {
+		redirectUrl = settings.redirectUrl;
+		var site = isCurrentSiteInStoplist(settings.list);
 		if (site) {
 			var header = createHeader(site.url, "stoppable_header");
 			var reason = createCanvasText(site.reason, "stoppable_reason");
@@ -55,6 +53,7 @@
 	}
 
 	function unlockSite(site, input, unlockButton, stopScreen) {
+		// TODO: move this to storage as setUnlockTimeOfListItem()
 		return function(event) {
 			chrome.storage.sync.get({
 				// default if empty.

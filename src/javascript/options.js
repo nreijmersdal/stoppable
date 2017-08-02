@@ -1,105 +1,101 @@
-const status = require("./status.js");
-var DEFAULT_REASON = "This page is nice, but also wasteful, I visit it wisely!";
+(function() {
+	"use strict";
+  
+  const status = require("./status.js");
+  const storage = require("./storage.js");
+  var DEFAULT_REASON = "This page is nice, but also wasteful, I visit it wisely!";
 
-document.addEventListener('DOMContentLoaded', function() {
-  loadOptions();
-  saveButtonOnClickHandler();
-  addButtonOnClickHandler();
-});
-
-function loadOptions() {
-  chrome.storage.sync.get({
-    // default if empty.
-    list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}],
-    redirectUrl: "https://app.weekplan.net"
-  }, function(items) {
-    items.list.forEach(function(item) {
-      var stopItem = createStopItem(true, item.url, item.reason);
-      document.getElementById('list').appendChild(stopItem);
-    });
-    document.getElementById('redirectUrl').value = items.redirectUrl;
+  document.addEventListener('DOMContentLoaded', function() {
+    loadOptions();
+    saveButtonOnClickHandler();
+    addButtonOnClickHandler();
   });
-}
 
-function saveOptions() {
-  var list = getCheckedListItems();
-  var redirectUrl = document.getElementById('redirectUrl').value;
-  if (redirectUrl.length <= 0) return;
-  if (list.length <= 0) return;
-
-  chrome.storage.sync.set({
-    list: list,
-    redirectUrl: redirectUrl
-  }, function() {
-    status.showMessage('Options saved.');
-  });
-}
-
-function getCheckedListItems() {
-  var result = [];
-  var checkboxes = document.getElementsByName("selected");
-  var urls = document.getElementsByName("url");
-  var reasons = document.getElementsByName("reason");
-
-  try {
-    checkboxes.forEach(function(checkbox, index) {
-      if(checkbox.checked) {
-        if(urls[index].value && reasons[index].value) {
-          if (reasons[index].value.length <= 19) throw Error("Reason to short, minumum is 20");
-          result.push({
-            url: urls[index].value,
-            reason: reasons[index].value
-          });    
-        }
-      }
+  function loadOptions() {
+    storage.getSettings(items => {
+      items.list.forEach(item => {
+        createStopItem(true, item.url, item.reason);
+      });
+      document.getElementById('redirectUrl').value = items.redirectUrl;
     });
-  } catch (e) {
-    status.showError('Reason to short, minumum is 20 chars.');
-    return [];
   }
 
-  return result;
-}
+  function saveOptions() {
+    const data = { list: getCheckedListItems(), redirectUrl: document.getElementById('redirectUrl').value };
+    if (data.redirectUrl.length <= 0) return;
+    if (data.list.length <= 0) return;
 
-function addButtonOnClickHandler() {
-  var addButton = document.getElementById('add');
-  addButton.onclick = function(event) {
-    var stopItem = createStopItem(true,"",DEFAULT_REASON);
-    document.getElementById('list').appendChild(stopItem);
-  };  
-}
+    storage.saveSettings(data, () => {
+      status.showMessage('Options saved.');
+    });
+  }
 
-function saveButtonOnClickHandler() {
-  document.getElementById('save').addEventListener('click', saveOptions);
-}
+  function getCheckedListItems() {
+    var result = [];
+    var checkboxes = document.getElementsByName("selected");
+    var urls = document.getElementsByName("url");
+    var reasons = document.getElementsByName("reason");
+
+    try {
+      checkboxes.forEach(function(checkbox, index) {
+        if(checkbox.checked) {
+          if(urls[index].value && reasons[index].value) {
+            if (reasons[index].value.length <= 19) throw Error("Reason to short, minumum is 20");
+            result.push({
+              url: urls[index].value,
+              reason: reasons[index].value
+            });    
+          }
+        }
+      });
+    } catch (e) {
+      status.showError('Reason to short, minumum is 20 chars.');
+      return [];
+    }
+
+    return result;
+  }
+
+  function addButtonOnClickHandler() {
+    var addButton = document.getElementById('add');
+    addButton.onclick = function(event) {
+      var stopItem = createStopItem(true,"",DEFAULT_REASON);
+      document.getElementById('list').appendChild(stopItem);
+    };  
+  }
+
+  function saveButtonOnClickHandler() {
+    document.getElementById('save').addEventListener('click', saveOptions);
+  }
 
 
-function createStopItem(state, urlText, reasonText) {
-    var listItem = document.createElement("li");
-    var checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "selected";
-    checkbox.checked = state;
-    var url = document.createElement("input");
-    url.type = "text";
-    url.name = "url";
-    url.value = urlText;
-		var reason = document.createElement("input");            
-    reason.type = "text";
-    reason.name = "reason";
-    reason.value = reasonText;
+  function createStopItem(state, urlText, reasonText) {
+      var listItem = document.createElement("li");
+      var checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.name = "selected";
+      checkbox.checked = state;
+      var url = document.createElement("input");
+      url.type = "text";
+      url.name = "url";
+      url.value = urlText;
+      var reason = document.createElement("input");            
+      reason.type = "text";
+      reason.name = "reason";
+      reason.value = reasonText;
 
-    listItem.appendChild(checkbox);
-    listItem.appendChild(createSpace());
-    listItem.appendChild(url);
-    listItem.appendChild(createSpace());
-    listItem.appendChild(reason);
-      
-		return listItem;	  
-}
+      listItem.appendChild(checkbox);
+      listItem.appendChild(createSpace());
+      listItem.appendChild(url);
+      listItem.appendChild(createSpace());
+      listItem.appendChild(reason);
+        
+      document.getElementById('list').appendChild(listItem);
+  }
 
-function createSpace() {
-  var span = document.createElement("span");
-  span.innerHTML = "&nbsp;";
-  return span;
-}
+  function createSpace() {
+    var span = document.createElement("span");
+    span.innerHTML = "&nbsp;";
+    return span;
+  }
+}());
