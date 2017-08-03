@@ -12,9 +12,7 @@
 	exports.addStopItem = function addStopItem(newStopItem, callback) {
 		chrome.storage.sync.get(getDefaults(), items => {
 			items.list.push(newStopItem);
-			chrome.storage.sync.set({
-				list: items.list
-			}, callback);
+			exports.saveSettings(items, callback);
 		});  		
 	}
 
