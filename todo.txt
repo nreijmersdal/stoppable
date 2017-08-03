@@ -3,14 +3,13 @@
 - make items on the list unique
 - popup should have focus on input and enter should submit the form
 - edit motivation from popup
-- make window.stop() configurable to safe bandwith, disable by default
+- if unlocktimer, inject screen to show after timer ends, so you cannot reload screen without a reminder
 
 # Defects
 - add maxlenght to input fields, large datasets seem to hang the sync
 
 # Clean Code
 - centralize 20 characters check code
-- centralize data retrieveal, storage and defaults.
 - clean all html and create the elements from code
 - create tests to cover centralized code
 - errorhandle the sync requests

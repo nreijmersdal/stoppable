@@ -53,34 +53,20 @@
 	}
 
 	function unlockSite(site, input, unlockButton, stopScreen) {
-		// TODO: move this to storage as setUnlockTimeOfListItem()
-		return function(event) {
-			chrome.storage.sync.get({
-				// default if empty.
-				list: [{url:"facebook.com", reason: "I would rather plan a real social visit than waste my time here...", unlockedTill:0}]
-			}, function(items) {
-				// store timeout in list for storage
-				items.list.forEach((item, index) => {
-						if(item.url === site.url) {
-								items.list[index] = {
-									url: site.url,
-									reason: site.reason,
-									unlockedTill: getTimestampMinutesInTheFuture(UNLOCK_TIME)
-								};
-						}
-				});	
+		return (event) => {
+			const data = {
+				url: site.url,
+				reason: site.reason,
+				unlockedTill: getTimestampMinutesInTheFuture(UNLOCK_TIME)
+			};
 
-				// store full list
-				chrome.storage.sync.set({
-					list: items.list,
-				}, function() {
-					hide(unlockButton);
-					input.value = "";
-					show(input);
-					hide(stopScreen);
-					stopAgainAfterTimeout(stopScreen);		
-				});
-			});  					
+			storage.updateStopItem(data, () => {
+				hide(unlockButton);
+				input.value = "";
+				show(input);
+				hide(stopScreen);
+				stopAgainAfterTimeout(stopScreen);		
+			});
 		};
 	}
 
@@ -201,12 +187,4 @@
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}	
-
-	function getDefaultListToUseWhenEmpty() {
-		return [{url:"facebook.com", reason: "I would rather plan a real social visit then waste my time here...", unlockedTill:0}];
-	}
-
-	function getDefaultUrlToUseWhenEmpty() {
-    return "https://app.weekplan.net";	
-	}
 }());
