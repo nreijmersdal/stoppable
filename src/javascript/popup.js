@@ -14,18 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function addButtonOnClickHandler() {
   var addButton = document.getElementById('add');
   addButton.onclick = function(event) {
-    var reason = document.getElementById('reason').value;
-    if (reason.length <= 19) {
-      status.showError('Reason to short, minumum is 20 chars.');
-    } else {
-      addStopListItem(hostname, reason);
-    }
+    const reason = document.getElementById('reason').value;
+    addStopListItem(hostname, reason);
   };  
 }
 
 function addStopListItem(hostname, reason) {  
-  storage.addStopItem({url:hostname,reason:reason}, () => {
-    status.showMessage('Added to stoppable websites.');
+  storage.addStopItem({url:hostname,reason:reason}, (error) => {
+    if(!error) status.showMessage('Added to stoppable websites.');
+    else status.showError(error);
   });
 }
 

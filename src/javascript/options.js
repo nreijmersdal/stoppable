@@ -25,8 +25,9 @@
     if (data.redirectUrl.length <= 0) return;
     if (data.list.length <= 0) return;
 
-    storage.saveSettings(data, () => {
-      status.showMessage('Options saved.');
+    storage.saveSettings(data, (error) => {
+      if(!error) status.showMessage('Options saved.');
+      else status.showError(error);
     });
   }
 
@@ -36,22 +37,16 @@
     var urls = document.getElementsByName("url");
     var reasons = document.getElementsByName("reason");
 
-    try {
-      checkboxes.forEach(function(checkbox, index) {
-        if(checkbox.checked) {
-          if(urls[index].value && reasons[index].value) {
-            if (reasons[index].value.length <= 19) throw Error("Reason to short, minumum is 20");
-            result.push({
-              url: urls[index].value,
-              reason: reasons[index].value
-            });    
-          }
+    checkboxes.forEach(function(checkbox, index) {
+      if(checkbox.checked) {
+        if(urls[index].value && reasons[index].value) {
+          result.push({
+            url: urls[index].value,
+            reason: reasons[index].value
+          });    
         }
-      });
-    } catch (e) {
-      status.showError('Reason to short, minumum is 20 chars.');
-      return [];
-    }
+      }
+    });
 
     return result;
   }

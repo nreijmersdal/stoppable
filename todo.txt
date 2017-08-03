@@ -1,6 +1,7 @@
 # Stoppable upcoming feature list
 - change options screen to be wider and nicer
 - make items on the list unique
+- improve validation for all things, empty, to long
 - popup should have focus on input and enter should submit the form
 - edit motivation from popup
 - if unlocktimer, inject screen to show after timer ends, so you cannot reload screen without a reminder
@@ -9,7 +10,6 @@
 - add maxlenght to input fields, large datasets seem to hang the sync
 
 # Clean Code
-- centralize 20 characters check code
 - clean all html and create the elements from code
 - create tests to cover centralized code
 - errorhandle the sync requests
