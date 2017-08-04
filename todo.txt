@@ -1,5 +1,4 @@
 # Stoppable upcoming feature list
-- handle multiple validation errors
 - if unlocktimer, inject screen to show after timer ends, so you cannot reload screen without a reminder
 
 # Defects

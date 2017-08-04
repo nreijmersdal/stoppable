@@ -8,8 +8,12 @@
   };
 
   function updateStatus(text, showError) {
+    let textToDisplay = text;
+    if (typeof text === typeof []) {
+      textToDisplay = text.join('<br>');
+    }
     const statusDiv = document.getElementById('status');
-    statusDiv.textContent = text;
+    statusDiv.innerHTML = textToDisplay;
 
     if (showError) statusDiv.style.color = 'red';
     else statusDiv.style.color = 'black';
