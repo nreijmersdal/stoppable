@@ -13,3 +13,4 @@
 - clean all html and create the elements from code
 - create tests to cover centralized code
 - errorhandle the sync requests
+- rename url to keyword (Maybe not, how to convert existing data???)

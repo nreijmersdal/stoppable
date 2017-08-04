@@ -1,22 +1,22 @@
-(function() {
-	exports.showError = function showError(text) {
-  	updateStatus(text, true);
-	}
+(function status() {
+  exports.showError = function showError(text) {
+    updateStatus(text, true);
+  };
 
-	exports.showMessage = function showMessage(text) {
-		updateStatus(text, false);
-	}
+  exports.showMessage = function showMessage(text) {
+    updateStatus(text, false);
+  };
 
-	function updateStatus(text, showError) {
-		var status = document.getElementById('status');
-		if(showError) {
-			status.style.color = "red";
-		} else {
-			status.style.color = "black";    
-		}
-		status.textContent = text;
-		setTimeout(function() {
-			status.textContent = '';
-		}, 5000);  
-	}
+  function updateStatus(text, showError) {
+    const statusDiv = document.getElementById('status');
+    if (showError) {
+      statusDiv.style.color = 'red';
+    } else {
+      statusDiv.style.color = 'black';
+    }
+    statusDiv.textContent = text;
+    setTimeout(() => {
+      statusDiv.textContent = '';
+    }, 5000);
+  }
 }());

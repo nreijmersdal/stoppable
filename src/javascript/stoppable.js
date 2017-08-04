@@ -1,190 +1,191 @@
-(function() {
-	"use strict";
-	const storage = require("./storage.js");
+/* globals MutationObserver */
+(function stoppable() {
+  const storage = require('./storage.js');
 
-	const PLACEHOLDER = "Type your complete reason\u2934 to continue the visit...";
-	const UNLOCK_TIME = 15; 
-	const UNSTOP_BUTTON = "Unstop for " + UNLOCK_TIME + " minutes \u279f";
+  const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
+  const UNLOCK_TIME = 1;
+  const UNSTOP_BUTTON = `Unstop for ${UNLOCK_TIME} minutes \u279f`;
 
-	var redirectUrl = "";
+  let redirectUrl = '';
 
-	storage.getSettings(settings => {
-		redirectUrl = settings.redirectUrl;
-		var site = isCurrentSiteInStoplist(settings.list);
-		if (site) {
-			var header = createHeader(site.url, "stoppable_header");
-			var reason = createCanvasText(site.reason, "stoppable_reason");
-			var input = createInput(PLACEHOLDER, "stoppable_input");
-			var unlockButton = createHiddenButton(UNSTOP_BUTTON, "stoppable_button");
-			
-			if (!document.body) {
-				var pageObserver = new MutationObserver(function() {
-					if (document.body) {
-						initializeAndShowStopScreen(header, reason, input, unlockButton, site);
-						pageObserver.disconnect();
-					}
-				});
-				pageObserver.observe(document.documentElement, {childList: true});
-			} else {
-				initializeAndShowStopScreen(header, reason, input, unlockButton, site);
-			}
+  storage.getSettings((settings) => {
+    redirectUrl = settings.redirectUrl;
+    const site = isCurrentSiteInStoplist(settings.list);
+    if (site) {
+      const header = createHeader(site.url, 'stoppable_header');
+      const reason = createCanvasText(site.reason, 'stoppable_reason');
+      const input = createInput(PLACEHOLDER, 'stoppable_input');
+      const unlockButton = createHiddenButton(UNSTOP_BUTTON, 'stoppable_button');
 
-		}
-	});		
+      if (!document.body) {
+        const pageObserver = new MutationObserver(() => {
+          if (document.body) {
+            initializeAndShowStopScreen(header, reason, input, unlockButton, site);
+            pageObserver.disconnect();
+          }
+        });
+        pageObserver.observe(document.documentElement, { childList: true });
+      } else {
+        initializeAndShowStopScreen(header, reason, input, unlockButton, site);
+      }
+    }
+  });
 
-	function initializeAndShowStopScreen(header, reason, input, unlockButton, site) {
-		var stopScreen = createStopScreen(header, reason, input, unlockButton);
-		input.onkeyup = addUnlockCheckEvent(site, input, unlockButton);
-		unlockButton.onclick = unlockSite(site, input, unlockButton, stopScreen);
-		atEndOfLoadingFocus(input);
-		window.addEventListener("keydown", switchToProductiveSiteOnEsc, false);
-	}
+  function initializeAndShowStopScreen(header, reason, input, unlockButton, site) {
+    const stopScreen = createStopScreen(header, reason, input, unlockButton);
+    input.onkeyup = addUnlockCheckEvent(site, input, unlockButton); // eslint-disable-line no-param-reassign
+    unlockButton.onclick = unlockSite(site, input, unlockButton, stopScreen); // eslint-disable-line no-param-reassign
+    atEndOfLoadingFocus(input);
+    window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
+  }
 
-	function stopAgainAfterTimeout(stopScreen) {
-		setTimeout(function() { 
-			show(stopScreen);
-		}, UNLOCK_TIME * 60 * 1000);
-	}
+  function stopAgainAfterTimeout(stopScreen) {
+    setTimeout(() => {
+      show(stopScreen);
+    }, UNLOCK_TIME * 60 * 1000);
+  }
 
-	function switchToProductiveSiteOnEsc(event) {
-		if (event.keyCode === 27) {
-			window.location = redirectUrl;
-		}
-	}
+  function switchToProductiveSiteOnEsc(event) {
+    if (event.keyCode === 27) {
+      window.location = redirectUrl;
+    }
+  }
 
-	function unlockSite(site, input, unlockButton, stopScreen) {
-		return (event) => {
-			const data = {
-				url: site.url,
-				reason: site.reason,
-				unlockedTill: getTimestampMinutesInTheFuture(UNLOCK_TIME)
-			};
+  function unlockSite(site, input, unlockButton, stopScreen) {
+    return () => {
+      const data = {
+        url: site.url,
+        reason: site.reason,
+        unlockedTill: getTimestampMinutesInTheFuture(UNLOCK_TIME),
+      };
 
-			storage.updateStopItem(data, () => {
-				hide(unlockButton);
-				input.value = "";
-				show(input);
-				hide(stopScreen);
-				stopAgainAfterTimeout(stopScreen);		
-			});
-		};
-	}
+      storage.updateStopItem(data, () => {
+        hide(unlockButton);
+        input.value = ''; // eslint-disable-line no-param-reassign
+        show(input);
+        hide(stopScreen);
+        stopAgainAfterTimeout(stopScreen);
+      });
+    };
+  }
 
-	function addUnlockCheckEvent(site, input, visitButton) {
-		return function(event) {
-			if(event.target.value.toLowerCase() === site.reason.toLowerCase()) {
-				hide(input);
-				show(visitButton);
-			}
-		};
-	}
+  function addUnlockCheckEvent(site, input, visitButton) {
+    return (event) => {
+      if (event.target.value.toLowerCase() === site.reason.toLowerCase()) {
+        hide(input);
+        show(visitButton);
+      }
+    };
+  }
 
-	function createStopScreen(header, reason, input, visitButton) {
-		var container = createContainer();
-		container.appendChild(header);
-		container.appendChild(reason);
-		container.appendChild(input);
-		container.appendChild(visitButton);		
-		return container;
-	}
+  function createStopScreen(header, reason, input, visitButton) {
+    const container = createContainer();
+    container.appendChild(header);
+    container.appendChild(reason);
+    container.appendChild(input);
+    container.appendChild(visitButton);
+    return container;
+  }
 
-	function isCurrentSiteInStoplist(stopList) {
-		var url = window.location;
-		if (stopList === undefined) return false;
-		var result = stopList.filter(function (item) {
-			var isOnStopList = url.href.includes(item.url);
-			var isNotUnlocked = true;
-			if(isOnStopList) {
-				if(item.unlockedTill && getTimeInSeconds() < item.unlockedTill) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				return false;
-			}
-		});
+  function isCurrentSiteInStoplist(stopList) {
+    const tabUrl = window.location;
+    if (stopList === undefined) return false;
+    const result = stopList.filter((item) => {
+      if (isOnStopList(tabUrl, item)) {
+        if (isUnlocked(item)) return false;
+        return true;
+      }
+      return false;
+    });
 
-		return result[0];
-	}
+    return result[0];
+  }
 
-	function getTimeInSeconds() {
-		return Math.round(+new Date()/1000);
-	}
+  function isOnStopList(url, item) {
+    return url.href.includes(item.url);
+  }
 
-	function getTimestampMinutesInTheFuture(minutes) {
-		return (getTimeInSeconds() + (minutes * 60));
-	}
+  function isUnlocked(item) {
+    return item.unlockedTill && getTimeInSeconds() < item.unlockedTill;
+  }
 
-	function createContainer() {
-		var div = document.createElement("div");
-		div.classList.add("stoppable_div");
-		document.body.appendChild(div);
-		return div;
-	}
+  function getTimeInSeconds() {
+    return Math.round(+new Date() / 1000);
+  }
 
-	function createHeader(text, className) {
-		var h1 = document.createElement("h1");
-		h1.innerHTML = text;
-		h1.classList.add(className);
-		return h1;
-	}
+  function getTimestampMinutesInTheFuture(minutes) {
+    return (getTimeInSeconds() + (minutes * 60));
+  }
 
-	function createCanvasText(text, className) {
-		var canvas = createHiResCanvas(800, 75);
-		canvas.classList.add(className);
-		var ctx = canvas.getContext("2d");
-		ctx.font = "25px Helvetica Neue, Helvetica, sans-serif";
-		ctx.fillStyle = "#AACCFF";
-		ctx.fillText(text,0,50, 800);
-		return canvas;
-	}
+  function createContainer() {
+    const div = document.createElement('div');
+    div.classList.add('stoppable_div');
+    document.body.appendChild(div);
+    return div;
+  }
 
-	function createInput(placeholder, className) {
-		var input = document.createElement("input");
-		input.placeholder= placeholder;
-		input.classList.add(className);
-		return input;	
-	}
+  function createHeader(text, className) {
+    const h1 = document.createElement('h1');
+    h1.innerHTML = text;
+    h1.classList.add(className);
+    return h1;
+  }
 
-	function createHiddenButton(text, className) {
-		var button = document.createElement("button");
-		button.innerHTML= text;
-		button.classList.add(className);
-		hide(button);
-		return button;	
-	}
+  function createCanvasText(text, className) {
+    const canvas = createHiResCanvas(800, 75);
+    canvas.classList.add(className);
+    const ctx = canvas.getContext('2d');
+    ctx.font = '25px Helvetica Neue, Helvetica, sans-serif';
+    ctx.fillStyle = '#AACCFF';
+    ctx.fillText(text, 0, 50, 800);
+    return canvas;
+  }
 
-	function createHiResCanvas(width, height) {
-			var canvas = document.createElement("canvas");	
-			var ratio = window.devicePixelRatio;
-			canvas.width = width * ratio;
-			canvas.height = height * ratio;
-			canvas.style.width = width + "px";
-			canvas.style.height = height + "px";
-			canvas.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
-			return canvas;
-	}
+  function createInput(placeholder, className) {
+    const input = document.createElement('input');
+    input.placeholder = placeholder;
+    input.classList.add(className);
+    return input;
+  }
 
-	function hide(element) {
-		element.style.display = "none";
-	}
+  function createHiddenButton(text, className) {
+    const button = document.createElement('button');
+    button.innerHTML = text;
+    button.classList.add(className);
+    hide(button);
+    return button;
+  }
 
-	function show(element) {
-		element.style.display = "";
-	}
+  function createHiResCanvas(width, height) {
+    const canvas = document.createElement('canvas');
+    const ratio = window.devicePixelRatio;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    return canvas;
+  }
 
-	function atEndOfLoadingFocus(input) {
-		input.focus();
-		window.onload = function() {
-			// Wait some milliseconds because some sites have their own focus.
-			sleep(200).then(function() {
-				input.focus();
-			});
-		};
-	}
+  function hide(element) {
+    element.style.display = 'none'; // eslint-disable-line no-param-reassign
+  }
 
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}	
+  function show(element) {
+    element.style.display = ''; // eslint-disable-line no-param-reassign
+  }
+
+  function atEndOfLoadingFocus(input) {
+    input.focus();
+    window.onload = () => {
+      // Wait some milliseconds because some sites have their own focus.
+      sleep(200).then(() => {
+        input.focus();
+      });
+    };
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }());
