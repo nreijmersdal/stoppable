@@ -20,7 +20,6 @@
 
   function saveOptions() {
     const data = { list: getCheckedListItems(), redirectUrl: document.getElementById('redirectUrl').value };
-    if (data.redirectUrl.length <= 0) return;
     if (data.list.length <= 0) return;
 
     storage.saveSettings(data, (error) => {
@@ -37,12 +36,10 @@
 
     checkboxes.forEach((checkbox, index) => {
       if (checkbox.checked) {
-        if (urls[index].value && reasons[index].value) {
-          result.push({
-            url: urls[index].value,
-            reason: reasons[index].value,
-          });
-        }
+        result.push({
+          url: urls[index].value,
+          reason: reasons[index].value,
+        });
       }
     });
 

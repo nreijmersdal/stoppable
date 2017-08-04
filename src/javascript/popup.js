@@ -7,10 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
   getActiveTabUrl((url) => {
     hostname = getHostname(url);
     hostname = hostname.replace(/^www\./, '');
-    document.getElementById('url').textContent = `Stoppable website: ${hostname}`;
+    document.getElementById('url').textContent = `Stoppable keyword: ${hostname}`;
+    const reason = document.getElementById('reason');
+    reason.addEventListener('keydown', onEnterSubmit, false);
+    reason.focus();
+
+    addButtonOnClickHandler();
   });
-  addButtonOnClickHandler();
 });
+
+function onEnterSubmit(event) {
+  if (event.keyCode === 13) {
+    document.getElementById('add').click();
+  }
+}
 
 function addButtonOnClickHandler() {
   const addButton = document.getElementById('add');

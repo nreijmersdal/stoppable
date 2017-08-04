@@ -35,11 +35,17 @@
   }
 
   function validateData(data) {
-    let result;
+    let error;
+
+    if (data.redirectUrl <= 0) error = 'ESC-key redirects to cannot be empty';
+
     data.list.forEach((item) => {
-      if (item.reason.length <= 19) result = `Reason to short (min 20) for keyword: ${item.url}`;
+      if (item.reason.length <= 19) error = `Reason to short (min 20) for keyword: ${item.url}`;
+      if (item.reason.length > 70) error = `Reason to long (max 70) for keyword: ${item.url}`;
+      if (item.url.length <= 0) error = 'Keyword cannot be empty';
+      if (item.url.length > 255) error = 'Keyword cannot be longer then 255 characters';
     });
 
-    return result;
+    return error;
   }
 }());

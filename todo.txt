@@ -1,16 +1,12 @@
 # Stoppable upcoming feature list
-- change options screen to be wider and nicer
 - make items on the list unique
-- improve validation for all things, empty, to long (also handle multiple validation errors)
-- popup should have focus on input and enter should submit the form
-- edit motivation from popup
+- handle multiple validation errors
 - if unlocktimer, inject screen to show after timer ends, so you cannot reload screen without a reminder
 
 # Defects
-- add maxlenght to input fields, large datasets seem to hang the sync
 
 # Clean Code
 - clean all html and create the elements from code
 - create tests to cover centralized code
-- errorhandle the sync requests
+- error handle the sync requests
 - rename url to keyword (Maybe not, how to convert existing data???)

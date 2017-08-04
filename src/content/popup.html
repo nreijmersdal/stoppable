@@ -8,22 +8,27 @@
         width: 250px;
         padding-left:10px;
         padding-right:10px;
+        min-width: 450px;
       }
       #url {
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 250px;
+        max-width: 400px;
+        font-size: 14px;
       }
       #reason {
-        width: 200px;
+        width: 400px;
+      }
+      #add {
+        margin-left: 2px;
       }
     </style>
     <script src="popup.js"></script>
   </head>
   <body>
     <div id="url"></div><br>
-    <input id="reason" type="text" placeholder="Motivational reason of 20 characters..."> 
+    <input id="reason" type="text" placeholder="Motivational reason of atleast 20 characters..." maxlength="70">
     <button id="add">Add</button><br><br>
     <div id="status"></div>
   </body>
