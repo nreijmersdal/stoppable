@@ -1,7 +1,7 @@
 # Stoppable upcoming feature list
 - change options screen to be wider and nicer
 - make items on the list unique
-- improve validation for all things, empty, to long
+- improve validation for all things, empty, to long (also handle multiple validation errors)
 - popup should have focus on input and enter should submit the form
 - edit motivation from popup
 - if unlocktimer, inject screen to show after timer ends, so you cannot reload screen without a reminder

@@ -9,14 +9,9 @@
 
   function updateStatus(text, showError) {
     const statusDiv = document.getElementById('status');
-    if (showError) {
-      statusDiv.style.color = 'red';
-    } else {
-      statusDiv.style.color = 'black';
-    }
     statusDiv.textContent = text;
-    setTimeout(() => {
-      statusDiv.textContent = '';
-    }, 5000);
+
+    if (showError) statusDiv.style.color = 'red';
+    else statusDiv.style.color = 'black';
   }
 }());
