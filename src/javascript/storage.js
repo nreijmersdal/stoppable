@@ -39,6 +39,15 @@
 
     if (data.redirectUrl <= 0) error = 'ESC-key redirects to cannot be empty';
 
+    const duplicates = findDuplicateStoplistItems(data.list);
+    if (duplicates.length > 0) {
+      const keywords = [];
+      duplicates.forEach((duplicate) => {
+        keywords.push(duplicate.url);
+      });
+      error = `Duplicate keywords founds: ${keywords.join(', ')}`;
+    }
+
     data.list.forEach((item) => {
       if (item.reason.length <= 19) error = `Reason to short (min 20) for keyword: ${item.url}`;
       if (item.reason.length > 70) error = `Reason to long (max 70) for keyword: ${item.url}`;
@@ -47,5 +56,16 @@
     });
 
     return error;
+  }
+
+  function findDuplicateStoplistItems(list) {
+    const seen = new Set();
+    return list.filter((item) => {
+      if (!seen.has(item.url)) {
+        seen.add(item.url);
+        return false;
+      }
+      return true;
+    });
   }
 }());

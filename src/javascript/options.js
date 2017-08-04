@@ -49,8 +49,7 @@
   function addButtonOnClickHandler() {
     const addButton = document.getElementById('add');
     addButton.onclick = () => {
-      const stopItem = createStopItem(true, '', DEFAULT_REASON);
-      document.getElementById('list').appendChild(stopItem);
+      createStopItem(true, '', DEFAULT_REASON);
     };
   }
 
@@ -68,10 +67,12 @@
     url.type = 'text';
     url.name = 'url';
     url.value = urlText;
+    url.maxLength = 255;
     const reason = document.createElement('input');
     reason.type = 'text';
     reason.name = 'reason';
     reason.value = reasonText;
+    reason.maxLength = 70;
 
     listItem.appendChild(checkbox);
     listItem.appendChild(createSpace());
