@@ -3,7 +3,7 @@
   const storage = require('./storage.js');
 
   const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
-  const UNLOCK_TIME = 1;
+  const UNLOCK_TIME = 15;
   const UNSTOP_BUTTON = `Unstop for ${UNLOCK_TIME} minutes \u279f`;
 
   let redirectUrl = '';
