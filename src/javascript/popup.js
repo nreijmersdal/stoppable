@@ -1,18 +1,29 @@
 const status = require('./status.js');
 const storage = require('./storage.js');
+const stoplist = require('./stoplist.js');
 
 let hostname = '';
 
 document.addEventListener('DOMContentLoaded', () => {
   getActiveTabUrl((url) => {
-    hostname = getHostname(url);
-    hostname = hostname.replace(/^www\./, '');
-    document.getElementById('url').textContent = `Stoppable keyword: ${hostname}`;
-    const reason = document.getElementById('reason');
-    reason.addEventListener('keydown', onEnterSubmit, false);
-    reason.focus();
-
-    addButtonOnClickHandler();
+    hostname = getHostname(url).replace(/^www\./, '');
+    stoplist.isKeywordInList(hostname, (isInList) => {
+      const header = document.getElementById('url');
+      if (!isInList) {
+        header.textContent = `Stoppable keyword: ${hostname}`;
+        const reason = document.getElementById('reason');
+        reason.addEventListener('keydown', onEnterSubmit, false);
+        reason.focus();
+        addButtonOnClickHandler();
+      } else {
+        document.getElementById('reason').remove();
+        document.getElementById('add').remove();
+        stoplist.keywordIsUnlocked(hostname, (unlockedTill) => {
+          if (unlockedTill) header.innerHTML = `Time still unlocked: ${unlockedTill} (in seconds).`;
+          else header.innerHTML = `Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`;
+        });
+      }
+    });
   });
 });
 

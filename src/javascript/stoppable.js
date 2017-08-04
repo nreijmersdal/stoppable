@@ -1,6 +1,7 @@
 /* globals MutationObserver */
 (function stoppable() {
   const storage = require('./storage.js');
+  const time = require('./time.js');
 
   const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
   const UNLOCK_TIME = 15;
@@ -56,7 +57,7 @@
       const data = {
         url: site.url,
         reason: site.reason,
-        unlockedTill: getTimestampMinutesInTheFuture(UNLOCK_TIME),
+        unlockedTill: time.getTimestampMinutesInTheFuture(UNLOCK_TIME),
       };
 
       storage.updateStopItem(data, () => {
@@ -106,15 +107,7 @@
   }
 
   function isUnlocked(item) {
-    return item.unlockedTill && getTimeInSeconds() < item.unlockedTill;
-  }
-
-  function getTimeInSeconds() {
-    return Math.round(+new Date() / 1000);
-  }
-
-  function getTimestampMinutesInTheFuture(minutes) {
-    return (getTimeInSeconds() + (minutes * 60));
+    return item.unlockedTill && time.getTimeInSeconds() < item.unlockedTill;
   }
 
   function createContainer() {

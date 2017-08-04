@@ -1,10 +1,11 @@
 # Stoppable upcoming feature list
-- if unlocktimer, inject screen to show after timer ends, so you cannot reload screen without a reminder
+- if unlocktime is left, inject screen to show after timer ends, so you cannot reload screen without a reminder
 
 # Defects
 
 # Clean Code
-- clean all html and create the elements from code
 - create tests to cover centralized code
+- clean all html and create the elements from code
 - error handle the sync requests
 - rename url to keyword (Maybe not, how to convert existing data???)
+- move storage functions that work on the stoplist to the stoplist file (how to handle errors?)
