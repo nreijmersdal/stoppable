@@ -11,6 +11,12 @@
     jake.exec('node node_modules/eslint/bin/eslint.js jakefile.js', { interactive: true }, complete);
   }, { async: true });
 
+  desc('Run mocha tests');
+  task('test', () => {
+    console.log('Testing project: .');
+    jake.exec('node node_modules/mocha/bin/mocha ./src/javascript/*.test.js --reporter dot', { interactive: true }, complete);
+  }, { async: true });
+
   desc('Clean project');
   task('clean', () => {
     console.log('Cleaning project: .');
@@ -18,7 +24,7 @@
   }, { async: true });
 
   desc('Build distribution directory');
-  task('build', ['lint', DIST_DIR], () => {
+  task('build', ['lint', 'test', DIST_DIR], () => {
     console.log('Building distribution: .');
     shell.rm('-rf', `${DIST_DIR}/*`);
     shell.cp('-r', 'src/content/*', DIST_DIR);
