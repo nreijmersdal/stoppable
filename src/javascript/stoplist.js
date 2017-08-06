@@ -1,7 +1,8 @@
 module.exports = function stoplist(options) {
   if (!options.storage) throw Error('options.storage is required');
+  if (!options.time) throw Error('options.time is required');
   const storage = options.storage;
-  const time = require('./time.js');
+  // const time = require('./time.js');
 
   return {
     isKeywordInList: (keyword, callback) => {

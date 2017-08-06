@@ -1,16 +1,19 @@
 const assert = require('assert');
-const stoplist = require('./stoplist.js')({ storage: {
-  getSettings: (cb) => {
-    const data = {
-      list: [{
-        url: 'facebook.com',
-        reason: 'test',
-        unlockedTill: 0,
-      }],
-    };
-    cb(data);
+const stoplist = require('./stoplist.js')({
+  storage: {
+    getSettings: (cb) => {
+      const data = {
+        list: [{
+          url: 'facebook.com',
+          reason: 'test',
+          unlockedTill: 0,
+        }],
+      };
+      cb(data);
+    },
   },
-} });
+  time: require('./time.js'),
+});
 
 describe('Stoplist', () => {
   describe('isKeywordInList', () => {
