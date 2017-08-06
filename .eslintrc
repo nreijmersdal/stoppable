@@ -8,6 +8,8 @@
   "globals": {
     "document": true,
     "window": true,
-    "chrome": true
+    "chrome": true,
+    "describe": true,
+    "it": true
   }
 }

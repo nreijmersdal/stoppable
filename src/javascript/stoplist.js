@@ -4,7 +4,7 @@ module.exports = function stoplist(options) {
   const time = require('./time.js');
 
   return {
-    isKeywordInList: function isKeywordInList(keyword, callback) {
+    isKeywordInList: (keyword, callback) => {
       storage.getSettings((items) => {
         let result = false;
         items.list.forEach((item) => {
@@ -16,7 +16,7 @@ module.exports = function stoplist(options) {
       });
     },
 
-    keywordIsUnlocked: function keywordIsUnlocked(keyword, callback) {
+    keywordIsUnlocked: (keyword, callback) => {
       storage.getSettings((items) => {
         let result = false;
         items.list.forEach((item) => {

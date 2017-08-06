@@ -19,6 +19,7 @@ describe('Stoplist', () => {
         assert.equal(result, true);
       });
     });
+
     it('Should return false when keyword is not in the list', () => {
       stoplist.isKeywordInList('notstopped.com', (result) => {
         assert.equal(result, false);
