@@ -1,28 +1,31 @@
-(function stoplist() {
-  const storage = require('./storage.js');
+module.exports = function stoplist(options) {
+  if (!options.storage) throw Error('options.storage is required');
+  const storage = options.storage;
   const time = require('./time.js');
 
-  exports.isKeywordInList = function isKeywordInList(keyword, callback) {
-    storage.getSettings((items) => {
-      let result = false;
-      items.list.forEach((item) => {
-        if (item.url.toString() === keyword.toString()) {
-          result = true;
-        }
+  return {
+    isKeywordInList: function isKeywordInList(keyword, callback) {
+      storage.getSettings((items) => {
+        let result = false;
+        items.list.forEach((item) => {
+          if (item.url.toString() === keyword.toString()) {
+            result = true;
+          }
+        });
+        callback(result);
       });
-      callback(result);
-    });
-  };
+    },
 
-  exports.keywordIsUnlocked = function keywordIsUnlocked(keyword, callback) {
-    storage.getSettings((items) => {
-      let result = false;
-      items.list.forEach((item) => {
-        if (item.url.toString() === keyword.toString()) {
-          result = time.left(item.unlockedTill);
-        }
+    keywordIsUnlocked: function keywordIsUnlocked(keyword, callback) {
+      storage.getSettings((items) => {
+        let result = false;
+        items.list.forEach((item) => {
+          if (item.url.toString() === keyword.toString()) {
+            result = time.left(item.unlockedTill);
+          }
+        });
+        callback(result);
       });
-      callback(result);
-    });
+    },
   };
-}());
+};
