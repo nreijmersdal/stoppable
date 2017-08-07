@@ -6,6 +6,7 @@
 # Clean Code
 * create tests to cover centralized code
 - add assertion library that checks for missing asserts for async code
+- remove forEach in stoplist.js, but test it with Karma, because nodejs thinks it is fine, but it works different in Chrome
 - clean all html and create the elements from code
 - error handle the sync requests
 - rename url to keyword (Maybe not, how to convert existing data???)

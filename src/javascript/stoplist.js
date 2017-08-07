@@ -21,13 +21,13 @@ module.exports = function stoplist(options) {
   };
 
   function findItemForKeyword(keyword, callback) {
+    let found = false;
     storage.getSettings((items) => {
-      const found = items.list.every((item) => {
+      items.list.forEach((item) => {
         if (item.url.toString() === keyword.toString()) {
           callback(item);
-          return true;
+          found = true;
         }
-        return false;
       });
       if (!found) callback(false);
     });
