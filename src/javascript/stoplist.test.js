@@ -2,17 +2,12 @@ const assert = require('assert');
 const stoplist = require('./stoplist.js')({
   storage: {
     getSettings: (cb) => {
-      const data = {
-        list: [{
-          url: 'facebook.com',
-          reason: 'test',
-          unlockedTill: 0,
-        }],
-      };
-      cb(data);
+      cb({ list: [{ url: 'facebook.com', reason: 'test', unlockedTill: 100 }] });
     },
   },
-  time: require('./time.js'),
+  time: {
+    left: valueOfUnlockedTill => valueOfUnlockedTill,
+  },
 });
 
 describe('Stoplist', () => {
@@ -25,6 +20,20 @@ describe('Stoplist', () => {
 
     it('Should return false when keyword is not in the list', () => {
       stoplist.isKeywordInList('notstopped.com', (result) => {
+        assert.equal(result, false);
+      });
+    });
+  });
+
+  describe('keywordIsUnlocked', () => {
+    it('Should return time left when keyword is unlocked', () => {
+      stoplist.keywordIsUnlocked('facebook.com', (result) => {
+        assert.equal(result, 100);
+      });
+    });
+
+    it('Should return false when keyword is not unlocked', () => {
+      stoplist.keywordIsUnlocked('notstopped.com', (result) => {
         assert.equal(result, false);
       });
     });

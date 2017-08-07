@@ -6,27 +6,30 @@ module.exports = function stoplist(options) {
 
   return {
     isKeywordInList: (keyword, callback) => {
-      storage.getSettings((items) => {
-        let result = false;
-        items.list.forEach((item) => {
-          if (item.url.toString() === keyword.toString()) {
-            result = true;
-          }
-        });
-        callback(result);
+      findItemForKeyword(keyword, (item) => {
+        if (!item) callback(false);
+        else callback(true);
       });
     },
 
     keywordIsUnlocked: (keyword, callback) => {
-      storage.getSettings((items) => {
-        let result = false;
-        items.list.forEach((item) => {
-          if (item.url.toString() === keyword.toString()) {
-            result = time.left(item.unlockedTill);
-          }
-        });
-        callback(result);
+      findItemForKeyword(keyword, (item) => {
+        if (!item) callback(false);
+        else callback(time.left(item.unlockedTill));
       });
     },
   };
+
+  function findItemForKeyword(keyword, callback) {
+    storage.getSettings((items) => {
+      const found = items.list.every((item) => {
+        if (item.url.toString() === keyword.toString()) {
+          callback(item);
+          return true;
+        }
+        return false;
+      });
+      if (!found) callback(false);
+    });
+  }
 };
