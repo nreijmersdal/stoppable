@@ -5,11 +5,11 @@
     "global-require": 0,
     "max-len": ["error", 150]
   },
+  "env": {
+    "browser": true,
+    "mocha": true
+  },
   "globals": {
-    "document": true,
-    "window": true,
-    "chrome": true,
-    "describe": true,
-    "it": true
+    "chrome": true
   }
 }

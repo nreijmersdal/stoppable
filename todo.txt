@@ -4,7 +4,7 @@
 # Defects
 
 # Clean Code
-- create tests to cover centralized code
+* create tests to cover centralized code
 - clean all html and create the elements from code
 - error handle the sync requests
 - rename url to keyword (Maybe not, how to convert existing data???)
