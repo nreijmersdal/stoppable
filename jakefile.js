@@ -4,17 +4,23 @@
   const DIST_DIR = 'dist';
   const shell = require('shelljs');
 
+  desc('Start karma (run this first)');
+  task('karma', () => {
+    console.log('Testing project: .');
+    jake.exec('node node_modules/karma/bin/karma start', { interactive: true }, complete);
+  }, { async: true });
+
   desc('Lint project');
   task('lint', () => {
     console.log('Linting project: .');
-    jake.exec('node node_modules/eslint/bin/eslint.js src/**/*.js', { interactive: true }, complete);
+    jake.exec('node node_modules/eslint/bin/eslint.js src/javascript/**/*.js', { interactive: true }, complete);
     jake.exec('node node_modules/eslint/bin/eslint.js jakefile.js', { interactive: true }, complete);
   }, { async: true });
 
-  desc('Run mocha tests');
+  desc('Run mocha tests in karma');
   task('test', () => {
     console.log('Testing project: .');
-    jake.exec('node node_modules/mocha/bin/mocha ./src/javascript/*.test.js --reporter dot', { interactive: true }, complete);
+    jake.exec('node node_modules/karma/bin/karma run', { interactive: true }, complete);
   }, { async: true });
 
   desc('Clean project');

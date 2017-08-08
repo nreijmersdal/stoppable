@@ -1,8 +1,11 @@
-const assert = require('assert');
+const assert = require('../vendor/chai-4.1.1.js').assert;
 const stoplist = require('./stoplist.js')({
   storage: {
     getSettings: (cb) => {
-      cb({ list: [{ url: 'facebook.com', reason: 'test', unlockedTill: 100 }] });
+      cb({ list: [
+        { url: 'facebook.com', reason: 'test', unlockedTill: 100 },
+        { url: 'twitter.com', reason: 'test', unlockedTill: 0 },
+        { url: 'reddit.com', reason: 'test', unlockedTill: 0 }] });
     },
   },
   time: {
@@ -13,7 +16,7 @@ const stoplist = require('./stoplist.js')({
 describe('Stoplist', () => {
   describe('isKeywordInList', () => {
     it('Should return true when keyword is in the list', () => {
-      stoplist.isKeywordInList('facebook.com', (result) => {
+      stoplist.isKeywordInList('reddit.com', (result) => {
         assert.equal(result, true);
       });
     });
