@@ -18,6 +18,24 @@ module.exports = function stoplist(options) {
         else callback(time.left(item.unlockedTill));
       });
     },
+
+    addItem: (item, callback) => {
+      storage.getSettings((items) => {
+        items.list.push(item);
+        storage.saveSettings(items, callback);
+      });
+    },
+
+    updateItem: (updatedStopItem, callback) => {
+      const newItems = { list: [] };
+      storage.getSettings((items) => {
+        items.list.forEach((item) => {
+          if (item.url === updatedStopItem.url) newItems.list.push(updatedStopItem);
+          else newItems.list.push(item);
+        });
+        storage.saveSettings(newItems, callback);
+      });
+    },
   };
 
   function findItemForKeyword(keyword, callback) {

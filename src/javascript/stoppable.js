@@ -2,6 +2,10 @@
 (function stoppable() {
   const storage = require('./storage.js');
   const time = require('./time.js');
+  const stoplist = require('./stoplist.js')({
+    storage: require('./storage.js'),
+    time: require('./time.js'),
+  });
 
   const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
   const UNLOCK_TIME = 15;
@@ -60,7 +64,7 @@
         unlockedTill: time.getTimestampMinutesInTheFuture(UNLOCK_TIME),
       };
 
-      storage.updateStopItem(data, () => {
+      stoplist.updateItem(data, () => {
         hide(unlockButton);
         input.value = ''; // eslint-disable-line no-param-reassign
         show(input);

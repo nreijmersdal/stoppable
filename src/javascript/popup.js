@@ -1,5 +1,4 @@
 const status = require('./status.js');
-const storage = require('./storage.js');
 const stoplist = require('./stoplist.js')({
   storage: require('./storage.js'),
   time: require('./time.js'),
@@ -45,7 +44,7 @@ function addButtonOnClickHandler() {
 }
 
 function addStopListItem(stopItemKeyword, stopItemReason) {
-  storage.addStopItem({ url: stopItemKeyword, reason: stopItemReason }, (error) => {
+  stoplist.addItem({ url: stopItemKeyword, reason: stopItemReason }, (error) => {
     if (!error) status.showMessage('Added to stoppable websites.');
     else status.showError(error);
   });

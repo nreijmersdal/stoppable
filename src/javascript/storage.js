@@ -9,24 +9,6 @@
     else callback(error);
   };
 
-  exports.addStopItem = function addStopItem(newStopItem, callback) {
-    chrome.storage.sync.get(getDefaults(), (items) => {
-      items.list.push(newStopItem);
-      exports.saveSettings(items, callback);
-    });
-  };
-
-  exports.updateStopItem = function updateStopItem(updatedStopItem, callback) {
-    const newItems = { list: [] };
-    chrome.storage.sync.get(getDefaults(), (items) => {
-      items.list.forEach((item) => {
-        if (item.url === updatedStopItem.url) newItems.list.push(updatedStopItem);
-        else newItems.list.push(item);
-      });
-      exports.saveSettings(newItems, callback);
-    });
-  };
-
   function getDefaults() {
     return {
       list: [{ url: 'facebook.com', reason: 'I would rather plan a real social visit than waste my time here...', unlockedTill: 0 }],
