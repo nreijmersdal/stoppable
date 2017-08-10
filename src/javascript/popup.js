@@ -1,7 +1,7 @@
 const status = require('./status.js');
 const stoplist = require('./stoplist.js')({
   storage: require('./storage.js'),
-  time: require('./time.js'),
+  time: require('./time.js')(),
 });
 
 let hostname = '';

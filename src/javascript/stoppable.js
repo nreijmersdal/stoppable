@@ -1,10 +1,10 @@
 /* globals MutationObserver */
 (function stoppable() {
   const storage = require('./storage.js');
-  const time = require('./time.js');
+  const time = require('./time.js')();
   const stoplist = require('./stoplist.js')({
     storage: require('./storage.js'),
-    time: require('./time.js'),
+    time,
   });
 
   const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';

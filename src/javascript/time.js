@@ -1,15 +1,18 @@
-(function status() {
-  exports.getTimeInSeconds = function getTimeInSeconds() {
-    return Math.round(+new Date() / 1000);
+module.exports = function time(options) {
+  let date = () => new Date();
+  if (options && options.date) date = options.date;
+
+  return {
+    getTimeInSeconds: () => getTimeInSeconds(),
+    getTimestampMinutesInTheFuture: minutes => (getTimeInSeconds() + (minutes * 60)),
+    left: (timestamp) => {
+      const timeleft = timestamp - getTimeInSeconds();
+      if (timeleft > 0) return timeleft;
+      return false;
+    },
   };
 
-  exports.getTimestampMinutesInTheFuture = function getTimestampMinutesInTheFuture(minutes) {
-    return (exports.getTimeInSeconds() + (minutes * 60));
-  };
-
-  exports.left = function left(timestamp) {
-    const timeleft = timestamp - exports.getTimeInSeconds();
-    if (timeleft > 0) return timeleft;
-    return false;
-  };
-}());
+  function getTimeInSeconds() {
+    return Math.round(date() / 1000);
+  }
+};
