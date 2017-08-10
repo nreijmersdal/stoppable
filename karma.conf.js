@@ -16,6 +16,7 @@ module.exports = function karmaConfig(config) {
     // list of files / patterns to load in the browser
     files: [
       'src/javascript/stoplist*.js',
+      'src/javascript/status*.js',
       'src/vendor/chai-4.1.1.js',
     ],
 
@@ -29,6 +30,7 @@ module.exports = function karmaConfig(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'src/javascript/stoplist*.js': ['commonjs'],
+      'src/javascript/status*.js': ['commonjs'],
       'src/vendor/chai-4.1.1.js': ['commonjs'],
     },
 

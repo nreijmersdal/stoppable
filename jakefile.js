@@ -6,7 +6,7 @@
 
   desc('Start karma (run this first)');
   task('karma', () => {
-    console.log('Testing project: .');
+    console.log('Staring karma service: .');
     jake.exec('node node_modules/karma/bin/karma start', { interactive: true }, complete);
   }, { async: true });
 
