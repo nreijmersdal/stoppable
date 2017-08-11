@@ -8,8 +8,8 @@
   });
 
   const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
-  const UNLOCK_TIME = 15;
-  const UNSTOP_BUTTON = `Unstop for ${UNLOCK_TIME} minutes \u279f`;
+  const UNLOCK_TIME_SECONDS = 60 * 15;
+  const UNSTOP_BUTTON = `Unstop for ${time.secondsToMinutes(UNLOCK_TIME_SECONDS)} minutes \u279f`;
 
   let redirectUrl = '';
 
@@ -47,7 +47,7 @@
   function stopAgainAfterTimeout(stopScreen) {
     setTimeout(() => {
       show(stopScreen);
-    }, UNLOCK_TIME * 60 * 1000);
+    }, UNLOCK_TIME_SECONDS * 1000);
   }
 
   function switchToProductiveSiteOnEsc(event) {
@@ -61,7 +61,7 @@
       const data = {
         url: site.url,
         reason: site.reason,
-        unlockedTill: time.getTimestampMinutesInTheFuture(UNLOCK_TIME),
+        unlockedTill: time.getTimeInSeconds() + UNLOCK_TIME_SECONDS,
       };
 
       stoplist.updateItem(data, () => {

@@ -5,6 +5,7 @@
 
 # Clean Code
 * create tests to cover centralized code
+- make unlocktime configurable between functional test run and building distribution, maybe functional test should have its own dist folder
 - clean all html and create the elements from code
 - error handle the sync requests
 - rename url to keyword (Maybe not, how to convert existing data???)

@@ -4,12 +4,12 @@ module.exports = function time(options) {
 
   return {
     getTimeInSeconds: () => getTimeInSeconds(),
-    getTimestampMinutesInTheFuture: minutes => (getTimeInSeconds() + (minutes * 60)),
     left: (timestamp) => {
       const timeleft = timestamp - getTimeInSeconds();
       if (timeleft > 0) return timeleft;
       return false;
     },
+    secondsToMinutes: seconds => Math.round(seconds / 60),
   };
 
   function getTimeInSeconds() {

@@ -1,6 +1,6 @@
 (function storage() {
   exports.getSettings = function getSettings(callback) {
-    chrome.storage.sync.get(getDefaults(), callback);
+    chrome.storage.sync.get(exports.getDefaults(), callback);
   };
 
   exports.saveSettings = function saveSettings(data, callback) {
@@ -9,12 +9,12 @@
     else callback(error);
   };
 
-  function getDefaults() {
+  exports.getDefaults = function getDefaults() {
     return {
       list: [{ url: 'facebook.com', reason: 'I would rather plan a real social visit than waste my time here...', unlockedTill: 0 }],
       redirectUrl: 'https://app.weekplan.net',
     };
-  }
+  };
 
   function validateData(data) {
     const errors = [];

@@ -23,6 +23,12 @@
     jake.exec('node node_modules/karma/bin/karma run', { interactive: true }, complete);
   }, { async: true });
 
+  desc('Run functional tests with selenium');
+  task('functional', () => {
+    console.log('Functional testing project: .');
+    jake.exec('node node_modules/mocha/bin/mocha src/seleniumTests/*.js', { interactive: true }, complete);
+  }, { async: true });
+
   desc('Clean project');
   task('clean', () => {
     console.log('Cleaning project: .');
