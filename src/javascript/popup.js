@@ -4,11 +4,9 @@ const stoplist = require('./stoplist.js')({
   time: require('./time.js')(),
 });
 
-let hostname = '';
-
 document.addEventListener('DOMContentLoaded', () => {
   getActiveTabUrl((url) => {
-    hostname = getHostname(url).replace(/^www\./, '');
+    const hostname = getHostname(url);
     stoplist.isKeywordInList(hostname, (isInList) => {
       const header = document.getElementById('url');
       if (!isInList) {
@@ -16,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const reason = document.getElementById('reason');
         reason.addEventListener('keydown', onEnterSubmit, false);
         reason.focus();
-        addButtonOnClickHandler();
+        addButtonOnClickHandler(hostname, reason);
       } else {
         document.getElementById('reason').remove();
         document.getElementById('add').remove();
@@ -35,19 +33,14 @@ function onEnterSubmit(event) {
   }
 }
 
-function addButtonOnClickHandler() {
+function addButtonOnClickHandler(keyword, reason) {
   const addButton = document.getElementById('add');
   addButton.onclick = () => {
-    const reason = document.getElementById('reason').value;
-    addStopListItem(hostname, reason);
+    stoplist.addItem({ url: keyword, reason: reason.value }, (error) => {
+      if (!error) status.showMessage('Added to stoppable websites.');
+      else status.showError(error);
+    });
   };
-}
-
-function addStopListItem(stopItemKeyword, stopItemReason) {
-  stoplist.addItem({ url: stopItemKeyword, reason: stopItemReason }, (error) => {
-    if (!error) status.showMessage('Added to stoppable websites.');
-    else status.showError(error);
-  });
 }
 
 function getActiveTabUrl(callback) {
@@ -61,7 +54,7 @@ function getActiveTabUrl(callback) {
 function getHostname(href) {
   const l = document.createElement('a');
   l.href = href;
-  const result = l.hostname;
+  const result = l.hostname.replace(/^www\./, '');
   l.remove();
   return result;
 }
