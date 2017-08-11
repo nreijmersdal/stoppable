@@ -1,7 +1,6 @@
 (function options() {
   const status = require('./status.js');
   const storage = require('./storage.js');
-  const DEFAULT_REASON = 'This page is nice, but also wasteful, I visit it wisely!';
 
   document.addEventListener('DOMContentLoaded', () => {
     loadOptions();
@@ -49,7 +48,7 @@
   function addButtonOnClickHandler() {
     const addButton = document.getElementById('add');
     addButton.onclick = () => {
-      createStopItem(true, '', DEFAULT_REASON);
+      createStopItem(true, '', '');
     };
   }
 
@@ -68,24 +67,18 @@
     url.name = 'url';
     url.value = urlText;
     url.maxLength = 255;
+    url.placeholder = 'keyword to stop';
     const reason = document.createElement('input');
     reason.type = 'text';
     reason.name = 'reason';
     reason.value = reasonText;
     reason.maxLength = 70;
+    reason.placeholder = 'Write a motivation to stop visiting here...';
 
     listItem.appendChild(checkbox);
-    listItem.appendChild(createSpace());
     listItem.appendChild(url);
-    listItem.appendChild(createSpace());
     listItem.appendChild(reason);
 
     document.getElementById('list').appendChild(listItem);
-  }
-
-  function createSpace() {
-    const span = document.createElement('span');
-    span.innerHTML = '&nbsp;';
-    return span;
   }
 }());

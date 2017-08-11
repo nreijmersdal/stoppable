@@ -1,0 +1,24 @@
+body { 
+  padding: 10px;
+  min-width: 600px;
+}
+ul, li {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;     
+  margin-bottom: 3px;
+}
+input {
+  margin-right: 2px;
+}
+input[name=url] {
+  width: 150px;
+  margin-left: 5px;
+}
+input[name=reason] {
+  width: 420px;
+  margin-left: 5px;
+}
+input[id=redirectUrl] {
+  width: 300px;
+}
