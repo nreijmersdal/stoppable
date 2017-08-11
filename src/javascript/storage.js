@@ -12,7 +12,7 @@
   exports.getDefaults = function getDefaults() {
     return {
       list: [{ url: 'facebook.com', reason: 'I would rather plan a real social visit than waste my time here...', unlockedTill: 0 }],
-      redirectUrl: 'https://app.weekplan.net',
+      redirectUrl: 'https://app.weekplan.net/',
     };
   };
 

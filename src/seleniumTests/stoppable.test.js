@@ -44,8 +44,15 @@ test.describe('Stoppable', function tests() {
     });
   });
 
-  test.it.skip('Pressing ESC redirects to productivity url', () => {
-    // TODO: Implement
+  test.it('Pressing ESC redirects to productivity url', (done) => {
+    driver.get(`http://${defaults.list[0].url}`);
+    driver.wait(Until.elementLocated(input), 1000).then((el) => {
+      el.sendKeys(webdriver.Key.ESCAPE);
+      driver.getCurrentUrl().then((url) => {
+        assert.equal(url, defaults.redirectUrl);
+      });
+      done();
+    });
   });
 
   test.after(() => {
