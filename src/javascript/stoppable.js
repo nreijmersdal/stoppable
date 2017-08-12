@@ -13,7 +13,6 @@
   let unlockTimeSeconds;
 
   storage.getSettings((settings) => {
-    console.log(settings);
     redirectUrl = settings.redirectUrl;
     unlockTimeSeconds = settings.seconds;
     const site = isCurrentSiteInStoplist(settings.list);

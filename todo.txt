@@ -1,5 +1,6 @@
 # Stoppable upcoming feature list
 - if unlocktime is left, inject screen to show after timer ends, so you cannot reload screen without a reminder
+- change seconds in options to minutes, but let test use seconds
 
 # Defects
 
