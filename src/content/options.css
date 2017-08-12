@@ -22,3 +22,6 @@ input[name=reason] {
 input[id=redirectUrl] {
   width: 300px;
 }
+input[id=seconds] {
+  width: 50px;
+}

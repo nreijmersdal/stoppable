@@ -8,19 +8,20 @@
   });
 
   const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
-  const UNLOCK_TIME_SECONDS = 60 * 15;
-  const UNSTOP_BUTTON = `Unstop for ${time.secondsToMinutes(UNLOCK_TIME_SECONDS)} minutes \u279f`;
 
   let redirectUrl = '';
+  let unlockTimeSeconds;
 
   storage.getSettings((settings) => {
+    console.log(settings);
     redirectUrl = settings.redirectUrl;
+    unlockTimeSeconds = settings.seconds;
     const site = isCurrentSiteInStoplist(settings.list);
     if (site) {
       const header = createHeader(site.url, 'stoppable_header');
       const reason = createCanvasText(site.reason, 'stoppable_reason');
       const input = createInput(PLACEHOLDER, 'stoppable_input');
-      const unlockButton = createHiddenButton(UNSTOP_BUTTON, 'stoppable_button');
+      const unlockButton = createHiddenButton(`Unstop for ${time.secondsToMinutes(unlockTimeSeconds)} minutes \u279f`, 'stoppable_button');
 
       if (!document.body) {
         const pageObserver = new MutationObserver(() => {
@@ -47,7 +48,7 @@
   function stopAgainAfterTimeout(stopScreen) {
     setTimeout(() => {
       show(stopScreen);
-    }, UNLOCK_TIME_SECONDS * 1000);
+    }, unlockTimeSeconds * 1000);
   }
 
   function switchToProductiveSiteOnEsc(event) {
@@ -61,7 +62,7 @@
       const data = {
         url: site.url,
         reason: site.reason,
-        unlockedTill: time.getTimeInSeconds() + UNLOCK_TIME_SECONDS,
+        unlockedTill: time.getTimeInSeconds() + Number(unlockTimeSeconds),
       };
 
       stoplist.updateItem(data, () => {

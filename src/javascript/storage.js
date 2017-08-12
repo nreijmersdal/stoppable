@@ -13,6 +13,7 @@
     return {
       list: [{ url: 'facebook.com', reason: 'I would rather plan a real social visit than waste my time here...', unlockedTill: 0 }],
       redirectUrl: 'https://app.weekplan.net/',
+      seconds: 900,
     };
   };
 
@@ -20,6 +21,7 @@
     const errors = [];
 
     if (data.redirectUrl <= 0) errors.push('ESC-key redirects to cannot be empty');
+    if (data.seconds <= 0) errors.push('Seconds cannot be empty');
 
     const duplicates = findDuplicateStoplistItems(data.list);
     if (duplicates.length > 0) {

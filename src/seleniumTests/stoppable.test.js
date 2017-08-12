@@ -20,6 +20,22 @@ test.describe('Stoppable', function tests() {
   const input = By.className('stoppable_input');
   const unlockButton = By.className('stoppable_button');
 
+  test.it('Change stopscreen unlock time to 1 second for tests', () => {
+    driver.get('chrome://extensions/');
+    driver.switchTo().frame('extensions');
+    driver.findElement(By.id('toggle-dev-on')).click();
+    driver.findElements(By.className('extension-id')).then((elements) => {
+      elements[1].getText().then((text) => {
+        driver.get(`chrome-extension://${text}/options.html`);
+        driver.findElement(By.id('seconds')).then((el) => {
+          driver.actions().doubleClick(el).perform();
+          el.sendKeys('1');
+          driver.findElement(By.id('save')).click();
+        });
+      });
+    });
+  });
+
   test.it('Should show stopScreen, unlock and show stopScreen again after timeout', (done) => {
     driver.get(`http://${defaults.list[0].url}`);
     driver.wait(Until.elementLocated(input), 1000).then(() => {

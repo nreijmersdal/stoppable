@@ -14,11 +14,16 @@
         createStopItem(true, item.url, item.reason);
       });
       document.getElementById('redirectUrl').value = items.redirectUrl;
+      document.getElementById('seconds').value = items.seconds;
     });
   }
 
   function saveOptions() {
-    const data = { list: getCheckedListItems(), redirectUrl: document.getElementById('redirectUrl').value };
+    const data = {
+      list: getCheckedListItems(),
+      redirectUrl: document.getElementById('redirectUrl').value,
+      seconds: document.getElementById('seconds').value,
+    };
     if (data.list.length <= 0) return;
 
     storage.saveSettings(data, (error) => {
