@@ -25,23 +25,31 @@
       if (!document.body) {
         const pageObserver = new MutationObserver(() => {
           if (document.body) {
-            initializeAndShowStopScreen(header, reason, input, unlockButton, site);
+            initializeStopScreen(header, reason, input, unlockButton, site);
             pageObserver.disconnect();
           }
         });
         pageObserver.observe(document.documentElement, { childList: true });
       } else {
-        initializeAndShowStopScreen(header, reason, input, unlockButton, site);
+        initializeStopScreen(header, reason, input, unlockButton, site);
       }
     }
   });
 
-  function initializeAndShowStopScreen(header, reason, input, unlockButton, site) {
-    const stopScreen = createStopScreen(header, reason, input, unlockButton);
+  function initializeStopScreen(header, reason, input, unlockButton, site) {
+    const div = createStopScreen(header, reason, input, unlockButton);
     input.onkeyup = addUnlockCheckEvent(site, input, unlockButton); // eslint-disable-line no-param-reassign
-    unlockButton.onclick = unlockSite(site, input, unlockButton, stopScreen); // eslint-disable-line no-param-reassign
+    unlockButton.onclick = unlockSite(site, input, unlockButton, div); // eslint-disable-line no-param-reassign
     atEndOfLoadingFocus(input);
     window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
+
+    if (!isUnlocked(site)) show(div);
+    else {
+      hide(div);
+      stopAgainAfterTimeout(div);
+    }
+
+    return div;
   }
 
   function stopAgainAfterTimeout(stopScreen) {
@@ -93,21 +101,12 @@
   }
 
   function isCurrentSiteInStoplist(stopList) {
-    const tabUrl = window.location;
     if (stopList === undefined) return false;
     const result = stopList.filter((item) => {
-      if (isOnStopList(tabUrl, item)) {
-        if (isUnlocked(item)) return false;
-        return true;
-      }
+      if (window.location.href.includes(item.url)) return true;
       return false;
     });
-
     return result[0];
-  }
-
-  function isOnStopList(url, item) {
-    return url.href.includes(item.url);
   }
 
   function isUnlocked(item) {

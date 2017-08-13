@@ -1,13 +1,12 @@
 # Stoppable upcoming feature list
-- if unlocktime is left, inject screen to show after timer ends, so you cannot reload screen without a reminder
 - change seconds in options to minutes, but let test use seconds
 
 # Defects
 
 # Clean Code
-* create tests to cover centralized code
-- make unlocktime configurable between functional test run and building distribution, maybe functional test should have its own dist folder
-- clean all html and create the elements from code
+- create tests for storage
+- refactor stoppable, popup.js and options so they can be tested with unit-tests
+- clean selenium tests to use pageObjects so the test a more readable
 - error handle the sync requests
 - rename url to keyword (Maybe not, how to convert existing data???)
 - move storage functions that work on the stoplist to the stoplist file (how to handle errors?)
