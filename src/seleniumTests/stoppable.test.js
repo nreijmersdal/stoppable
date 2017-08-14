@@ -60,12 +60,23 @@ test.describe('Stoppable', function tests() {
     });
   });
 
-  test.it('Pressing ESC redirects to productivity url', (done) => {
+  test.it('Pressing ESC redirects to productivity url on stopped page', (done) => {
     driver.get(`http://${defaults.list[0].url}`);
     driver.wait(Until.elementLocated(input), 1000).then((el) => {
       el.sendKeys(webdriver.Key.ESCAPE);
       driver.getCurrentUrl().then((url) => {
         assert.equal(url, defaults.redirectUrl);
+      });
+      done();
+    });
+  });
+
+  test.it('Pressing ESC does not redirect to productivity url when unlocked', (done) => {
+    driver.get('https://github.com/nreijmersdal/stoppable');
+    driver.wait(Until.elementLocated(By.name('q')), 1000).then((el) => {
+      el.sendKeys(webdriver.Key.ESCAPE);
+      driver.getCurrentUrl().then((url) => {
+        assert.equal(url, 'https://github.com/nreijmersdal/stoppable');
       });
       done();
     });

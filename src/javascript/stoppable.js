@@ -3,11 +3,9 @@
   const storage = require('./storage.js');
   const time = require('./time.js')();
   const stoplist = require('./stoplist.js')({
-    storage: require('./storage.js'),
+    storage,
     time,
   });
-
-  const PLACEHOLDER = 'Type your complete reason\u2934 to continue the visit...';
 
   let redirectUrl = '';
   let unlockTimeSeconds;
@@ -17,44 +15,51 @@
     unlockTimeSeconds = settings.seconds;
     const site = isCurrentSiteInStoplist(settings.list);
     if (site) {
-      const header = createHeader(site.url, 'stoppable_header');
-      const reason = createCanvasText(site.reason, 'stoppable_reason');
-      const input = createInput(PLACEHOLDER, 'stoppable_input');
-      const unlockButton = createHiddenButton(`Unstop for ${time.secondsToMinutes(unlockTimeSeconds)} minutes \u279f`, 'stoppable_button');
-
       if (!document.body) {
         const pageObserver = new MutationObserver(() => {
           if (document.body) {
-            initializeStopScreen(header, reason, input, unlockButton, site);
+            initializeStopScreen(site);
             pageObserver.disconnect();
           }
         });
         pageObserver.observe(document.documentElement, { childList: true });
       } else {
-        initializeStopScreen(header, reason, input, unlockButton, site);
+        initializeStopScreen(site);
       }
     }
   });
 
-  function initializeStopScreen(header, reason, input, unlockButton, site) {
-    const div = createStopScreen(header, reason, input, unlockButton);
+  function initializeStopScreen(site) {
+    const input = createInput('Type your complete reason\u2934 to continue the visit...', 'stoppable_input');
+    const unlockButton = createHiddenButton(`Unstop for ${time.secondsToMinutes(unlockTimeSeconds)} minutes \u279f`, 'stoppable_button');
+    const stopScreen = createStopScreen(
+      createHeader(site.url, 'stoppable_header'),
+      createCanvasText(site.reason, 'stoppable_reason')
+      , input, unlockButton);
+
     input.onkeyup = addUnlockCheckEvent(site, input, unlockButton); // eslint-disable-line no-param-reassign
-    unlockButton.onclick = unlockSite(site, input, unlockButton, div); // eslint-disable-line no-param-reassign
+    unlockButton.onclick = unlockSite(site, input, unlockButton, stopScreen); // eslint-disable-line no-param-reassign
+
+    decideToShowOrHideStopScreen(site, stopScreen);
     atEndOfLoadingFocus(input);
-    window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
 
-    if (!isUnlocked(site)) show(div);
-    else {
-      hide(div);
-      stopAgainAfterTimeout(div);
+    return stopScreen;
+  }
+
+  function decideToShowOrHideStopScreen(site, stopScreen) {
+    if (!isUnlocked(site)) {
+      show(stopScreen);
+      window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
+    } else {
+      hide(stopScreen);
+      stopAgainAfterTimeout(stopScreen);
     }
-
-    return div;
   }
 
   function stopAgainAfterTimeout(stopScreen) {
     setTimeout(() => {
       show(stopScreen);
+      window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
     }, unlockTimeSeconds * 1000);
   }
 
@@ -77,6 +82,7 @@
         input.value = ''; // eslint-disable-line no-param-reassign
         show(input);
         hide(stopScreen);
+        window.removeEventListener('keydown', switchToProductiveSiteOnEsc, false);
         stopAgainAfterTimeout(stopScreen);
       });
     };

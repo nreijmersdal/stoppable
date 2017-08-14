@@ -1,7 +1,9 @@
 # Stoppable upcoming feature list
 - change seconds in options to minutes, but let test use seconds
+- split settings and stoplist when getting it from storage
 
 # Defects
+- defaults not loaded for unlocktime
 
 # Clean Code
 - create tests for storage
