@@ -15,6 +15,7 @@ module.exports = function karmaConfig(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'src/javascript/storage*.js',
       'src/javascript/stoplist*.js',
       'src/javascript/status*.js',
       'src/javascript/time*.js',
@@ -30,6 +31,7 @@ module.exports = function karmaConfig(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'src/javascript/storage*.js': ['commonjs'],
       'src/javascript/stoplist*.js': ['commonjs'],
       'src/javascript/status*.js': ['commonjs'],
       'src/javascript/time*.js': ['commonjs'],

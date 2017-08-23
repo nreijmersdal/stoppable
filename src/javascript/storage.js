@@ -3,9 +3,9 @@
     chrome.storage.sync.get(exports.getDefaults(), callback);
   };
 
-  exports.saveSettings = function saveSettings(data, callback) {
+  exports.saveSettings = function saveSettings(data, callback, browser = chrome) {
     const error = validateData(data);
-    if (error === null) chrome.storage.sync.set(data, callback);
+    if (error === null) browser.storage.sync.set(data, callback);
     else callback(error);
   };
 
@@ -22,22 +22,27 @@
 
     if (data.redirectUrl <= 0) errors.push('ESC-key redirects to cannot be empty');
     if (data.seconds <= 0) errors.push('Seconds cannot be empty');
-
-    const duplicates = findDuplicateStoplistItems(data.list);
-    if (duplicates.length > 0) {
-      const keywords = [];
-      duplicates.forEach((duplicate) => {
-        keywords.push(duplicate.url);
+    if (data.list && data.list.length > 0) {
+      data.list.forEach((item) => {
+        if (!isValidStoplistItem(item)) errors.push('Stoplist item is not valid');
+        else {
+          if (item.reason.length <= 19) errors.push(`Reason to short (min 20) for keyword: ${item.url}`);
+          if (item.reason.length > 70) errors.push(`Reason to long (max 70) for keyword: ${item.url}`);
+          if (item.url.length <= 0) errors.push('Keywords cannot be empty');
+          if (item.url.length > 255) errors.push('Keywords cannot be longer then 255 characters');
+          if (item.url.includes('newtab')) errors.push('Restricted keyword found: newtab');
+        }
       });
-      errors.push(`Duplicate keywords founds: ${keywords.join(', ')}`);
-    }
 
-    data.list.forEach((item) => {
-      if (item.reason.length <= 19) errors.push(`Reason to short (min 20) for keyword: ${item.url}`);
-      if (item.reason.length > 70) errors.push(`Reason to long (max 70) for keyword: ${item.url}`);
-      if (item.url.length <= 0) errors.push('Keywords cannot be empty');
-      if (item.url.length > 255) errors.push('Keywords cannot be longer then 255 characters');
-    });
+      const duplicates = findDuplicateStoplistItems(data.list);
+      if (duplicates.length > 0) {
+        const keywords = [];
+        duplicates.forEach((duplicate) => {
+          keywords.push(duplicate.url);
+        });
+        errors.push(`Duplicate keywords founds: ${keywords.join(', ')}`);
+      }
+    }
 
     if (errors.length <= 0) return null;
     return errors;
@@ -52,5 +57,12 @@
       }
       return true;
     });
+  }
+
+  function isValidStoplistItem(item) {
+    if (typeof item.url !== 'string') return false;
+    if (typeof item.reason !== 'string') return false;
+    if (item.unlockedTill && typeof item.unlockedTill !== 'number') return false;
+    return true;
   }
 }());
