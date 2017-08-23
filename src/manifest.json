@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "Stoppable DEV",
+  "name": "Stoppable",
   "description": "Empower yourself to stop wasting time on excessive website visits.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "icons": { "48": "icon.png", "128": "icon_128.png" },
 
   "browser_action": {
