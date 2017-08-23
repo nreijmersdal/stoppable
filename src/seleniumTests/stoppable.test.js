@@ -52,6 +52,16 @@ test.describe('Stoppable', function tests() {
     });
   });
 
+  test.it('Should unlock on enter after reason has been typed.', (done) => {
+    driver.get(`http://${defaults.list[0].url}`);
+    driver.wait(Until.elementLocated(input), 1000).then(() => {
+      driver.findElement(input).sendKeys(defaults.list[0].reason + webdriver.Key.ENTER).then(() => {
+        assertHidden(header);
+        done();
+      });
+    });
+  });
+
   test.it('Example.org is not blocked by default', (done) => {
     driver.get('http://example.org//');
     driver.findElements(header).then((elements) => {

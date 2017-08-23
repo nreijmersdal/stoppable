@@ -90,11 +90,16 @@
     };
   }
 
-  function addUnlockCheckEvent(site, input, visitButton) {
+  function addUnlockCheckEvent(site, input, unlockButton) {
     return (event) => {
       if (event.target.value.toLowerCase() === site.reason.toLowerCase()) {
         hide(input);
-        show(visitButton);
+        show(unlockButton);
+        window.addEventListener('keydown', (e) => {
+          if (e.keyCode === 13 && !isUnlocked(site)) {
+            unlockButton.click();
+          }
+        }, false);
       }
     };
   }
