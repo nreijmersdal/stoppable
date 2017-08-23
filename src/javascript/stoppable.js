@@ -71,6 +71,8 @@
 
   function unlockSite(site, input, unlockButton, stopScreen) {
     return () => {
+      if (!unlockTimeSeconds) unlockTimeSeconds = storage.getDefaults().seconds; // TODO: Bug fix for current users. Remove this line in next version.
+
       const data = {
         url: site.url,
         reason: site.reason,
