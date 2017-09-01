@@ -4,16 +4,13 @@ const By = webdriver.By;
 const Until = webdriver.until;
 
 module.exports = function StoppablePageObject(options) {
-  if (!options.driver) throw Error('options.driver is required');
-  const browser = options.driver;
-  const Element = require('./locatorHelper.js')({ driver: browser });
+  if (!options.browser) throw Error('options.browser is required');
+  const browser = options.browser;
 
-  // Locators
   const header = By.className('stoppable_header');
   const input = By.className('stoppable_input');
   const unlockButton = By.className('stoppable_button');
 
-  // Actions
   return {
 
     unlock: (reason, callback) => {
@@ -41,15 +38,27 @@ module.exports = function StoppablePageObject(options) {
       }
     },
 
+    pressESC: (callback) => {
+      browser.wait(Until.elementLocated(input), 1000).then((el) => {
+        el.sendKeys(webdriver.Key.ESCAPE);
+        callback();
+      });
+    },
+
+
   };
 
-  // Helper functions
   function unlock(reason, useEnter, callback = () => {}) {
     browser.wait(Until.elementLocated(input), 1000).then(() => {
-      Element.isHidden(unlockButton);
-      browser.findElement(input).sendKeys(`${reason}${useEnter ? webdriver.Key.ENTER : ''}`).then(() => {
-        if (!useEnter) browser.findElement(unlockButton).click();
-        callback();
+      browser.findElements(unlockButton).then((elements) => {
+        elements[0].isDisplayed().then((displayed) => {
+          if (!displayed) {
+            browser.findElement(input).sendKeys(`${reason}${useEnter ? webdriver.Key.ENTER : ''}`).then(() => {
+              if (!useEnter) browser.findElement(unlockButton).click();
+              callback();
+            });
+          }
+        });
       });
     });
   }

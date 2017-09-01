@@ -14,6 +14,7 @@
   task('lint', () => {
     console.log('Linting project: .');
     jake.exec('node node_modules/eslint/bin/eslint.js src/javascript/**/*.js', { interactive: true }, complete);
+    jake.exec('node node_modules/eslint/bin/eslint.js src/seleniumTests/**/*.js', { interactive: true }, complete);
     jake.exec('node node_modules/eslint/bin/eslint.js jakefile.js', { interactive: true }, complete);
   }, { async: true });
 
