@@ -13,12 +13,13 @@ const options = new chrome.Options();
 options.addArguments(`load-extension=${__dirname}/../../dist`);
 const capabilities = options.toCapabilities(webdriver.Capabilities.chrome());
 const driver = new webdriver.Builder().withCapabilities(capabilities).build();
+const Stoppable = require('./stoppable.pageobject.js')({ driver });
+const Element = require('./locatorHelper.js')({ driver });
 
 test.describe('Stoppable', function tests() {
   this.timeout(120000);
   const header = By.className('stoppable_header');
   const input = By.className('stoppable_input');
-  const unlockButton = By.className('stoppable_button');
   const EXAMPLE_URL = 'http://example.org';
   const EXAMPLE_REASON = '12345678901234567890';
   let extensionId;
@@ -42,34 +43,22 @@ test.describe('Stoppable', function tests() {
 
   test.it('Should show stopScreen, unlock and show stopScreen again after timeout', (done) => {
     driver.get(`http://${defaults.list[0].url}`);
-    driver.wait(Until.elementLocated(input), 1000).then(() => {
-      assertHidden(unlockButton);
-      driver.findElement(input).sendKeys(defaults.list[0].reason).then(() => {
-        click(unlockButton);
-        assertHidden(header);
-        driver.findElement(header).then((element) => {
-          driver.wait(Until.elementIsVisible(element), 5000).then(() => {
-            done();
-          });
-        });
-      });
-    });
+    Stoppable.unlock(defaults.list[0].reason);
+    Stoppable.waitUntilReturned(done);
   });
 
   test.it('Should unlock on enter after reason has been typed.', (done) => {
     driver.get(`http://${defaults.list[0].url}`);
-    driver.wait(Until.elementLocated(input), 1000).then(() => {
-      driver.findElement(input).sendKeys(defaults.list[0].reason + webdriver.Key.ENTER).then(() => {
-        assertHidden(header);
-        done();
-      });
+    Stoppable.unlockWithEnter(defaults.list[0].reason, () => {
+      Element.isHidden(header);
+      done();
     });
   });
 
   test.it('Example.org is not blocked by default', (done) => {
     driver.get(EXAMPLE_URL);
-    driver.findElements(header).then((elements) => {
-      assert.equal(elements.length, 0);
+    Stoppable.isLocked((state) => {
+      assert.equal(state, false);
       done();
     });
   });
@@ -99,8 +88,8 @@ test.describe('Stoppable', function tests() {
 
   test.it('Example.org is blocked now', (done) => {
     driver.get(EXAMPLE_URL);
-    driver.findElements(header).then((elements) => {
-      assert.equal(elements.length, 1);
+    Stoppable.isLocked((state) => {
+      assert.equal(state, true);
       done();
     });
   });
@@ -119,7 +108,7 @@ test.describe('Stoppable', function tests() {
     driver.get(EXAMPLE_URL);
     driver.wait(Until.elementLocated(input), 1000).then(() => {
       driver.findElement(input).sendKeys(EXAMPLE_REASON + webdriver.Key.ENTER).then(() => {
-        assertHidden(header);
+        Element.isHidden(header);
       });
     });
     driver.get(`chrome-extension://${extensionId}/popup.html`);
@@ -200,14 +189,6 @@ test.describe('Stoppable', function tests() {
   test.after(() => {
     driver.quit();
   });
-
-  function assertHidden(locator) {
-    driver.findElements(locator).then((elements) => {
-      elements[0].isDisplayed().then((displayed) => {
-        assert.equal(displayed, false, `expected ${locator} to be hidden`);
-      });
-    });
-  }
 
   function click(locator) {
     driver.findElement(locator).click();
