@@ -19,6 +19,9 @@ test.describe('Stoppable', function tests() {
   const header = By.className('stoppable_header');
   const input = By.className('stoppable_input');
   const unlockButton = By.className('stoppable_button');
+  const EXAMPLE_URL = 'http://example.org';
+  const EXAMPLE_REASON = '12345678901234567890';
+  let extensionId;
 
   test.it('Change stopscreen unlock time to 1 second for tests', () => {
     driver.get('chrome://extensions/');
@@ -26,7 +29,8 @@ test.describe('Stoppable', function tests() {
     driver.findElement(By.id('toggle-dev-on')).click();
     driver.findElements(By.className('extension-id')).then((elements) => {
       elements[1].getText().then((text) => {
-        driver.get(`chrome-extension://${text}/options.html`);
+        extensionId = text;
+        driver.get(`chrome-extension://${extensionId}/options.html`);
         driver.findElement(By.id('seconds')).then((el) => {
           driver.actions().doubleClick(el).perform();
           el.sendKeys('1');
@@ -63,7 +67,108 @@ test.describe('Stoppable', function tests() {
   });
 
   test.it('Example.org is not blocked by default', (done) => {
-    driver.get('http://example.org//');
+    driver.get(EXAMPLE_URL);
+    driver.findElements(header).then((elements) => {
+      assert.equal(elements.length, 0);
+      done();
+    });
+  });
+
+  test.it('Popup gives error message when reason to short', (done) => {
+    driver.get(`chrome-extension://${extensionId}/popup.html`);
+    driver.findElement(By.id('reason')).then((element) => {
+      element.sendKeys('');
+    });
+    driver.findElement(By.id('add')).click();
+    driver.findElement(By.id('status')).then((element) => {
+      element.getText().then((text) => {
+        assert.equal(text, 'Reason to short (min 20) for keyword: example.org');
+      });
+      done();
+    });
+  });
+
+  test.it('Can add example.org to the stoplist from the popup.', (done) => {
+    driver.get(`chrome-extension://${extensionId}/popup.html`);
+    driver.findElement(By.id('reason')).then((element) => {
+      element.sendKeys(EXAMPLE_REASON);
+    });
+    driver.findElement(By.id('add')).click();
+    done();
+  });
+
+  test.it('Example.org is blocked now', (done) => {
+    driver.get(EXAMPLE_URL);
+    driver.findElements(header).then((elements) => {
+      assert.equal(elements.length, 1);
+      done();
+    });
+  });
+
+  test.it('Popup should stated example.org is already stopped', (done) => {
+    driver.get(`chrome-extension://${extensionId}/popup.html`);
+    driver.findElement(By.id('url')).then((element) => {
+      element.getText().then((text) => {
+        assert.equal(text, 'Keyword "example.org" is already stopped.\nEdit the motivational reason in the options.');
+        done();
+      });
+    });
+  });
+
+  test.it('Popup should stated example.org is unlocked', (done) => {
+    driver.get(EXAMPLE_URL);
+    driver.wait(Until.elementLocated(input), 1000).then(() => {
+      driver.findElement(input).sendKeys(EXAMPLE_REASON + webdriver.Key.ENTER).then(() => {
+        assertHidden(header);
+      });
+    });
+    driver.get(`chrome-extension://${extensionId}/popup.html`);
+    driver.findElement(By.id('url')).then((element) => {
+      element.getText().then((text) => {
+        assert.equal(text, 'Time still unlocked: 1 (in seconds).');
+        done();
+      });
+    });
+  });
+
+  test.it('Should stop new sites stopped from the options pages', (done) => {
+    driver.get(`chrome-extension://${extensionId}/options.html`);
+    driver.findElement(By.id('add')).click();
+    driver.findElements(By.name('url')).then((elements) => {
+      elements[2].sendKeys('twitter.com');
+    });
+    driver.findElements(By.name('reason')).then((elements) => {
+      elements[2].sendKeys('12345678901234567890');
+    });
+    driver.findElement(By.id('save')).click();
+    driver.get('http:/twitter.com/');
+    driver.findElements(header).then((elements) => {
+      assert.equal(elements.length, 1);
+      done();
+    });
+  });
+
+  test.it('Should show error message when reason is to short', (done) => {
+    driver.get(`chrome-extension://${extensionId}/options.html`);
+    driver.findElements(By.name('reason')).then((elements) => {
+      elements[2].sendKeys(webdriver.Key.BACK_SPACE);
+    });
+    driver.findElement(By.id('save')).click();
+    driver.findElement(By.id('status')).then((element) => {
+      element.getText().then((text) => {
+        assert.equal(text, 'Reason to short (min 20) for keyword: twitter.com');
+      });
+      done();
+    });
+  });
+
+  test.it('Should unstop sites when unchecked from the options pages', (done) => {
+    driver.get(`chrome-extension://${extensionId}/options.html`);
+    driver.findElements(By.name('selected')).then((elements) => {
+      elements[2].click();
+    });
+    driver.findElement(By.id('save')).click();
+    driver.get('http:/twitter.com/');
     driver.findElements(header).then((elements) => {
       assert.equal(elements.length, 0);
       done();

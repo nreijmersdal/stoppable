@@ -45,13 +45,19 @@ function addButtonOnClickHandler(keyword, reason) {
 
 function getActiveTabUrl(callback) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const url = tabs[0].url;
-    if (url.length <= 0) throw Error('url should contain characters');
+    let url = tabs[0].url;
+    if (!url || url.length <= 0) {
+      // Added example url for testing the popup.js from seleniumTests
+      // When you open the popup.html from a regular tab the chrome.tabs.query returns nothing
+      // This should never happen on a real click, bit hackish, but it works...! ;-)
+      url = 'http://example.org';
+    }
     callback(url);
   });
 }
 
 function getHostname(href) {
+  // href needs to contain http:// else it is appended to current windows href.
   const l = document.createElement('a');
   l.href = href;
   const result = l.hostname.replace(/^www\./, '');
