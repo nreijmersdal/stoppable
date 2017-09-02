@@ -4,7 +4,7 @@
   const DIST_DIR = 'dist';
   directory(DIST_DIR);
 
-  desc('Start karma (run this first)');
+  desc('Start Karma (start this before test/build tasks)');
   task('karma', () => {
     console.log('Staring karma service: .');
     jake.exec('node node_modules/karma/bin/karma start', { interactive: true }, complete);
@@ -21,15 +21,15 @@
     jake.exec(`node node_modules/eslint/bin/eslint.js ${files.join(' ')}`, { interactive: true }, complete);
   }, { async: true });
 
-  desc('Run mocha tests in karma');
+  desc('Run Mocha tests in Karma');
   task('test', () => {
-    console.log('Testing project: .');
+    console.log('Unit testing project: .');
     jake.exec('node node_modules/karma/bin/karma run', { interactive: true }, complete);
   }, { async: true });
 
-  desc('Run functional tests with Selenium');
-  task('functional', () => {
-    console.log('Functional testing project: .');
+  desc('Run integration tests with Selenium');
+  task('integration', () => {
+    console.log('Integration testing project: .');
     jake.exec('node node_modules/mocha/bin/mocha src/seleniumTests/*.js', { interactive: true }, complete);
   }, { async: true });
 
