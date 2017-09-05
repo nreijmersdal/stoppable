@@ -18,10 +18,10 @@ module.exports = function OptionsPageObject(options) {
       });
     },
 
-    setSeconds: (seconds, callback) => {
+    setTimeout: (time, callback) => {
       browser.findElement(secondsInput).then((el) => {
         browser.actions().doubleClick(el).perform();
-        el.sendKeys('2');
+        el.sendKeys(time);
         callback();
       });
     },

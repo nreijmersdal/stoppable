@@ -22,4 +22,18 @@ describe('Time', () => {
       assert.equal(time.secondsToMinutes(119), 2);
     });
   });
+  describe('timeToSeconds', () => {
+    it('Should convert HH:MM:SS to seconds', () => {
+      assert.equal(time.timeToSeconds('00:15:01'), 901);
+      assert.equal(time.timeToSeconds('00:00:01'), 1);
+      assert.equal(time.timeToSeconds('23:59:59'), 86399);
+    });
+  });
+  describe('secondsToTime', () => {
+    it('Should convert seconds to HH:MM:SS to', () => {
+      assert.equal(time.secondsToTime(901), '00:15:01');
+      assert.equal(time.secondsToTime(1), '00:00:01');
+      assert.equal(time.secondsToTime(86399), '23:59:59');
+    });
+  });
 });

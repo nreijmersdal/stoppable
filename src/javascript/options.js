@@ -1,6 +1,7 @@
 (function options() {
   const status = require('./status.js');
   const storage = require('./storage.js');
+  const time = require('./time.js')();
 
   document.addEventListener('DOMContentLoaded', () => {
     loadOptions();
@@ -14,7 +15,7 @@
         createStopItem(true, item.url, item.reason);
       });
       document.getElementById('redirectUrl').value = items.redirectUrl;
-      document.getElementById('seconds').value = items.seconds;
+      document.getElementById('seconds').value = time.secondsToTime(items.seconds);
     });
   }
 
@@ -22,7 +23,7 @@
     const data = {
       list: getCheckedListItems(),
       redirectUrl: document.getElementById('redirectUrl').value,
-      seconds: document.getElementById('seconds').value,
+      seconds: time.timeToSeconds(document.getElementById('seconds').value),
     };
     if (data.list.length <= 0) return;
 

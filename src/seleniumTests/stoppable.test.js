@@ -17,7 +17,7 @@ test.describe('Stoppable', function tests() {
 
   test.it('Change stopscreen unlock time to 2 second for tests', (done) => {
     Options.open(() => {
-      Options.setSeconds(2, () => {
+      Options.setTimeout('00:00:02', () => {
         Options.save(() => {
           done();
         });
