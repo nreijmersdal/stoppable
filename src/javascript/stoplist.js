@@ -5,10 +5,10 @@ module.exports = function stoplist(options) {
   const time = options.time;
 
   return {
-    isKeywordInList: (keyword, callback) => {
+    findStopItem: (keyword, callback) => {
       findItemForKeyword(keyword, (item) => {
         if (!item) callback(false);
-        else callback(true);
+        else callback(item);
       });
     },
 
@@ -26,12 +26,18 @@ module.exports = function stoplist(options) {
       });
     },
 
-    updateItem: (updatedStopItem, callback) => {
+    updateItem: (changes, callback) => {
       const newItems = { list: [] };
       storage.getSettings((items) => {
         items.list.forEach((item) => {
-          if (item.url === updatedStopItem.url) newItems.list.push(updatedStopItem);
-          else newItems.list.push(item);
+          if (item.url === changes.url) {
+            const updatedItem = {
+              url: changes.url,
+              reason: changes.reason || item.reason,
+              unlockedTill: changes.unlockedTill || item.unlockedTill,
+            };
+            newItems.list.push(updatedItem);
+          } else newItems.list.push(item);
         });
         storage.saveSettings(newItems, callback);
       });

@@ -93,6 +93,19 @@ test.describe('Stoppable', function tests() {
     });
   });
 
+  test.it('Popup can extend unlock timeout for streaming site', (done) => {
+    browser.get(EXAMPLE_URL);
+    Stoppable.waitUntilReturned(done);
+    Stoppable.unlock(EXAMPLE_REASON, () => {
+      Popup.open(Options.getExtensionId(), () => {
+        Popup.extendTimeout('00:00:03', () => {
+          browser.get(EXAMPLE_URL);
+          Stoppable.waitUntilReturned(done);
+        });
+      });
+    });
+  });
+
   test.it('Should stop new sites stopped from the options pages', (done) => {
     Options.open(() => {
       Options.addItem('twitter.com', '12345678901234567890', () => {

@@ -34,16 +34,20 @@
       window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
     } else {
       hide(stopScreen);
-      stopAgainAfterTimeout();
+      stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
     }
   }
 
-  function stopAgainAfterTimeout() {
+  function stopAgainAfterTimeout(seconds) {
     setTimeout(() => {
-      // check onlock time again, could be extended
-      show(stopScreen);
-      window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
-    }, Settings.seconds * 1000);
+      stoplist.keywordIsUnlocked(currentSite.url, (secondsLeft) => {
+        if (secondsLeft) stopAgainAfterTimeout(secondsLeft);
+        else {
+          show(stopScreen);
+          window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
+        }
+      });
+    }, seconds);
   }
 
   function switchToProductiveSiteOnEsc(event) {
@@ -56,19 +60,15 @@
     return () => {
       if (!Settings.seconds) Settings.seconds = storage.getDefaults().seconds; // TODO: Bug fix for current users. Remove this line in next version.
 
-      const data = {
-        url: currentSite.url,
-        reason: currentSite.reason,
-        unlockedTill: time.getTimeInSeconds() + Number(Settings.seconds),
-      };
+      currentSite.unlockedTill = time.getTimeInSeconds() + Number(Settings.seconds);
 
-      stoplist.updateItem(data, () => {
+      stoplist.updateItem(currentSite, () => {
         hide(unlockButton);
         input.value = '';
         show(input);
         hide(stopScreen);
         window.removeEventListener('keydown', switchToProductiveSiteOnEsc, false);
-        stopAgainAfterTimeout();
+        stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
       });
     };
   }

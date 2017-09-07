@@ -18,7 +18,8 @@ module.exports = function time(options) {
       const split = string.split(':');
       let seconds = split[0] * 3600;
       seconds += split[1] * 60;
-      seconds += split[2] * 1;
+      if (split[2]) seconds += split[2] * 1;
+
       return seconds;
     },
 

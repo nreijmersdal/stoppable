@@ -25,6 +25,8 @@ describe('Time', () => {
   describe('timeToSeconds', () => {
     it('Should convert HH:MM:SS to seconds', () => {
       assert.equal(time.timeToSeconds('00:15:01'), 901);
+      assert.equal(time.timeToSeconds('00:15'), 900);
+      assert.equal(time.timeToSeconds('01:00'), 3600);
       assert.equal(time.timeToSeconds('00:00:01'), 1);
       assert.equal(time.timeToSeconds('23:59:59'), 86399);
     });

@@ -1,15 +1,17 @@
 const status = require('./status.js');
+const time = require('./time.js')();
 const stoplist = require('./stoplist.js')({
   storage: require('./storage.js'),
-  time: require('./time.js')(),
+  time,
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   getActiveTabUrl((url) => {
     const hostname = getHostname(url);
-    stoplist.isKeywordInList(hostname, (isInList) => {
+    stoplist.findStopItem(hostname, (item) => {
       const header = document.getElementById('url');
-      if (!isInList) {
+      if (!item) {
+        document.getElementById('extendDiv').remove();
         header.textContent = `Stoppable keyword: ${hostname}`;
         const reason = document.getElementById('reason');
         reason.addEventListener('keydown', onEnterSubmit, false);
@@ -19,8 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('reason').remove();
         document.getElementById('add').remove();
         stoplist.keywordIsUnlocked(hostname, (unlockedTill) => {
-          if (unlockedTill) header.innerHTML = `Time still unlocked: ${unlockedTill} (in seconds).`;
-          else header.innerHTML = `Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`;
+          if (unlockedTill) {
+            extendButtonOnClickHandler(item);
+            document.getElementById('time').value = time.secondsToTime(0);
+            header.innerHTML = `Time still unlocked: ${time.secondsToTime(unlockedTill)} (HH:MM:SS)`;
+          } else {
+            document.getElementById('extendDiv').remove();
+            header.innerHTML = `Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`;
+          }
         });
       }
     });
@@ -40,6 +48,19 @@ function addButtonOnClickHandler(keyword, reason) {
       if (!error) status.showMessage('Added to stoppable websites.');
       else status.showError(error);
     });
+  };
+}
+
+function extendButtonOnClickHandler(stoplistItem) {
+  document.getElementById('extend').onclick = () => {
+    const timeString = document.getElementById('time').value;
+    if (timeString.length >= 5) {
+      const newUnlockedTill = time.timeToSeconds(timeString) + stoplistItem.unlockedTill;
+      stoplist.updateItem({ url: stoplistItem.url, unlockedTill: newUnlockedTill }, (error) => {
+        if (!error) document.getElementById('url').innerHTML = `Time still unlocked: ${time.secondsToTime(time.left(newUnlockedTill))} (HH:MM:SS)`;
+        else status.showError(error);
+      });
+    } else status.showError('Timeout extend value incorrect');
   };
 }
 

@@ -21,16 +21,16 @@ const stoplist = require('./stoplist.js')({
 });
 
 describe('Stoplist', () => {
-  describe('isKeywordInList', () => {
+  describe('findStopItem', () => {
     it('Should return true when keyword is in the list', () => {
-      stoplist.isKeywordInList('reddit.com', (result) => {
-        assert.equal(result, true);
+      stoplist.findStopItem('reddit.com', (item) => {
+        assert.equal(item.url, 'reddit.com');
       });
     });
 
     it('Should return false when keyword is not in the list', () => {
-      stoplist.isKeywordInList('notstopped.com', (result) => {
-        assert.equal(result, false);
+      stoplist.findStopItem('notstopped.com', (item) => {
+        assert.equal(item, false);
       });
     });
   });
@@ -52,8 +52,8 @@ describe('Stoplist', () => {
   describe('addItem', () => {
     it('Should put item in the list', () => {
       stoplist.addItem({ url: 'additem.com', reason: 'something' }, () => {
-        stoplist.isKeywordInList('additem.com', (result) => {
-          assert.equal(result, true);
+        stoplist.findStopItem('additem.com', (item) => {
+          assert.equal(item.url, 'additem.com');
         });
       });
     });
@@ -63,6 +63,13 @@ describe('Stoplist', () => {
     it('Should update item in the list', () => {
       stoplist.updateItem({ url: 'facebook.com', reason: 'changed' }, () => {
         assert.equal(data.list[0].reason, 'changed');
+        assert.equal(data.list[0].unlockedTill, 100);
+      });
+    });
+    it('Should update unlockedTill time of time', () => {
+      stoplist.updateItem({ url: 'facebook.com', unlockedTill: 5 }, () => {
+        assert.equal(data.list[0].reason, 'changed');
+        assert.equal(data.list[0].unlockedTill, 5);
       });
     });
   });

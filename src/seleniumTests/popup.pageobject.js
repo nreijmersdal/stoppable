@@ -21,6 +21,15 @@ module.exports = function PopupPageObject(options) {
       });
     },
 
+    extendTimeout: (time, callback) => {
+      browser.findElement(By.id('time')).then((el) => {
+        browser.actions().doubleClick(el).perform();
+        el.sendKeys(time);
+        browser.findElement(By.id('extend')).click();
+        callback();
+      });
+    },
+
     getStatus: (callback) => {
       browser.findElement(By.id('status')).then((element) => {
         element.getText().then((text) => {
