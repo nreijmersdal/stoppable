@@ -75,7 +75,6 @@ module.exports = function OptionsPageObject(options) {
       callback(extensionId);
     } else {
       browser.get('chrome://extensions/');
-      browser.switchTo().frame('extensions');
       browser.findElement(By.id('toggle-dev-on')).click();
       browser.findElements(By.className('extension-id')).then((elements) => {
         elements[1].getText().then((text) => {

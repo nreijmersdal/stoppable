@@ -7,96 +7,79 @@
     time,
   });
 
-  let redirectUrl = '';
-  let unlockTimeSeconds;
+  let Settings;
+  let currentSite;
+  let input;
+  let unlockButton;
+  let stopScreen;
 
-  storage.getSettings((settings) => {
-    redirectUrl = settings.redirectUrl;
-    unlockTimeSeconds = settings.seconds;
-    const site = isCurrentSiteInStoplist(settings.list);
-    if (site) {
-      if (!document.body) {
-        const pageObserver = new MutationObserver(() => {
-          if (document.body) {
-            initializeStopScreen(site);
-            pageObserver.disconnect();
-          }
-        });
-        pageObserver.observe(document.documentElement, { childList: true });
-      } else {
-        initializeStopScreen(site);
-      }
-    }
+  storage.getSettings((data) => {
+    Settings = data;
+    currentSite = findSiteInStopList();
+    if (currentSite) waitForBody(() => initializeStopScreen());
   });
 
-  function initializeStopScreen(site) {
-    const input = createInput('Type your complete reason\u2934 to continue the visit...', 'stoppable_input');
-    const unlockButton = createHiddenButton(`Unstop for ${time.secondsToMinutes(unlockTimeSeconds)} minutes \u279f`, 'stoppable_button');
-    const stopScreen = createStopScreen(
-      createHeader(site.url, 'stoppable_header'),
-      createCanvasText(site.reason, 'stoppable_reason')
-      , input, unlockButton);
+  function initializeStopScreen() {
+    stopScreen = createStopScreen();
+    input.onkeyup = addUnlockCheckEvent();
+    unlockButton.onclick = unlockSite();
 
-    input.onkeyup = addUnlockCheckEvent(site, input, unlockButton); // eslint-disable-line no-param-reassign
-    unlockButton.onclick = unlockSite(site, input, unlockButton, stopScreen); // eslint-disable-line no-param-reassign
-
-    decideToShowOrHideStopScreen(site, stopScreen);
-    atEndOfLoadingFocus(input);
-
-    return stopScreen;
+    decideToShowOrHideStopScreen();
+    atEndOfLoadingFocus();
   }
 
-  function decideToShowOrHideStopScreen(site, stopScreen) {
-    if (!isUnlocked(site)) {
+  function decideToShowOrHideStopScreen() {
+    if (!isUnlocked()) {
       show(stopScreen);
       window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
     } else {
       hide(stopScreen);
-      stopAgainAfterTimeout(stopScreen);
+      stopAgainAfterTimeout();
     }
   }
 
-  function stopAgainAfterTimeout(stopScreen) {
+  function stopAgainAfterTimeout() {
     setTimeout(() => {
+      // check onlock time again, could be extended
       show(stopScreen);
       window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
-    }, unlockTimeSeconds * 1000);
+    }, Settings.seconds * 1000);
   }
 
   function switchToProductiveSiteOnEsc(event) {
     if (event.keyCode === 27) {
-      window.location = redirectUrl;
+      window.location = Settings.redirectUrl;
     }
   }
 
-  function unlockSite(site, input, unlockButton, stopScreen) {
+  function unlockSite() {
     return () => {
-      if (!unlockTimeSeconds) unlockTimeSeconds = storage.getDefaults().seconds; // TODO: Bug fix for current users. Remove this line in next version.
+      if (!Settings.seconds) Settings.seconds = storage.getDefaults().seconds; // TODO: Bug fix for current users. Remove this line in next version.
 
       const data = {
-        url: site.url,
-        reason: site.reason,
-        unlockedTill: time.getTimeInSeconds() + Number(unlockTimeSeconds),
+        url: currentSite.url,
+        reason: currentSite.reason,
+        unlockedTill: time.getTimeInSeconds() + Number(Settings.seconds),
       };
 
       stoplist.updateItem(data, () => {
         hide(unlockButton);
-        input.value = ''; // eslint-disable-line no-param-reassign
+        input.value = '';
         show(input);
         hide(stopScreen);
         window.removeEventListener('keydown', switchToProductiveSiteOnEsc, false);
-        stopAgainAfterTimeout(stopScreen);
+        stopAgainAfterTimeout();
       });
     };
   }
 
-  function addUnlockCheckEvent(site, input, unlockButton) {
+  function addUnlockCheckEvent() {
     return (event) => {
-      if (event.target.value.toLowerCase() === site.reason.toLowerCase()) {
+      if (event.target.value.toLowerCase() === currentSite.reason.toLowerCase()) {
         hide(input);
         show(unlockButton);
         window.addEventListener('keydown', (e) => {
-          if (e.keyCode === 13 && !isUnlocked(site)) {
+          if (e.keyCode === 13 && !isUnlocked()) {
             unlockButton.click();
           }
         }, false);
@@ -104,26 +87,30 @@
     };
   }
 
-  function createStopScreen(header, reason, input, visitButton) {
+  function createStopScreen() {
+    input = createInput('Type your complete reason\u2934 to continue the visit...', 'stoppable_input');
+    unlockButton = createHiddenButton(`Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, 'stoppable_button');
+    const header = createHeader(currentSite.url, 'stoppable_header');
+    const reason = createCanvasText(currentSite.reason, 'stoppable_reason');
     const container = createContainer();
     container.appendChild(header);
     container.appendChild(reason);
     container.appendChild(input);
-    container.appendChild(visitButton);
+    container.appendChild(unlockButton);
     return container;
   }
 
-  function isCurrentSiteInStoplist(stopList) {
-    if (stopList === undefined) return false;
-    const result = stopList.filter((item) => {
+  function findSiteInStopList() {
+    if (Settings.list === undefined) return false;
+    const result = Settings.list.filter((item) => {
       if (window.location.href.includes(item.url)) return true;
       return false;
     });
     return result[0];
   }
 
-  function isUnlocked(item) {
-    return item.unlockedTill && time.getTimeInSeconds() < item.unlockedTill;
+  function isUnlocked() {
+    return currentSite.unlockedTill && time.getTimeInSeconds() < currentSite.unlockedTill;
   }
 
   function createContainer() {
@@ -151,10 +138,10 @@
   }
 
   function createInput(placeholder, className) {
-    const input = document.createElement('input');
-    input.placeholder = placeholder;
-    input.classList.add(className);
-    return input;
+    const el = document.createElement('input');
+    el.placeholder = placeholder;
+    el.classList.add(className);
+    return el;
   }
 
   function createHiddenButton(text, className) {
@@ -184,7 +171,7 @@
     element.style.display = ''; // eslint-disable-line no-param-reassign
   }
 
-  function atEndOfLoadingFocus(input) {
+  function atEndOfLoadingFocus() {
     input.focus();
     window.onload = () => {
       // Wait some milliseconds because some sites have their own focus.
@@ -196,5 +183,19 @@
 
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  function waitForBody(callback) {
+    if (!document.body) {
+      const pageObserver = new MutationObserver(() => {
+        if (document.body) {
+          callback();
+          pageObserver.disconnect();
+        }
+      });
+      pageObserver.observe(document.documentElement, { childList: true });
+    } else {
+      callback();
+    }
   }
 }());
