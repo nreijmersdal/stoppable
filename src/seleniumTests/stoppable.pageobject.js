@@ -43,7 +43,6 @@ module.exports = function StoppablePageObject(options) {
       });
     },
 
-
   };
 
   function unlock(reason, useEnter, callback = () => {}) {

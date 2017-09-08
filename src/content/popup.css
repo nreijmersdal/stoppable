@@ -4,6 +4,7 @@ body {
   padding-left:10px;
   padding-right:10px;
   min-width: 450px;
+  min-height: 55px;
 }
 #url {
   white-space: pre;
