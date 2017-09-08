@@ -22,10 +22,8 @@ module.exports = function StoppablePageObject(options) {
     },
 
     waitUntilReturned: (callback, timeout = 5000) => {
-      browser.findElement(header).then((el) => {
-        browser.wait(Until.elementIsVisible(el), timeout).then(() => {
-          callback();
-        });
+      browser.wait(Until.elementLocated(header), timeout).then(() => {
+        callback();
       });
     },
 

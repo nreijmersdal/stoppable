@@ -19,6 +19,7 @@ module.exports = function karmaConfig(config) {
       'src/javascript/stoplist*.js',
       'src/javascript/status*.js',
       'src/javascript/time*.js',
+      'src/javascript/dom*.js',
       'src/vendor/chai-4.1.1.js',
     ],
 
@@ -35,6 +36,7 @@ module.exports = function karmaConfig(config) {
       'src/javascript/stoplist*.js': ['commonjs'],
       'src/javascript/status*.js': ['commonjs'],
       'src/javascript/time*.js': ['commonjs'],
+      'src/javascript/dom*.js': ['commonjs'],
       'src/vendor/chai-4.1.1.js': ['commonjs'],
     },
 

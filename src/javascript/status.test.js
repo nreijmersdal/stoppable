@@ -8,6 +8,9 @@ describe('Status', () => {
     div.id = 'status';
     document.body.appendChild(div);
   });
+  after(() => {
+    div.remove();
+  });
   describe('showError', () => {
     it('Should show a red text in the status location', () => {
       status.showError('Error message');
