@@ -1,39 +1,63 @@
 const status = require('./status.js');
 const time = require('./time.js')();
+const dom = require('./dom.js');
 const stoplist = require('./stoplist.js')({
   storage: require('./storage.js'),
   time,
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  getActiveTabUrl((url) => {
+  getUrlFromActiveTab((url) => {
     const hostname = getHostname(url);
     stoplist.findStopItem(hostname, (item) => {
-      const header = document.getElementById('url');
-      if (!item) {
-        document.getElementById('extendDiv').remove();
-        header.textContent = `Stoppable keyword: ${hostname}`;
-        const reason = document.getElementById('reason');
-        reason.addEventListener('keydown', onEnterSubmit, false);
-        reason.focus();
-        addButtonOnClickHandler(hostname, reason);
-      } else {
-        document.getElementById('reason').remove();
-        document.getElementById('add').remove();
+      if (!item) showAddView(hostname);
+      else {
         stoplist.keywordIsUnlocked(hostname, (unlockedTill) => {
-          if (unlockedTill) {
-            extendButtonOnClickHandler(item);
-            document.getElementById('time').value = time.secondsToTime(0);
-            header.innerHTML = `Time still unlocked: ${time.secondsToTime(unlockedTill)} (HH:MM:SS)`;
-          } else {
-            document.getElementById('extendDiv').remove();
-            header.innerHTML = `Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`;
-          }
+          if (unlockedTill) showExtendView(item, unlockedTill);
+          else createHeader(`Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`);
         });
       }
+      createStatus();
     });
   });
 });
+
+function showAddView(hostname) {
+  createHeader(`Stoppable keyword: ${hostname}`);
+  const reason = dom.create({
+    type: 'input',
+    id: 'reason',
+    placeholder: 'Motivational reason of atleast 20 characters...',
+    inputType: 'text',
+    inputMaxlenght: 70,
+  });
+  dom.addToBody(reason);
+  dom.addToBody(dom.create({ type: 'button', id: 'add', innerHTML: 'Add' }));
+  reason.addEventListener('keydown', onEnterSubmit, false);
+  reason.focus();
+  addButtonOnClickHandler(hostname, reason);
+}
+
+function showExtendView(item, unlockedTill) {
+  createHeader(`Time still unlocked: ${time.secondsToTime(unlockedTill)} (HH:MM:SS)`);
+  dom.addToBody(dom.create({ type: 'input', id: 'time', inputType: 'time', inputStep: '1', required: true }));
+  dom.addToBody(dom.create({ type: 'button', id: 'extend', innerHTML: 'Extend timeout' }));
+  document.getElementById('time').value = time.secondsToTime(0);
+  extendButtonOnClickHandler(item);
+}
+
+function createHeader(text) {
+  dom.addToBody(dom.create({ type: 'div', id: 'url', innerHTML: text }));
+  addBreak();
+}
+
+function createStatus() {
+  dom.addToBody(dom.create({ type: 'div', id: 'status' }));
+}
+
+function addBreak() {
+  dom.addToBody(dom.create({ type: 'br' }));
+}
 
 function onEnterSubmit(event) {
   if (event.keyCode === 13) {
@@ -64,7 +88,7 @@ function extendButtonOnClickHandler(stoplistItem) {
   };
 }
 
-function getActiveTabUrl(callback) {
+function getUrlFromActiveTab(callback) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     let url = tabs[0].url;
     if (!url || url.length <= 0) {

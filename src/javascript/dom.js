@@ -13,6 +13,11 @@
   exports.create = (options) => {
     if (!options.type) return null;
     const el = document.createElement(options.type);
+    if (options.id) el.id = options.id;
+    if (options.inputType) el.type = options.inputType;
+    if (options.inputStep) el.setAttribute('step', options.inputStep);
+    if (options.inputMaxlength) el.setAttribute('maxLength', options.inputMaxlength);
+    if (options.required) el.required = options.required;
     if (options.classname) el.classList.add(options.classname);
     if (options.innerHTML) el.innerHTML = options.innerHTML;
     if (options.placeholder) el.placeholder = options.placeholder;
