@@ -5,7 +5,7 @@ describe('Dom', () => {
   describe('createDiv', () => {
     it('Should create a div with class', () => {
       const div = dom.create({
-        type: 'div',
+        tag: 'div',
         classname: 'class',
       });
       dom.addToBody(div);
@@ -15,7 +15,7 @@ describe('Dom', () => {
     });
     it('Should create a h1 with class and text', () => {
       const h1 = dom.create({
-        type: 'h1',
+        tag: 'h1',
         innerHTML: 'My header',
         classname: 'class',
       });
@@ -26,7 +26,7 @@ describe('Dom', () => {
     });
     it('Should create a input with class and placeholder', () => {
       const input = dom.create({
-        type: 'input',
+        tag: 'input',
         placeholder: 'Placeholder',
         classname: 'input',
       });
@@ -38,7 +38,7 @@ describe('Dom', () => {
   });
   describe('hide', () => {
     it('Should hide element', () => {
-      const div = dom.create({ type: 'div' });
+      const div = dom.create({ tag: 'div' });
       dom.addToBody(div);
       dom.hide(div);
       assert.equal(div.style.display, 'none');
@@ -47,7 +47,7 @@ describe('Dom', () => {
   });
   describe('show', () => {
     it('Should show element', () => {
-      const div = dom.create({ type: 'div' });
+      const div = dom.create({ tag: 'div' });
       dom.addToBody(div);
       dom.hide(div);
       dom.show(div);
@@ -57,7 +57,7 @@ describe('Dom', () => {
   });
   describe('remove', () => {
     it('Should remove first element with classname', () => {
-      const div = dom.create({ type: 'div', classname: 'remove' });
+      const div = dom.create({ tag: 'div', classname: 'remove' });
       dom.addToBody(div);
       assert.equal(document.getElementsByClassName('remove').length, 1);
       dom.remove('remove');

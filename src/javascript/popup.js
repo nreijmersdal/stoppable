@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function showAddView(hostname) {
   createHeader(`Stoppable keyword: ${hostname}`);
   const reason = dom.create({
-    type: 'input',
+    tag: 'input',
     id: 'reason',
     placeholder: 'Motivational reason of atleast 20 characters...',
-    inputType: 'text',
-    inputMaxlenght: 70,
+    type: 'text',
+    maxlength: 70,
   });
   dom.addToBody(reason);
-  dom.addToBody(dom.create({ type: 'button', id: 'add', innerHTML: 'Add' }));
+  dom.addToBody(dom.create({ tag: 'button', id: 'add', innerHTML: 'Add' }));
   reason.addEventListener('keydown', onEnterSubmit, false);
   reason.focus();
   addButtonOnClickHandler(hostname, reason);
@@ -40,23 +40,23 @@ function showAddView(hostname) {
 
 function showExtendView(item, unlockedTill) {
   createHeader(`Time still unlocked: ${time.secondsToTime(unlockedTill)} (HH:MM:SS)`);
-  dom.addToBody(dom.create({ type: 'input', id: 'time', inputType: 'time', inputStep: '1', required: true }));
-  dom.addToBody(dom.create({ type: 'button', id: 'extend', innerHTML: 'Extend timeout' }));
+  dom.addToBody(dom.create({ tag: 'input', id: 'time', type: 'time', step: '1', required: true }));
+  dom.addToBody(dom.create({ tag: 'button', id: 'extend', innerHTML: 'Extend timeout' }));
   document.getElementById('time').value = time.secondsToTime(0);
   extendButtonOnClickHandler(item);
 }
 
 function createHeader(text) {
-  dom.addToBody(dom.create({ type: 'div', id: 'url', innerHTML: text }));
+  dom.addToBody(dom.create({ tag: 'div', id: 'url', innerHTML: text }));
   addBreak();
 }
 
 function createStatus() {
-  dom.addToBody(dom.create({ type: 'div', id: 'status' }));
+  dom.addToBody(dom.create({ tag: 'div', id: 'status' }));
 }
 
 function addBreak() {
-  dom.addToBody(dom.create({ type: 'br' }));
+  dom.addToBody(dom.create({ tag: 'br' }));
 }
 
 function onEnterSubmit(event) {

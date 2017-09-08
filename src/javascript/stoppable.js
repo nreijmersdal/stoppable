@@ -65,13 +65,13 @@
   }
 
   function createStopScreen() {
-    const screen = dom.create({ type: 'div', classname: 'stoppable_div' });
+    const screen = dom.create({ tag: 'div', classname: 'stoppable_div' });
     const input = dom.create({
-      type: 'input', placeholder: 'Type your complete reason\u2934 to continue the visit...', classname: 'stoppable_input' });
+      tag: 'input', placeholder: 'Type your complete reason\u2934 to continue the visit...', classname: 'stoppable_input' });
     const unlockButton = dom.create({
-      type: 'button', innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, classname: 'stoppable_button' });
+      tag: 'button', innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, classname: 'stoppable_button' });
 
-    screen.appendChild(dom.create({ type: 'h1', innerHTML: currentSite.url, classname: 'stoppable_header' }));
+    screen.appendChild(dom.create({ tag: 'h1', innerHTML: currentSite.url, classname: 'stoppable_header' }));
     screen.appendChild(dom.createCanvasText(currentSite.reason, 'stoppable_reason'));
     screen.appendChild(input);
     screen.appendChild(unlockButton);

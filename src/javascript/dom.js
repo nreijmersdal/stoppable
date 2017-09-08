@@ -11,12 +11,12 @@
   };
 
   exports.create = (options) => {
-    if (!options.type) return null;
-    const el = document.createElement(options.type);
+    if (!options.tag) return null;
+    const el = document.createElement(options.tag);
     if (options.id) el.id = options.id;
-    if (options.inputType) el.type = options.inputType;
-    if (options.inputStep) el.setAttribute('step', options.inputStep);
-    if (options.inputMaxlength) el.setAttribute('maxLength', options.inputMaxlength);
+    if (options.type) el.type = options.type;
+    if (options.step) el.setAttribute('step', options.step);
+    if (options.maxlength) el.setAttribute('maxLength', options.maxlength);
     if (options.required) el.required = options.required;
     if (options.classname) el.classList.add(options.classname);
     if (options.innerHTML) el.innerHTML = options.innerHTML;
