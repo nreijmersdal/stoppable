@@ -18,6 +18,7 @@ You add a keyword to the stoppable list with a reason why you do not want to vis
 ## Why it works
 - It is all about the right motivation
 - [Twenty second rule](http://www.samuelthomasdavies.com/the-20-second-rule/)
+- Introduces [stopping cues](https://www.ted.com/talks/adam_alter_why_our_screens_make_us_less_happy) in your browsing habits
 
 ## Why it doesnt work
 - You can cheat it easily, you can just disabled it. If you do this, find another tool that can 100% block your visits, they exist, but in all honesty go seek professional help.
