@@ -14,6 +14,7 @@ test.describe('Stoppable', function tests() {
   this.timeout(120000);
   const EXAMPLE_URL = 'http://example.org';
   const EXAMPLE_REASON = '12345678901234567890';
+  const DEFAULT_ITEM_URL = `http://${defaults.list[0].url}`;
 
   test.it('Change stopscreen unlock time to 2 second for tests', (done) => {
     Options.open(() => {
@@ -26,13 +27,13 @@ test.describe('Stoppable', function tests() {
   });
 
   test.it('Should show stopScreen, unlock and show stopScreen again after timeout', (done) => {
-    browser.get(`http://${defaults.list[0].url}`);
+    browser.get(DEFAULT_ITEM_URL);
     Stoppable.unlock(defaults.list[0].reason);
     Stoppable.waitUntilReturned(done);
   });
 
   test.it('Should unlock on enter after reason has been typed.', (done) => {
-    browser.get(`http://${defaults.list[0].url}`);
+    browser.get(DEFAULT_ITEM_URL);
     Stoppable.unlockWithEnter(defaults.list[0].reason, () => {
       Stoppable.isLocked((state) => {
         assert.equal(state, false);
@@ -148,7 +149,7 @@ test.describe('Stoppable', function tests() {
   });
 
   test.it('Pressing ESC redirects to productivity url on stopped page', (done) => {
-    browser.get(`http://${defaults.list[0].url}`);
+    browser.get(DEFAULT_ITEM_URL);
     Stoppable.pressESC(() => {
       browser.getCurrentUrl().then((url) => {
         assert.equal(url, defaults.redirectUrl);

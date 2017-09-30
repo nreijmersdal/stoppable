@@ -30,8 +30,8 @@ describe('Storage', () => {
         seconds: '',
       }, (result) => {
         assert.equal(result.length, 2);
-        assert.equal(result[0], 'ESC-key redirects to cannot be empty');
-        assert.equal(result[1], 'Seconds cannot be empty');
+        assert.equal(result[0], 'Seconds cannot be empty');
+        assert.equal(result[1], 'ESC-key redirects to cannot be empty');
       });
     });
     it('Should give an error when saving invalid object', () => {
@@ -88,6 +88,15 @@ describe('Storage', () => {
       }, (result) => {
         assert.equal(result.length, 1);
         assert.equal(result[0], 'Restricted keyword found: newtab');
+      });
+    });
+    it('Should not save productivity url with out a valid url', () => {
+      storage.saveSettings({
+        list: [],
+        redirectUrl: 'missing_protocol',
+      }, (result) => {
+        assert.equal(result.length, 1);
+        assert.equal(result[0], 'Productivity URL is not valid');
       });
     });
   });

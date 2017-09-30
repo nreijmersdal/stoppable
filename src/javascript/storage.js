@@ -20,7 +20,6 @@
   function validateData(data) {
     const errors = [];
 
-    if (data.redirectUrl <= 0) errors.push('ESC-key redirects to cannot be empty');
     if (data.seconds <= 0) errors.push('Seconds cannot be empty');
     if (data.list && data.list.length > 0) {
       data.list.forEach((item) => {
@@ -44,7 +43,23 @@
       }
     }
 
+    errors.push(...isValidRedirectUrl(data.redirectUrl));
+
     if (errors.length <= 0) return null;
+    return errors;
+  }
+
+  function isValidRedirectUrl(redirectUrl) {
+    const errors = [];
+    if (redirectUrl <= 0) errors.push('ESC-key redirects to cannot be empty');
+    else if (redirectUrl && redirectUrl.length > 0) {
+      try {
+        const url = new URL(redirectUrl);
+        if (!url.protocol) throw new Error('Missing protocol');
+      } catch (e) {
+        errors.push('Productivity URL is not valid');
+      }
+    }
     return errors;
   }
 
