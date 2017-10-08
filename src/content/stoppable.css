@@ -55,7 +55,7 @@
 	border: none !important;
 	outline: none !important;
 	font-size: 25px !important;
-	color: #AACCFF !important;
+	color: #DDDDC0 !important;
 	font-family: Helvetica Neue,Helvetica,sans-serif !important;
 	box-shadow: none !important;	
 }
@@ -72,7 +72,7 @@
 .stoppable_button {
 	grid-column: 2;
 	grid-row: 5;
-	margin: 0px auto 0px auto !important;
+	margin: 50px auto 0px auto !important;
 	padding: 0px !important;
 	width: 330px !important;
 	height: 50px !important;
@@ -92,10 +92,10 @@
 
 .stoppable_button:hover, .stoppable_button:active {
 	background: transparent !important;
-	margin: 0px auto 0px auto !important;
+	margin: 50px auto 0px auto !important;
 	padding: 0px !important;
-	border: 3px solid #CCEEFF !important;
+	border: 3px solid #DDDDC0 !important;
 	box-shadow: none !important;	
-  color: #CCEEFF !important;
+  color: #DDDDC0 !important;
 	cursor: pointer !important;
 }

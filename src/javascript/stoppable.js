@@ -2,6 +2,7 @@
   const storage = require('./storage.js');
   const time = require('./time.js')();
   const dom = require('./dom.js');
+  const reason = require('./reason.js');
   const stoplist = require('./stoplist.js')({
     storage,
     time,
@@ -51,10 +52,9 @@
     };
   }
 
-  function addUnlockCheckEvent(button, input) {
+  function addUnlockCheckEvent(button) {
     return (event) => {
-      if (event.target.value.toLowerCase() === currentSite.reason.toLowerCase()) {
-        dom.hide(input);
+      if (reason.isValid(event.target.value)) {
         dom.show(button);
         window.addEventListener('keydown', unlockOnEnter, false);
       }
@@ -68,7 +68,7 @@
   function createStopScreen() {
     const screen = dom.create({ tag: 'div', classname: 'stoppable_div' });
     const input = dom.create({
-      tag: 'input', placeholder: 'Type your complete reason\u2934 to continue the visit...', classname: 'stoppable_input' });
+      tag: 'input', placeholder: 'Stop, Think, Act. Why do you really want to unstop? (min 30 chars.)', classname: 'stoppable_input' });
     const unlockButton = dom.create({
       tag: 'button', innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, classname: 'stoppable_button' });
 
@@ -79,7 +79,7 @@
     dom.hide(unlockButton);
     dom.addToBody(screen);
 
-    input.onkeyup = addUnlockCheckEvent(unlockButton, input);
+    input.onkeyup = addUnlockCheckEvent(unlockButton);
     unlockButton.onclick = unlockSite();
     window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
 

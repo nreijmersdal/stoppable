@@ -13,7 +13,7 @@ const Popup = require('./popup.pageobject.js')({ browser });
 test.describe('Stoppable', function tests() {
   this.timeout(120000);
   const EXAMPLE_URL = 'http://example.org';
-  const EXAMPLE_REASON = '12345678901234567890';
+  const EXAMPLE_REASON = 'This is a valid reason to unlock, is it not?';
   const DEFAULT_ITEM_URL = `http://${defaults.list[0].url}`;
 
   test.it('Change stopscreen unlock time to 2 second for tests', (done) => {
@@ -28,13 +28,13 @@ test.describe('Stoppable', function tests() {
 
   test.it('Should show stopScreen, unlock and show stopScreen again after timeout', (done) => {
     browser.get(DEFAULT_ITEM_URL);
-    Stoppable.unlock(defaults.list[0].reason);
+    Stoppable.unlock(EXAMPLE_REASON);
     Stoppable.waitUntilReturned(done);
   });
 
   test.it('Should unlock on enter after reason has been typed.', (done) => {
     browser.get(DEFAULT_ITEM_URL);
-    Stoppable.unlockWithEnter(defaults.list[0].reason, () => {
+    Stoppable.unlockWithEnter(EXAMPLE_REASON, () => {
       Stoppable.isLocked((state) => {
         assert.equal(state, false);
         done();

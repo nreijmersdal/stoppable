@@ -27,7 +27,7 @@ function showAddView(hostname) {
   const reason = dom.create({
     tag: 'input',
     id: 'reason',
-    placeholder: 'Motivational reason of atleast 20 characters...',
+    placeholder: 'Motivational reason to stop visiting this site. (min 20 characters)',
     type: 'text',
     maxlength: 70,
   });
