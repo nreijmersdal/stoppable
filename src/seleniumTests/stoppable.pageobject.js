@@ -27,15 +27,12 @@ module.exports = function StoppablePageObject(options) {
       });
     },
 
-    isLocked: async (callback) => {
-      let found;
-      try {
-        await browser.findElement(header);
-        found = true;
-      } catch (error) {
-        found = false;
-      }
-      callback(found);
+    isLocked: (callback) => {
+      browser.findElement(header).then(() => {
+        callback(true);
+      }).catch(() => {
+        callback(false);
+      });
     },
 
     pressESC: (callback) => {
