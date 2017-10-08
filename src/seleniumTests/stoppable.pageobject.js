@@ -28,17 +28,26 @@ module.exports = function StoppablePageObject(options) {
     },
 
     isLocked: async (callback) => {
+      let found;
       try {
         await browser.findElement(header);
-        callback(true);
+        found = true;
       } catch (error) {
-        callback(false);
+        found = false;
       }
+      callback(found);
     },
 
     pressESC: (callback) => {
       browser.wait(Until.elementLocated(input), 1000).then((el) => {
         el.sendKeys(webdriver.Key.ESCAPE);
+        callback();
+      });
+    },
+
+    pressENTER: (callback) => {
+      browser.wait(Until.elementLocated(input), 1000).then((el) => {
+        el.sendKeys(webdriver.Key.ENTER);
         callback();
       });
     },

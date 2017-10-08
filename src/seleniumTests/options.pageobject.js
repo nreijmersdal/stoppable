@@ -40,11 +40,11 @@ module.exports = function OptionsPageObject(options) {
     },
 
     deselectItem: (item, callback) => {
-      browser.findElements(keywordField).then((elements) => {
-        elements.forEach((element) => {
-          element.getAttribute('value').then((keyword) => {
+      browser.findElements(By.css('#list li')).then((rows) => {
+        rows.forEach((row) => {
+          row.findElement(keywordField).getAttribute('value').then((keyword) => {
             if (keyword === item) {
-              element.click();
+              row.findElement(By.name('selected')).click();
               callback();
             }
           });

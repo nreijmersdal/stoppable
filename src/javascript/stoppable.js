@@ -45,6 +45,7 @@
       stoplist.updateItem(currentSite, () => {
         dom.remove('stoppable_div');
         window.removeEventListener('keydown', switchToProductiveSiteOnEsc, false);
+        window.removeEventListener('keydown', unlockOnEnter, false);
         stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
       });
     };
@@ -55,13 +56,13 @@
       if (event.target.value.toLowerCase() === currentSite.reason.toLowerCase()) {
         dom.hide(input);
         dom.show(button);
-        window.addEventListener('keydown', (e) => {
-          if (e.keyCode === 13 && !isUnlocked()) {
-            button.click();
-          }
-        }, false);
+        window.addEventListener('keydown', unlockOnEnter, false);
       }
     };
+  }
+
+  function unlockOnEnter(e) {
+    if (e.keyCode === 13 && !isUnlocked()) unlockSite().call();
   }
 
   function createStopScreen() {

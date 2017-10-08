@@ -42,6 +42,17 @@ test.describe('Stoppable', function tests() {
     });
   });
 
+  test.it('Should not unlock with single enter after unlock', (done) => {
+    Stoppable.waitUntilReturned(() => {
+      Stoppable.pressENTER(() => {
+        Stoppable.isLocked((state) => {
+          assert.equal(state, true);
+          done();
+        });
+      });
+    });
+  });
+
   test.it('Example.org is not blocked by default', (done) => {
     browser.get(EXAMPLE_URL);
     Stoppable.isLocked((state) => {
