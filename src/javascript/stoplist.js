@@ -47,7 +47,7 @@ module.exports = function stoplist(options) {
   function findItemForKeyword(keyword, callback) {
     storage.getSettings((items) => {
       const found = items.list.some((item) => {
-        if (item.url.toString() === keyword.toString()) {
+        if (keyword.includes(item.url)) {
           callback(item);
           return true;
         }

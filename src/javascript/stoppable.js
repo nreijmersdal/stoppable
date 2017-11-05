@@ -13,8 +13,12 @@
 
   storage.getSettings((data) => {
     Settings = data;
-    currentSite = findSiteInStopList();
-    if (currentSite) dom.waitForBody(() => initializeStopScreen());
+    stoplist.findStopItem(window.location.href, (item) => {
+      if (item) {
+        currentSite = item;
+        dom.waitForBody(() => initializeStopScreen());
+      }
+    });
   });
 
   function initializeStopScreen() {
@@ -84,15 +88,6 @@
     window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
 
     atEndOfLoadingFocus(input);
-  }
-
-  function findSiteInStopList() {
-    if (Settings.list === undefined) return false;
-    const result = Settings.list.filter((item) => {
-      if (window.location.href.includes(item.url)) return true;
-      return false;
-    });
-    return result[0];
   }
 
   function isUnlocked() {

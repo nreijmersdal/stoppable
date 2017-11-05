@@ -33,6 +33,12 @@ describe('Stoplist', () => {
         assert.equal(item, false);
       });
     });
+
+    it('Should return true when domain is in the list', () => {
+      stoplist.findStopItem('sub.reddit.com', (item) => {
+        assert.equal(item.url, 'reddit.com');
+      });
+    });
   });
 
   describe('keywordIsUnlocked', () => {
