@@ -56,11 +56,16 @@
     };
   }
 
-  function addUnlockCheckEvent(button) {
+  function addUnlockCheckEvent(button, message) {
+    const messageElement = message;
     return (event) => {
-      if (reason.isValid(event.target.value)) {
+      const result = reason.isValid(event.target.value);
+      if (result.valid) {
+        dom.hide(message);
         dom.show(button);
         window.addEventListener('keydown', unlockOnEnter, false);
+      } else {
+        messageElement.innerHTML = result.message;
       }
     };
   }
@@ -75,15 +80,17 @@
       tag: 'input', placeholder: 'Stop, Think, Act. Why do you really want to unstop? (min 30 chars.)', classname: 'stoppable_input' });
     const unlockButton = dom.create({
       tag: 'button', innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, classname: 'stoppable_button' });
+    const message = dom.create({ tag: 'span', id: 'stoppable_message', classname: 'stoppable_message' });
 
     screen.appendChild(dom.create({ tag: 'h1', innerHTML: currentSite.url, classname: 'stoppable_header' }));
     screen.appendChild(dom.createCanvasText(currentSite.reason, 'stoppable_reason'));
+    screen.appendChild(message);
     screen.appendChild(input);
     screen.appendChild(unlockButton);
     dom.hide(unlockButton);
     dom.addToBody(screen);
 
-    input.onkeyup = addUnlockCheckEvent(unlockButton);
+    input.onkeyup = addUnlockCheckEvent(unlockButton, message);
     unlockButton.onclick = unlockSite();
     window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
 

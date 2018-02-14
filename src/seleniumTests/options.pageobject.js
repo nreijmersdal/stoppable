@@ -20,7 +20,6 @@ module.exports = function OptionsPageObject(options) {
 
     setTimeout: (time, callback) => {
       browser.findElement(secondsInput).then((el) => {
-        browser.actions().doubleClick(el).perform();
         el.sendKeys(time);
         callback();
       });

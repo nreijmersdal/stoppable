@@ -18,7 +18,7 @@ test.describe('Stoppable', function tests() {
 
   test.it('Change stopscreen unlock time to 2 second for tests', (done) => {
     Options.open(() => {
-      Options.setTimeout('00:00:02', () => {
+      Options.setTimeout('000002', () => {
         Options.save(() => {
           done();
         });
@@ -49,6 +49,15 @@ test.describe('Stoppable', function tests() {
           assert.equal(state, true);
           done();
         });
+      });
+    });
+  });
+
+  test.it('Should show unlock help message when typing', (done) => {
+    Stoppable.unlockWithEnter('Invalid short reason', () => {
+      Stoppable.getMessage((message) => {
+        assert.equal(message, 'Still 10 character(s) left');
+        done();
       });
     });
   });

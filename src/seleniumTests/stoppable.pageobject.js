@@ -10,6 +10,7 @@ module.exports = function StoppablePageObject(options) {
   const header = By.className('stoppable_header');
   const input = By.className('stoppable_input');
   const unlockButton = By.className('stoppable_button');
+  const message = By.id('stoppable_message');
 
   return {
 
@@ -32,6 +33,12 @@ module.exports = function StoppablePageObject(options) {
         callback(true);
       }).catch(() => {
         callback(false);
+      });
+    },
+
+    getMessage: (callback) => {
+      browser.findElement(message).then((el) => {
+        el.getText().then(text => callback(text));
       });
     },
 
