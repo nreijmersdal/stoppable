@@ -6,8 +6,8 @@
     if (!vowelCheck.passed) result = { valid: false, message: `Missing vowels in: ${vowelCheck.words.join(', ')}` };
     const recurCheck = containsRecurringPattern(words);
     if (!recurCheck.passed) result = { valid: false, message: `Recurring pattern: ${recurCheck.pattern}` };
-    if (words.length < 4) result = { valid: false, message: `Still ${(words.length - 4) * -1} word(s) left` };
-    if (text.length < 30) result = { valid: false, message: `Still ${(text.length - 30) * -1} character(s) left` };
+    if (words.length < 4) result = { valid: false, message: `Still ${4 - words.length} word(s) left` };
+    if (text.length < 30) result = { valid: false, message: `Still ${30 - text.length} character(s) left` };
 
     return result;
   };
