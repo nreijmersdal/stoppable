@@ -22,3 +22,6 @@ input[name=reason] {
 input[id=redirectUrl] {
   width: 300px;
 }
+input[id=unlockLength] {
+  width: 98px;
+}

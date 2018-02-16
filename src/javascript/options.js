@@ -15,6 +15,7 @@
         createStopItem(true, item.url, item.reason);
       });
       document.getElementById('redirectUrl').value = items.redirectUrl;
+      document.getElementById('unlockLength').value = items.unlockLength || storage.getDefaults().unlockLength;
       document.getElementById('seconds').value = time.secondsToTime(items.seconds);
     });
   }
@@ -24,6 +25,7 @@
       list: getCheckedListItems(),
       redirectUrl: document.getElementById('redirectUrl').value,
       seconds: time.timeToSeconds(document.getElementById('seconds').value),
+      unlockLength: document.getElementById('unlockLength').value,
     };
     if (data.list.length <= 0) return;
 

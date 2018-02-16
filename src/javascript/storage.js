@@ -14,6 +14,7 @@
       list: [{ url: 'facebook.com', reason: 'I would rather plan a real social visit than waste my time here...', unlockedTill: 0 }],
       redirectUrl: 'https://app.weekplan.net/',
       seconds: 900,
+      unlockLength: 30,
     };
   };
 
@@ -21,6 +22,7 @@
     const errors = [];
 
     if (data.seconds <= 0) errors.push('Seconds cannot be empty');
+    if (data.unlockLength <= 0) errors.push('Characters to unlock cannot be empty');
     if (data.list && data.list.length > 0) {
       data.list.forEach((item) => {
         if (!isValidStoplistItem(item)) errors.push('Stoplist item is not valid');

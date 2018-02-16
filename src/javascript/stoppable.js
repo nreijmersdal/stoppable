@@ -2,7 +2,7 @@
   const storage = require('./storage.js');
   const time = require('./time.js')();
   const dom = require('./dom.js');
-  const reason = require('./reason.js');
+  const reason = require('./reason.js')({ storage });
   const stoplist = require('./stoplist.js')({
     storage,
     time,

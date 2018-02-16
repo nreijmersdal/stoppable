@@ -1,5 +1,11 @@
 const assert = require('../vendor/chai-4.1.1.js').assert;
-const reason = require('./reason.js');
+const reason = require('./reason.js')({
+  storage: {
+    getSettings(callback) {
+      callback({ unlockLength: 30 });
+    },
+  },
+});
 
 describe('Reason', () => {
   describe('isValid', () => {

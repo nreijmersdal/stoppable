@@ -1,17 +1,27 @@
-(function reason() {
-  exports.isValid = (text) => {
-    const words = text.trim().split(' ');
-    let result = { valid: true, message: '' };
-    result = checkForVowels(words) || result;
-    result = checkForRecurringPattern(words) || result;
-    result = checkNumberOfWords(words) || result;
-    result = checkReasonLength(text) || result;
+module.exports = function reason(options) {
+  if (!options.storage) throw Error('options.storage is required');
+  let reasonLength;
+  options.storage.getSettings((data) => {
+    reasonLength = data.unlockLength;
+  });
 
-    return result;
+  return {
+    isValid: (text) => {
+      const words = text.trim().split(' ');
+      let result = { valid: true, message: '' };
+      result = checkForVowels(words) || result;
+      result = checkForRecurringPattern(words) || result;
+      result = checkNumberOfWords(words) || result;
+      result = checkReasonLength(text) || result;
+
+      return result;
+    },
   };
 
   function checkReasonLength(text) {
-    if (text.length < 30) return { valid: false, message: `Still ${30 - text.length} character(s) left` };
+    if (text.length < reasonLength) {
+      return { valid: false, message: `Still ${reasonLength - text.length} character(s) left` };
+    }
     return undefined;
   }
 
@@ -24,9 +34,7 @@
     let pattern;
     array.forEach((word) => {
       const count = array.filter(value => value === word).length;
-      if (count > 2) {
-        pattern = word;
-      }
+      if (count > 2) pattern = word;
     });
     if (pattern) return { valid: false, message: `Recurring pattern: ${pattern}` };
     return null;
@@ -46,4 +54,4 @@
     if (words.length > 0) return { valid: false, message: `Missing vowels in: ${words.join(', ')}` };
     return null;
   }
-}());
+};
