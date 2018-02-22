@@ -7,7 +7,7 @@ module.exports = function reason(options) {
 
   return {
     isValid: (text) => {
-      const words = text.trim().split(' ');
+      const words = text.trim().replace(',', '').split(' ');
       let result = { valid: true, message: '' };
       result = checkForVowels(words) || result;
       result = checkForRecurringPattern(words) || result;
@@ -43,15 +43,25 @@ module.exports = function reason(options) {
   function checkForVowels(array) {
     const words = [];
     array.forEach((word) => {
-      if (!word.toLowerCase().includes('a') &&
-          !word.toLowerCase().includes('e') &&
-          !word.toLowerCase().includes('i') &&
-          !word.toLowerCase().includes('o') &&
-          !word.toLowerCase().includes('u') &&
-          !word.toLowerCase().includes('y')
+      if (!isNumeric(word) && !isVowelException(word) && (
+        !word.toLowerCase().includes('a') &&
+        !word.toLowerCase().includes('e') &&
+        !word.toLowerCase().includes('i') &&
+        !word.toLowerCase().includes('o') &&
+        !word.toLowerCase().includes('u') &&
+        !word.toLowerCase().includes('y'))
       ) words.push(word);
     });
     if (words.length > 0) return { valid: false, message: `Missing vowels in: ${words.join(', ')}` };
     return null;
+  }
+
+  function isNumeric(word) {
+    return !isNaN(word);
+  }
+
+  function isVowelException(word) {
+    const exceptions = ['brr', 'brrr', 'bzzt', 'grrr', 'hm', 'hmm', 'mm', 'mmm', 'mhmm', 'pfft', 'pht', 'phpht', 'psst', 'nth', 'sh', 'shh', 'zzz'];
+    return exceptions.includes(word);
   }
 };

@@ -53,5 +53,17 @@ describe('Reason', () => {
       const result = reason.isValid('why I am shy, this is great until it isnt');
       assert.equal(result.valid, true);
     });
+    it('Should accept numbers', () => {
+      const result = reason.isValid('Should accept numbers like 360 or 12');
+      assert.equal(result.valid, true);
+    });
+    it('Should accept vowelless words', () => {
+      const result = reason.isValid('brr brrr bzzt grrr hm hmm mm mmm mhmm pfft pht phpht psst nth sh shh zzz');
+      assert.equal(result.valid, true);
+    });
+    it('Should accept vowelless words with commas', () => {
+      const result = reason.isValid('brr, brrr bzzt grrr hm hmm mm mmm mhmm pfft pht phpht psst nth sh shh zzz');
+      assert.equal(result.valid, true);
+    });
   });
 });
