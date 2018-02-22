@@ -61,6 +61,10 @@ describe('Reason', () => {
       const result = reason.isValid('brr brrr bzzt grrr hm hmm mm mmm mhmm pfft pht phpht psst nth sh shh zzz');
       assert.equal(result.valid, true);
     });
+    it('Should accept vowelless words whom start with an uppercase letter', () => {
+      const result = reason.isValid('Brr Brrr Bzzt Grrr Hm Hmm Mm Mmm Mhmm Pfft Pht Phpht Psst Nth Sh Shh Zzz');
+      assert.equal(result.valid, true);
+    });
     it('Should accept vowelless words with commas', () => {
       const result = reason.isValid('brr, brrr bzzt grrr hm hmm mm mmm mhmm pfft pht phpht psst nth sh shh zzz');
       assert.equal(result.valid, true);

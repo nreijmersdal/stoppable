@@ -43,13 +43,14 @@ module.exports = function reason(options) {
   function checkForVowels(array) {
     const words = [];
     array.forEach((word) => {
-      if (!isNumeric(word) && !isVowelException(word) && (
-        !word.toLowerCase().includes('a') &&
-        !word.toLowerCase().includes('e') &&
-        !word.toLowerCase().includes('i') &&
-        !word.toLowerCase().includes('o') &&
-        !word.toLowerCase().includes('u') &&
-        !word.toLowerCase().includes('y'))
+      const string = word.toLowerCase();
+      if (!isNumeric(string) && !isVowelException(string) && (
+        !string.includes('a') &&
+        !string.includes('e') &&
+        !string.includes('i') &&
+        !string.includes('o') &&
+        !string.includes('u') &&
+        !string.includes('y'))
       ) words.push(word);
     });
     if (words.length > 0) return { valid: false, message: `Missing vowels in: ${words.join(', ')}` };
