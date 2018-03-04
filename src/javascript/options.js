@@ -17,6 +17,7 @@
       document.getElementById('redirectUrl').value = items.redirectUrl;
       document.getElementById('unlockLength').value = items.unlockLength || storage.getDefaults().unlockLength;
       document.getElementById('seconds').value = time.secondsToTime(items.seconds);
+      document.getElementById('question').value = items.question || storage.getDefaults().question;
     });
   }
 
@@ -26,6 +27,7 @@
       redirectUrl: document.getElementById('redirectUrl').value,
       seconds: time.timeToSeconds(document.getElementById('seconds').value),
       unlockLength: document.getElementById('unlockLength').value,
+      question: document.getElementById('question').value,
     };
     if (data.list.length <= 0) return;
 

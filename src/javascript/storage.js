@@ -15,6 +15,7 @@
       redirectUrl: 'https://app.weekplan.net/',
       seconds: 900,
       unlockLength: 30,
+      question: 'Stop, Think, Act. Why do you really want to unstop?',
     };
   };
 
@@ -23,6 +24,7 @@
 
     if (data.seconds <= 0) errors.push('Seconds cannot be empty');
     if (data.unlockLength <= 0) errors.push('Characters to unlock cannot be empty');
+    if (data.question !== undefined && data.question.length < 1) errors.push('Question cannot be empty');
     if (data.list && data.list.length > 0) {
       data.list.forEach((item) => {
         if (!isValidStoplistItem(item)) errors.push('Stoplist item is not valid');

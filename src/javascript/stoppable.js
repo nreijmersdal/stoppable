@@ -43,9 +43,8 @@
 
   function unlockSite() {
     return () => {
-      if (!Settings.seconds) Settings.seconds = storage.getDefaults().seconds; // TODO: Bug fix for current users. Remove this line in next version.
-
-      currentSite.unlockedTill = time.getTimeInSeconds() + Number(Settings.seconds);
+      const seconds = Settings.seconds || storage.getDefaults().seconds;
+      currentSite.unlockedTill = time.getTimeInSeconds() + Number(seconds);
 
       stoplist.updateItem(currentSite, () => {
         dom.remove('stoppable_div');
@@ -77,7 +76,7 @@
   function createStopScreen() {
     const screen = dom.create({ tag: 'div', classname: 'stoppable_div' });
     const input = dom.create({
-      tag: 'input', placeholder: 'Stop, Think, Act. Why do you really want to unstop? (min 30 chars.)', classname: 'stoppable_input' });
+      tag: 'input', placeholder: Settings.question || storage.getDefaults().question, classname: 'stoppable_input' });
     const unlockButton = dom.create({
       tag: 'button', innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, classname: 'stoppable_button' });
     const message = dom.create({ tag: 'span', id: 'stoppable_message', classname: 'stoppable_message' });

@@ -24,16 +24,18 @@ describe('Storage', () => {
         assert.equal(called, true);
       }, chrome);
     });
-    it('Should give an error when redirectUrl, seconds or unlockLength are missing', () => {
+    it('Should give an error when redirectUrl, seconds, unlockLength or question are missing', () => {
       storage.saveSettings({
         redirectUrl: '',
         seconds: '',
         unlockLength: '',
+        question: '',
       }, (result) => {
-        assert.equal(result.length, 3);
+        assert.equal(result.length, 4);
         assert.equal(result[0], 'Seconds cannot be empty');
         assert.equal(result[1], 'Characters to unlock cannot be empty');
-        assert.equal(result[2], 'ESC-key redirects to cannot be empty');
+        assert.equal(result[2], 'Question cannot be empty');
+        assert.equal(result[3], 'ESC-key redirects to cannot be empty');
       });
     });
     it('Should give an error when saving invalid object', () => {
