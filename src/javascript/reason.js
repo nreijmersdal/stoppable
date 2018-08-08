@@ -62,7 +62,13 @@ module.exports = function reason(options) {
   }
 
   function isVowelException(word) {
-    const exceptions = ['brr', 'brrr', 'bzzt', 'grrr', 'hm', 'hmm', 'mm', 'mmm', 'mhmm', 'pfft', 'pht', 'phpht', 'psst', 'nth', 'sh', 'shh', 'zzz'];
+    const exceptions = [
+      'brr', 'brrr', 'bzzt', 'grrr', 'hm',
+      'hmm', 'mm', 'mmm', 'mhmm', 'pfft',
+      'pht', 'phpht', 'psst', 'nth', 'sh',
+      'shh', 'tv', 'wc', 'zzz',
+      ':-)', ':)', ';-)', ';)', ':p', ';p', ':d', ';d',
+    ];
     return exceptions.includes(word);
   }
 };

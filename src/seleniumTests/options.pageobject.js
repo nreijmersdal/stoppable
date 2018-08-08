@@ -74,11 +74,12 @@ module.exports = function OptionsPageObject(options) {
       callback(extensionId);
     } else {
       browser.get('chrome://extensions/');
-      browser.findElement(By.id('toggle-dev-on')).click();
-      browser.findElements(By.className('extension-id')).then((elements) => {
-        elements[1].getText().then((text) => {
-          extensionId = text;
-          callback(extensionId);
+      browser.findElements(By.css('* /deep/ paper-button[id="details-button"]')).then((extentsionDetailButtons) => {
+        extentsionDetailButtons[1].click().then(() => {
+          browser.getCurrentUrl().then((url) => {
+            extensionId = url.split('=')[1];
+            callback(extensionId);
+          });
         });
       });
     }

@@ -58,7 +58,11 @@ describe('Reason', () => {
       assert.equal(result.valid, true);
     });
     it('Should accept vowelless words', () => {
-      const result = reason.isValid('brr brrr bzzt grrr hm hmm mm mmm mhmm pfft pht phpht psst nth sh shh zzz');
+      const result = reason.isValid('brr brrr bzzt grrr hm hmm mm mmm mhmm pfft pht phpht psst nth sh shh zzz tv wc');
+      assert.equal(result.valid, true);
+    });
+    it('Should accept smiles as words', () => {
+      const result = reason.isValid(':-) :) ;) ;-) :P ;P :D ;D FILL.');
       assert.equal(result.valid, true);
     });
     it('Should accept vowelless words whom start with an uppercase letter', () => {
