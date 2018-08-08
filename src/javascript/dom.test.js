@@ -1,4 +1,4 @@
-const assert = require('../vendor/chai-4.1.1.js').assert;
+const { assert } = require('../vendor/chai-4.1.1.js');
 const dom = require('./dom.js');
 
 describe('Dom', () => {

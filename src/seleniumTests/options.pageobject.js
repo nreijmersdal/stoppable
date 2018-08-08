@@ -1,10 +1,10 @@
 const webdriver = require('selenium-webdriver');
 
-const By = webdriver.By;
+const { By } = webdriver;
 
 module.exports = function OptionsPageObject(options) {
   if (!options.browser) throw Error('options.browser is required');
-  const browser = options.browser;
+  const { browser } = options;
   let extensionId;
 
   const secondsInput = By.id('seconds');
@@ -77,7 +77,7 @@ module.exports = function OptionsPageObject(options) {
       browser.findElements(By.css('* /deep/ paper-button[id="details-button"]')).then((extentsionDetailButtons) => {
         extentsionDetailButtons[1].click().then(() => {
           browser.getCurrentUrl().then((url) => {
-            extensionId = url.split('=')[1];
+            [, extensionId] = url.split('=');
             callback(extensionId);
           });
         });

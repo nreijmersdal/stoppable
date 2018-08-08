@@ -40,7 +40,13 @@ function showAddView(hostname) {
 
 function showExtendView(item, unlockedTill) {
   createHeader(`Time still unlocked: ${time.secondsToTime(unlockedTill)} (HH:MM:SS)`);
-  dom.addToBody(dom.create({ tag: 'input', id: 'time', type: 'time', step: '1', required: true }));
+  dom.addToBody(dom.create({
+    tag: 'input',
+    id: 'time',
+    type: 'time',
+    step: '1',
+    required: true,
+  }));
   dom.addToBody(dom.create({ tag: 'button', id: 'extend', innerHTML: 'Extend timeout' }));
   document.getElementById('time').value = time.secondsToTime(0);
   extendButtonOnClickHandler(item);
@@ -90,7 +96,7 @@ function extendButtonOnClickHandler(stoplistItem) {
 
 function getUrlFromActiveTab(callback) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    let url = tabs[0].url;
+    let { url } = tabs[0];
     if (!url || url.length <= 0) {
       // Added example url for testing the popup.js from seleniumTests
       // When you open the popup.html from a regular tab the chrome.tabs.query returns nothing

@@ -18,19 +18,19 @@
   },
   "homepage": "https://github.com/nreijmersdal/stoppable#readme",
   "devDependencies": {
-    "browserify": "^14.5.0",
+    "browserify": "^16.2.2",
     "chromedriver": "^2.41.0",
     "doctrine": "^2.1.0",
     "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^11.3.2",
+    "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "jake": "^8.0.18",
-    "karma": "^1.7.1",
+    "karma": "^2.0.5",
     "karma-chrome-launcher": "^2.2.0",
     "karma-commonjs": "^1.0.0",
     "karma-mocha": "^1.3.0",
-    "mocha": "^3.5.3",
+    "mocha": "^5.2.0",
     "selenium-webdriver": "^3.6.0",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.8.2"
   }
 }

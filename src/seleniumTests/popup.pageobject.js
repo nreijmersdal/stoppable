@@ -1,10 +1,10 @@
 const webdriver = require('selenium-webdriver');
 
-const By = webdriver.By;
+const { By } = webdriver;
 
 module.exports = function PopupPageObject(options) {
   if (!options.browser) throw Error('options.browser is required');
-  const browser = options.browser;
+  const { browser } = options;
 
   return {
     open: (id, callback) => {

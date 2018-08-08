@@ -1,4 +1,4 @@
-const assert = require('../vendor/chai-4.1.1.js').assert;
+const { assert } = require('../vendor/chai-4.1.1.js');
 const storage = require('./storage.js');
 
 const VALID_REASON = '12345678901234567890';

@@ -1,11 +1,10 @@
 const webdriver = require('selenium-webdriver');
 
-const By = webdriver.By;
-const Until = webdriver.until;
+const { By, until } = webdriver;
 
 module.exports = function StoppablePageObject(options) {
   if (!options.browser) throw Error('options.browser is required');
-  const browser = options.browser;
+  const { browser } = options;
 
   const header = By.className('stoppable_header');
   const input = By.className('stoppable_input');
@@ -23,7 +22,7 @@ module.exports = function StoppablePageObject(options) {
     },
 
     waitUntilReturned: (callback, timeout = 5000) => {
-      browser.wait(Until.elementLocated(header), timeout).then(() => {
+      browser.wait(until.elementLocated(header), timeout).then(() => {
         callback();
       });
     },
@@ -43,14 +42,14 @@ module.exports = function StoppablePageObject(options) {
     },
 
     pressESC: (callback) => {
-      browser.wait(Until.elementLocated(input), 1000).then((el) => {
+      browser.wait(until.elementLocated(input), 1000).then((el) => {
         el.sendKeys(webdriver.Key.ESCAPE);
         callback();
       });
     },
 
     pressENTER: (callback) => {
-      browser.wait(Until.elementLocated(input), 1000).then((el) => {
+      browser.wait(until.elementLocated(input), 1000).then((el) => {
         el.sendKeys(webdriver.Key.ENTER);
         callback();
       });
@@ -59,7 +58,7 @@ module.exports = function StoppablePageObject(options) {
   };
 
   function unlock(reason, useEnter, callback = () => {}) {
-    browser.wait(Until.elementLocated(input), 1000).then(() => {
+    browser.wait(until.elementLocated(input), 1000).then(() => {
       browser.findElements(unlockButton).then((elements) => {
         elements[0].isDisplayed().then((displayed) => {
           if (!displayed) {

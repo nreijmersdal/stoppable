@@ -76,9 +76,15 @@
   function createStopScreen() {
     const screen = dom.create({ tag: 'div', classname: 'stoppable_div' });
     const input = dom.create({
-      tag: 'input', placeholder: Settings.question || storage.getDefaults().question, classname: 'stoppable_input' });
+      tag: 'input',
+      placeholder: Settings.question || storage.getDefaults().question,
+      classname: 'stoppable_input',
+    });
     const unlockButton = dom.create({
-      tag: 'button', innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`, classname: 'stoppable_button' });
+      tag: 'button',
+      innerHTML: `Unstop for ${time.secondsToMinutes(Settings.seconds)} minutes \u279f`,
+      classname: 'stoppable_button',
+    });
     const message = dom.create({ tag: 'span', id: 'stoppable_message', classname: 'stoppable_message' });
 
     screen.appendChild(dom.create({ tag: 'h1', innerHTML: currentSite.url, classname: 'stoppable_header' }));

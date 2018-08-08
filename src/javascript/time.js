@@ -1,6 +1,6 @@
 module.exports = function time(options) {
   let date = () => new Date();
-  if (options && options.date) date = options.date;
+  if (options && options.date) date = options.date; // eslint-disable-line
 
   return {
 

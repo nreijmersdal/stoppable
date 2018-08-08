@@ -45,12 +45,12 @@ module.exports = function reason(options) {
     array.forEach((word) => {
       const string = word.toLowerCase();
       if (!isNumeric(string) && !isVowelException(string) && (
-        !string.includes('a') &&
-        !string.includes('e') &&
-        !string.includes('i') &&
-        !string.includes('o') &&
-        !string.includes('u') &&
-        !string.includes('y'))
+        !string.includes('a')
+        && !string.includes('e')
+        && !string.includes('i')
+        && !string.includes('o')
+        && !string.includes('u')
+        && !string.includes('y'))
       ) words.push(word);
     });
     if (words.length > 0) return { valid: false, message: `Missing vowels in: ${words.join(', ')}` };
@@ -58,7 +58,7 @@ module.exports = function reason(options) {
   }
 
   function isNumeric(word) {
-    return !isNaN(word);
+    return !isNaN(word); // eslint-disable-line no-restricted-globals
   }
 
   function isVowelException(word) {
