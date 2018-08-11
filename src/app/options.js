@@ -1,7 +1,7 @@
 (function options() {
-  const status = require('./status.js');
-  const storage = require('./storage.js');
-  const time = require('./time.js')();
+  const status = require('../status.js');
+  const storage = require('../storage.js');
+  const time = require('../time.js')();
 
   document.addEventListener('DOMContentLoaded', () => {
     loadOptions();

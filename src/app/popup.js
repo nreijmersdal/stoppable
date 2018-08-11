@@ -1,8 +1,8 @@
-const status = require('./status.js');
-const time = require('./time.js')();
-const dom = require('./dom.js');
-const stoplist = require('./stoplist.js')({
-  storage: require('./storage.js'),
+const status = require('../status.js');
+const time = require('../time.js')();
+const dom = require('../dom.js');
+const stoplist = require('../stoplist.js')({
+  storage: require('../storage.js'),
   time,
 });
 

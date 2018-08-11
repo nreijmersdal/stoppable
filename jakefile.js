@@ -40,11 +40,11 @@
     const shell = require('shelljs');
     shell.rm('-rf', `${DIST_DIR}/*`);
     shell.cp('-r', 'src/content/*', DIST_DIR);
-    shell.cp('-r', 'src/manifest.json', DIST_DIR);
+    shell.cp('-r', 'src/app/manifest.json', DIST_DIR);
     const cmds = [
-      `node node_modules/browserify/bin/cmd.js src/stoppable.js -o ${DIST_DIR}/stoppable.js`,
-      `node node_modules/browserify/bin/cmd.js src/options.js -o ${DIST_DIR}/options.js`,
-      `node node_modules/browserify/bin/cmd.js src/popup.js -o ${DIST_DIR}/popup.js`,
+      `node node_modules/browserify/bin/cmd.js src/app/stoppable.js -o ${DIST_DIR}/stoppable.js`,
+      `node node_modules/browserify/bin/cmd.js src/app/options.js -o ${DIST_DIR}/options.js`,
+      `node node_modules/browserify/bin/cmd.js src/app/popup.js -o ${DIST_DIR}/popup.js`,
     ];
     jake.exec(cmds, { interactive: true }, complete);
   }, { async: true });
