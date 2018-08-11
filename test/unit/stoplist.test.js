@@ -7,7 +7,7 @@ let data = {
 };
 
 const { assert } = require('../vendor/chai-4.1.1.js');
-const stoplist = require('./stoplist.js')({
+const stoplist = require('../../src/stoplist.js')({
   storage: {
     getSettings: cb => cb(data),
     saveSettings: (items, cb) => {

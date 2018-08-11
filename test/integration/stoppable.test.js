@@ -2,7 +2,7 @@ const webdriver = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
-const defaults = require('../javascript/storage.js').getDefaults();
+const defaults = require('../../src/storage.js').getDefaults();
 const { assert } = require('../vendor/chai-4.1.1.js');
 
 const browser = constructBrowser();

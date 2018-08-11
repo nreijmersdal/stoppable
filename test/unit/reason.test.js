@@ -1,5 +1,5 @@
 const { assert } = require('../vendor/chai-4.1.1.js');
-const reason = require('./reason.js')({
+const reason = require('../../src/reason.js')({
   storage: {
     getSettings(callback) {
       callback({ unlockLength: 30 });

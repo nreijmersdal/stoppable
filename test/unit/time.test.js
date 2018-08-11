@@ -1,5 +1,5 @@
 const { assert } = require('../vendor/chai-4.1.1.js');
-const time = require('./time.js')({ date: () => 1000000 });
+const time = require('../../src/time.js')({ date: () => 1000000 });
 
 describe('Time', () => {
   describe('getTimeInSeconds', () => {

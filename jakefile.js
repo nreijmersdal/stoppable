@@ -8,8 +8,9 @@
   task('lint', () => {
     console.log('Linting project: .');
     const files = [
-      'src/javascript/**/*.js',
-      'src/seleniumTests/**/*.js',
+      'src/**/*.js',
+      'test/unit/**/*.js',
+      'test/integration/**/*.js',
       'jakefile.js',
     ];
     jake.exec(`node node_modules/eslint/bin/eslint.js ${files.join(' ')}`, { interactive: true }, complete);
@@ -24,7 +25,7 @@
   desc('Run integration tests with Selenium');
   task('integration', () => {
     console.log('Integration testing project: .');
-    jake.exec('node node_modules/mocha/bin/mocha src/seleniumTests/*.js', { interactive: true }, complete);
+    jake.exec('node node_modules/mocha/bin/mocha test/integration/*.js', { interactive: true }, complete);
   }, { async: true });
 
   desc('Clean project');
@@ -41,9 +42,9 @@
     shell.cp('-r', 'src/content/*', DIST_DIR);
     shell.cp('-r', 'src/manifest.json', DIST_DIR);
     const cmds = [
-      `node node_modules/browserify/bin/cmd.js src/javascript/stoppable.js -o ${DIST_DIR}/stoppable.js`,
-      `node node_modules/browserify/bin/cmd.js src/javascript/options.js -o ${DIST_DIR}/options.js`,
-      `node node_modules/browserify/bin/cmd.js src/javascript/popup.js -o ${DIST_DIR}/popup.js`,
+      `node node_modules/browserify/bin/cmd.js src/stoppable.js -o ${DIST_DIR}/stoppable.js`,
+      `node node_modules/browserify/bin/cmd.js src/options.js -o ${DIST_DIR}/options.js`,
+      `node node_modules/browserify/bin/cmd.js src/popup.js -o ${DIST_DIR}/popup.js`,
     ];
     jake.exec(cmds, { interactive: true }, complete);
   }, { async: true });

@@ -1,5 +1,5 @@
 const { assert } = require('../vendor/chai-4.1.1.js');
-const status = require('./status.js');
+const status = require('../../src/status.js');
 
 describe('Status', () => {
   let div;

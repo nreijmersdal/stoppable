@@ -15,13 +15,14 @@ module.exports = function karmaConfig(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/javascript/storage*.js',
-      'src/javascript/stoplist*.js',
-      'src/javascript/status*.js',
-      'src/javascript/time*.js',
-      'src/javascript/dom*.js',
-      'src/javascript/reason*.js',
-      'src/vendor/chai-4.1.1.js',
+      'src/storage*.js',
+      'src/stoplist*.js',
+      'src/status*.js',
+      'src/time*.js',
+      'src/dom*.js',
+      'src/reason*.js',
+      'test/unit/*.js',
+      'test/vendor/chai-4.1.1.js',
     ],
 
 
@@ -33,13 +34,14 @@ module.exports = function karmaConfig(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/javascript/storage*.js': ['commonjs', 'coverage'],
-      'src/javascript/stoplist*.js': ['commonjs', 'coverage'],
-      'src/javascript/status*.js': ['commonjs', 'coverage'],
-      'src/javascript/time*.js': ['commonjs', 'coverage'],
-      'src/javascript/dom*.js': ['commonjs', 'coverage'],
-      'src/javascript/reason*.js': ['commonjs', 'coverage'],
-      'src/vendor/chai-4.1.1.js': ['commonjs'],
+      'src/storage*.js': ['commonjs', 'coverage'],
+      'src/stoplist*.js': ['commonjs', 'coverage'],
+      'src/status*.js': ['commonjs', 'coverage'],
+      'src/time*.js': ['commonjs', 'coverage'],
+      'src/dom*.js': ['commonjs', 'coverage'],
+      'src/reason*.js': ['commonjs', 'coverage'],
+      'test/unit/*.js': ['commonjs'],
+      'test/vendor/chai-4.1.1.js': ['commonjs'],
     },
 
 

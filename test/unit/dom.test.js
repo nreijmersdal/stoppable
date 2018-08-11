@@ -1,5 +1,5 @@
 const { assert } = require('../vendor/chai-4.1.1.js');
-const dom = require('./dom.js');
+const dom = require('../../src/dom.js');
 
 describe('Dom', () => {
   describe('createDiv', () => {
