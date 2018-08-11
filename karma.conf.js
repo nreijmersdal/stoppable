@@ -33,12 +33,12 @@ module.exports = function karmaConfig(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/javascript/storage*.js': ['commonjs'],
-      'src/javascript/stoplist*.js': ['commonjs'],
-      'src/javascript/status*.js': ['commonjs'],
-      'src/javascript/time*.js': ['commonjs'],
-      'src/javascript/dom*.js': ['commonjs'],
-      'src/javascript/reason*.js': ['commonjs'],
+      'src/javascript/storage*.js': ['commonjs', 'coverage'],
+      'src/javascript/stoplist*.js': ['commonjs', 'coverage'],
+      'src/javascript/status*.js': ['commonjs', 'coverage'],
+      'src/javascript/time*.js': ['commonjs', 'coverage'],
+      'src/javascript/dom*.js': ['commonjs', 'coverage'],
+      'src/javascript/reason*.js': ['commonjs', 'coverage'],
       'src/vendor/chai-4.1.1.js': ['commonjs'],
     },
 
@@ -46,8 +46,11 @@ module.exports = function karmaConfig(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
+    reporters: ['progress', 'coverage'],
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage/',
+    },
 
     // web server port
     port: 9876,
@@ -59,7 +62,7 @@ module.exports = function karmaConfig(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_ERROR,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -73,7 +76,7 @@ module.exports = function karmaConfig(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous

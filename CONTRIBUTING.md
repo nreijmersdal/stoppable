@@ -1,6 +1,6 @@
 # Contributing
 
-We love pull requests from everyone, but features should help people motivate to stop or make the usage easier. We certainly do not just want to make websites impossible to visit, other tools all ready deliver such functionality.
+We love pull requests from everyone, but features should help people motivate to stop or make the usage easier. We certainly do not just want to make websites impossible to visit, other tools already deliver such functionality.
 
 Fork, then clone the repo.
 
@@ -11,7 +11,6 @@ Set up your machine:
 
 Make sure the tests pass:
 
-    npm start karma
     npm start build
     npm start integration
 
