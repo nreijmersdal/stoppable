@@ -1,6 +1,6 @@
 const webdriver = require('selenium-webdriver');
 
-const { By } = webdriver;
+const { By, until } = webdriver;
 
 module.exports = function OptionsPageObject(options) {
   if (!options.browser) throw Error('options.browser is required');
@@ -9,58 +9,66 @@ module.exports = function OptionsPageObject(options) {
 
   const secondsInput = By.id('seconds');
   const keywordField = By.name('url');
+  const detailButton = By.css('* /deep/ paper-button[id="detailsButton"]');
+  const addRow = By.id('add');
 
   return {
     open: (callback) => {
-      retrieveExtensionId((id) => {
-        browser.get(`chrome-extension://${id}/options.html`);
+      retrieveExtensionId(async (id) => {
+        await browser.get(`chrome-extension://${id}/options.html`);
         callback();
       });
     },
 
     setTimeout: (time, callback) => {
-      browser.findElement(secondsInput).then((el) => {
-        el.sendKeys(time);
+      browser.wait(until.elementLocated(secondsInput), 5000).then(async (el) => {
+        await el.sendKeys(time);
         callback();
       });
     },
 
-    addItem: (keyword, reason, callback) => {
-      let row;
-      browser.findElement(By.id('add')).click();
-      browser.findElements(keywordField).then((elements) => {
-        row = elements.length - 1;
-        elements[row].sendKeys(keyword);
-      });
-      browser.findElements(By.name('reason')).then((elements) => {
-        elements[row].sendKeys(reason);
-        callback();
-      });
-    },
-
-    deselectItem: (item, callback) => {
-      browser.findElements(By.css('#list li')).then((rows) => {
-        rows.forEach((row) => {
-          row.findElement(keywordField).getAttribute('value').then((keyword) => {
-            if (keyword === item) {
-              row.findElement(By.name('selected')).click();
-              callback();
-            }
-          });
+    addItem: async (keyword, reason, callback) => {
+      await browser.wait(until.elementLocated(addRow), 5000).then(async (el) => {
+        let row;
+        await el.click();
+        await browser.findElements(keywordField).then(async (elements) => {
+          row = elements.length - 1;
+          await elements[row].sendKeys(keyword);
+        });
+        await browser.findElements(By.name('reason')).then(async (elements) => {
+          await elements[row].sendKeys(reason);
         });
       });
+      callback();
     },
 
-    save: (callback) => {
-      browser.findElement(By.id('save')).click().then(() => {
-        callback();
+    deselectItem: async (item, callback) => {
+      const rowElements = By.css('#list li');
+      await browser.wait(until.elementLocated(rowElements), 5000).then(async () => {
+        await browser.findElements(rowElements).then(async (rows) => {
+          for (const row of rows) { // eslint-disable-line
+            await row.findElement(keywordField).getAttribute('value').then(async (keyword) => { // eslint-disable-line
+              if (keyword === item) {
+                await row.findElement(By.name('selected')).click();
+              }
+            });
+          }
+        });
       });
+      callback();
+    },
+
+    save: async (callback) => {
+      await browser.wait(until.elementLocated(By.id('save')), 5000).then(async (el) => {
+        await el.click();
+      });
+      callback();
     },
 
     getExtensionId: () => extensionId,
 
     getStatus: (callback) => {
-      browser.findElement(By.id('status')).then((element) => {
+      browser.wait(until.elementLocated(By.id('status')), 5000).then((element) => {
         element.getText().then((text) => {
           callback(text);
         });
@@ -69,12 +77,13 @@ module.exports = function OptionsPageObject(options) {
 
   };
 
-  function retrieveExtensionId(callback) {
+  async function retrieveExtensionId(callback) {
     if (extensionId) {
       callback(extensionId);
     } else {
-      browser.get('chrome://extensions/');
-      browser.findElements(By.css('* /deep/ paper-button[id="detailsButton"]')).then((extentsionDetailButtons) => {
+      await browser.get('chrome://extensions/');
+      await browser.wait(until.elementLocated(detailButton), 5000);
+      await browser.findElements(detailButton).then((extentsionDetailButtons) => {
         extentsionDetailButtons[1].click().then(() => {
           browser.getCurrentUrl().then((url) => {
             [, extensionId] = url.split('=');

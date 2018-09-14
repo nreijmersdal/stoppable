@@ -27,8 +27,8 @@ module.exports = function StoppablePageObject(options) {
       });
     },
 
-    isLocked: (callback) => {
-      browser.findElement(header).then(() => {
+    isLocked: async (callback) => {
+      await browser.findElement(header).then(() => {
         callback(true);
       }).catch(() => {
         callback(false);
@@ -36,34 +36,34 @@ module.exports = function StoppablePageObject(options) {
     },
 
     getMessage: (callback) => {
-      browser.findElement(message).then((el) => {
+      browser.wait(until.elementLocated(message), 5000).then((el) => {
         el.getText().then(text => callback(text));
       });
     },
 
     pressESC: (callback) => {
-      browser.wait(until.elementLocated(input), 1000).then((el) => {
-        el.sendKeys(webdriver.Key.ESCAPE);
+      browser.wait(until.elementLocated(input), 5000).then(async (el) => {
+        await el.sendKeys(webdriver.Key.ESCAPE);
         callback();
       });
     },
 
-    pressENTER: (callback) => {
-      browser.wait(until.elementLocated(input), 1000).then((el) => {
-        el.sendKeys(webdriver.Key.ENTER);
+    pressENTER: async (callback) => {
+      browser.wait(until.elementLocated(input), 5000).then(async (el) => {
+        await el.sendKeys(webdriver.Key.ENTER);
         callback();
       });
     },
 
   };
 
-  function unlock(reason, useEnter, callback = () => {}) {
-    browser.wait(until.elementLocated(input), 1000).then(() => {
-      browser.findElements(unlockButton).then((elements) => {
-        elements[0].isDisplayed().then((displayed) => {
+  async function unlock(reason, useEnter, callback = () => {}) {
+    await browser.wait(until.elementLocated(input), 5000).then(async () => {
+      await browser.findElements(unlockButton).then(async (elements) => {
+        await elements[0].isDisplayed().then(async (displayed) => {
           if (!displayed) {
-            browser.findElement(input).sendKeys(`${reason}${useEnter ? webdriver.Key.ENTER : ''}`).then(() => {
-              if (!useEnter) browser.findElement(unlockButton).click();
+            await browser.findElement(input).sendKeys(`${reason}${useEnter ? webdriver.Key.ENTER : ''}`).then(async () => {
+              if (!useEnter) await browser.findElement(unlockButton).click();
               callback();
             });
           }
