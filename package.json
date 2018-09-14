@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "jake",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm start test"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,8 @@
     "chromedriver": "^2.41.0",
     "doctrine": "^2.1.0",
     "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "jake": "^8.0.18",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",

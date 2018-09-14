@@ -74,7 +74,7 @@ module.exports = function OptionsPageObject(options) {
       callback(extensionId);
     } else {
       browser.get('chrome://extensions/');
-      browser.findElements(By.css('* /deep/ paper-button[id="details-button"]')).then((extentsionDetailButtons) => {
+      browser.findElements(By.css('* /deep/ paper-button[id="detailsButton"]')).then((extentsionDetailButtons) => {
         extentsionDetailButtons[1].click().then(() => {
           browser.getCurrentUrl().then((url) => {
             [, extensionId] = url.split('=');
