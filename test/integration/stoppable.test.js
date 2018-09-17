@@ -1,6 +1,5 @@
 const webdriver = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const chromedriver = require('chromedriver');
 const defaults = require('../../src/storage.js').getDefaults();
 const { assert } = require('../vendor/chai-4.1.1.js');
 
@@ -15,9 +14,9 @@ describe('Stoppable', function tests() {
   const EXAMPLE_REASON = 'This is a valid reason to unlock, is it not?';
   const DEFAULT_ITEM_URL = `http://${defaults.list[0].url}`;
 
-  it('Change stopscreen unlock time to 1 second for tests', (done) => {
+  it('Change stopscreen unlock time to 2 second for tests', (done) => {
     Options.open(() => {
-      Options.setTimeout('000001', () => {
+      Options.setTimeout('000002', () => {
         Options.save(() => {
           done();
         });
@@ -207,7 +206,6 @@ describe('Stoppable', function tests() {
 });
 
 function constructBrowser() {
-  chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
   const options = new chrome.Options().addArguments(`load-extension=${__dirname}/../../dist`);
   return new webdriver.Builder().forBrowser('chrome').setChromeOptions(options).build();
 }
