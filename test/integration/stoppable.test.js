@@ -1,5 +1,6 @@
 const webdriver = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+const chromedriver = require('chromedriver');
 const defaults = require('../../src/storage.js').getDefaults();
 const { assert } = require('../vendor/chai-4.1.1.js');
 
@@ -206,6 +207,7 @@ describe('Stoppable', function tests() {
 });
 
 function constructBrowser() {
+  chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
   const options = new chrome.Options().addArguments(`load-extension=${__dirname}/../../dist`);
   return new webdriver.Builder().forBrowser('chrome').setChromeOptions(options).build();
 }
