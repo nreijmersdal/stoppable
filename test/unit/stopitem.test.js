@@ -18,7 +18,7 @@ describe('Stopitem', () => {
     });
     it('Should be unlocked now', () => {
       const stopitem = Stopitem({ url: 'facebook.com', reason: 'test', unlockedTill: time.getTimeInSeconds() + 100 });
-      assert.equal(stopitem.isUnlocked(), true);
+      assert.equal(stopitem.isUnlocked(), 100);
     });
   });
 });

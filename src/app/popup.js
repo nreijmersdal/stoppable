@@ -12,10 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     stoplist.getItem(hostname, (item) => {
       if (!item) showAddView(hostname);
       else {
-        stoplist.isUnlocked(hostname, (unlockedTill) => {
-          if (unlockedTill) showExtendView(item, unlockedTill);
-          else createHeader(`Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`);
-        });
+        const secondsLeft = item.isUnlocked();
+        if (secondsLeft) showExtendView(item);
+        else createHeader(`Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`);
       }
       createStatus();
     });
@@ -38,8 +37,8 @@ function showAddView(hostname) {
   addButtonOnClickHandler(hostname, reason);
 }
 
-function showExtendView(item, unlockedTill) {
-  createHeader(`Time still unlocked: ${time.secondsToTime(unlockedTill)} (HH:MM:SS)`);
+function showExtendView(item) {
+  createHeader(`Time still unlocked: ${time.secondsToTime(item.unlockedTill)} (HH:MM:SS)`);
   dom.addToBody(dom.create({
     tag: 'input',
     id: 'time',

@@ -9,7 +9,8 @@ module.exports = function Stopitem(data) {
     unlockedTill: data.unlockedTill,
 
     isUnlocked() {
-      return time.getTimeInSeconds() < this.unlockedTill;
+      if (time.getTimeInSeconds() < this.unlockedTill) return time.left(this.unlockedTill);
+      return false;
     },
   };
 };

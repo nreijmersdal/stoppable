@@ -15,9 +15,6 @@ const stoplist = require('../../src/stoplist.js')({
       cb();
     },
   },
-  time: {
-    left: valueOfUnlockedTill => valueOfUnlockedTill,
-  },
 });
 
 describe('Stoplist', () => {
@@ -37,20 +34,6 @@ describe('Stoplist', () => {
     it('Should return true when domain is in the list', () => {
       stoplist.getItem('sub.reddit.com', (item) => {
         assert.equal(item.url, 'reddit.com');
-      });
-    });
-  });
-
-  describe('isUnlocked', () => {
-    it('Should return time left when keyword is unlocked', () => {
-      stoplist.isUnlocked('facebook.com', (result) => {
-        assert.equal(result, 100);
-      });
-    });
-
-    it('Should return false when keyword is not unlocked', () => {
-      stoplist.isUnlocked('notstopped.com', (result) => {
-        assert.equal(result, false);
       });
     });
   });

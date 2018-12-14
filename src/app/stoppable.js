@@ -22,17 +22,9 @@
   });
 
   function initializeStopScreen() {
-    if (currentSite.isUnlocked()) stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
+    const secondsLeft = currentSite.isUnlocked();
+    if (secondsLeft) stopAgainAfterTimeout(secondsLeft);
     else createStopScreen();
-  }
-
-  function stopAgainAfterTimeout(seconds) {
-    setTimeout(() => {
-      stoplist.isUnlocked(currentSite.url, (secondsLeft) => {
-        if (secondsLeft) stopAgainAfterTimeout(secondsLeft);
-        else createStopScreen();
-      });
-    }, seconds);
   }
 
   function switchToProductiveSiteOnEsc(event) {
@@ -50,9 +42,13 @@
         dom.remove('stoppable_div');
         window.removeEventListener('keydown', switchToProductiveSiteOnEsc, false);
         window.removeEventListener('keydown', unlockOnEnter, false);
-        stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
+        stopAgainAfterTimeout(currentSite.isUnlocked());
       });
     };
+  }
+
+  function stopAgainAfterTimeout(seconds) {
+    setTimeout(initializeStopScreen, seconds);
   }
 
   function addUnlockCheckEvent(button, message) {
