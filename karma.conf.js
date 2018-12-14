@@ -17,6 +17,7 @@ module.exports = function karmaConfig(config) {
     files: [
       'src/storage*.js',
       'src/stoplist*.js',
+      'src/stopitem*.js',
       'src/status*.js',
       'src/time*.js',
       'src/dom*.js',
@@ -36,6 +37,7 @@ module.exports = function karmaConfig(config) {
     preprocessors: {
       'src/storage*.js': ['commonjs', 'coverage'],
       'src/stoplist*.js': ['commonjs', 'coverage'],
+      'src/stopitem*.js': ['commonjs', 'coverage'],
       'src/status*.js': ['commonjs', 'coverage'],
       'src/time*.js': ['commonjs', 'coverage'],
       'src/dom*.js': ['commonjs', 'coverage'],

@@ -21,35 +21,35 @@ const stoplist = require('../../src/stoplist.js')({
 });
 
 describe('Stoplist', () => {
-  describe('findStopItem', () => {
+  describe('getItem', () => {
     it('Should return true when keyword is in the list', () => {
-      stoplist.findStopItem('reddit.com', (item) => {
+      stoplist.getItem('reddit.com', (item) => {
         assert.equal(item.url, 'reddit.com');
       });
     });
 
     it('Should return false when keyword is not in the list', () => {
-      stoplist.findStopItem('notstopped.com', (item) => {
+      stoplist.getItem('notstopped.com', (item) => {
         assert.equal(item, false);
       });
     });
 
     it('Should return true when domain is in the list', () => {
-      stoplist.findStopItem('sub.reddit.com', (item) => {
+      stoplist.getItem('sub.reddit.com', (item) => {
         assert.equal(item.url, 'reddit.com');
       });
     });
   });
 
-  describe('keywordIsUnlocked', () => {
+  describe('isUnlocked', () => {
     it('Should return time left when keyword is unlocked', () => {
-      stoplist.keywordIsUnlocked('facebook.com', (result) => {
+      stoplist.isUnlocked('facebook.com', (result) => {
         assert.equal(result, 100);
       });
     });
 
     it('Should return false when keyword is not unlocked', () => {
-      stoplist.keywordIsUnlocked('notstopped.com', (result) => {
+      stoplist.isUnlocked('notstopped.com', (result) => {
         assert.equal(result, false);
       });
     });
@@ -58,7 +58,7 @@ describe('Stoplist', () => {
   describe('addItem', () => {
     it('Should put item in the list', () => {
       stoplist.addItem({ url: 'additem.com', reason: 'something' }, () => {
-        stoplist.findStopItem('additem.com', (item) => {
+        stoplist.getItem('additem.com', (item) => {
           assert.equal(item.url, 'additem.com');
         });
       });

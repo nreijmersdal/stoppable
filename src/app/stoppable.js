@@ -13,7 +13,7 @@
 
   storage.getSettings((data) => {
     Settings = data;
-    stoplist.findStopItem(window.location.href, (item) => {
+    stoplist.getItem(window.location.href, (item) => {
       if (item) {
         currentSite = item;
         dom.waitForBody(() => initializeStopScreen());
@@ -22,13 +22,13 @@
   });
 
   function initializeStopScreen() {
-    if (isUnlocked()) stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
+    if (currentSite.isUnlocked()) stopAgainAfterTimeout(time.left(currentSite.unlockedTill));
     else createStopScreen();
   }
 
   function stopAgainAfterTimeout(seconds) {
     setTimeout(() => {
-      stoplist.keywordIsUnlocked(currentSite.url, (secondsLeft) => {
+      stoplist.isUnlocked(currentSite.url, (secondsLeft) => {
         if (secondsLeft) stopAgainAfterTimeout(secondsLeft);
         else createStopScreen();
       });
@@ -70,7 +70,7 @@
   }
 
   function unlockOnEnter(e) {
-    if (e.keyCode === 13 && !isUnlocked()) unlockSite().call();
+    if (e.keyCode === 13 && !currentSite.isUnlocked()) unlockSite().call();
   }
 
   function createStopScreen() {
@@ -100,10 +100,6 @@
     window.addEventListener('keydown', switchToProductiveSiteOnEsc, false);
 
     atEndOfLoadingFocus(input);
-  }
-
-  function isUnlocked() {
-    return currentSite.unlockedTill && time.getTimeInSeconds() < currentSite.unlockedTill;
   }
 
   function atEndOfLoadingFocus(el) {

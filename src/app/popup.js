@@ -9,10 +9,10 @@ const stoplist = require('../stoplist.js')({
 document.addEventListener('DOMContentLoaded', () => {
   getUrlFromActiveTab((url) => {
     const hostname = getHostname(url);
-    stoplist.findStopItem(hostname, (item) => {
+    stoplist.getItem(hostname, (item) => {
       if (!item) showAddView(hostname);
       else {
-        stoplist.keywordIsUnlocked(hostname, (unlockedTill) => {
+        stoplist.isUnlocked(hostname, (unlockedTill) => {
           if (unlockedTill) showExtendView(item, unlockedTill);
           else createHeader(`Keyword "${hostname}" is already stopped.<br>Edit the motivational reason in the options.`);
         });

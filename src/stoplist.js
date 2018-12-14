@@ -1,18 +1,20 @@
+const Stopitem = require('../src/stopitem.js');
+
 module.exports = function stoplist(options) {
   if (!options.storage) throw Error('options.storage is required');
   if (!options.time) throw Error('options.time is required');
   const { time, storage } = options;
 
   return {
-    findStopItem: (keyword, callback) => {
-      findItemForKeyword(keyword, (item) => {
+    getItem: (keyword, callback) => {
+      findItemOnKeyword(keyword, (item) => {
         if (!item) callback(false);
         else callback(item);
       });
     },
 
-    keywordIsUnlocked: (keyword, callback) => {
-      findItemForKeyword(keyword, (item) => {
+    isUnlocked: (keyword, callback) => {
+      findItemOnKeyword(keyword, (item) => {
         if (!item) callback(false);
         else callback(time.left(item.unlockedTill));
       });
@@ -43,11 +45,11 @@ module.exports = function stoplist(options) {
     },
   };
 
-  function findItemForKeyword(keyword, callback) {
+  function findItemOnKeyword(keyword, callback) {
     storage.getSettings((items) => {
       const found = items.list.some((item) => {
         if (keyword.includes(item.url)) {
-          callback(item);
+          callback(Stopitem(item));
           return true;
         }
         return false;
